@@ -1,7 +1,7 @@
 <?php
 
 // restrict access to only vendor admins
-nihcp_role_gatekeeper(\Nihcp\Manager\RoleManager::VENDOR_ADMIN, true);
+nihcp_vendor_admin_gatekeeper();
 
 // set up form here
 $subtype = get_input("subtype");

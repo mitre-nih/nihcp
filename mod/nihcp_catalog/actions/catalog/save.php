@@ -19,9 +19,7 @@ if (is_numeric($guid) && elgg_entity_exists($guid)) {
 	$entity->access_id = ACCESS_PUBLIC;
 }
 
-//todo: Make sure we have permission to edit the entity
-//if ($entity->canEdit(elgg_get_logged_in_user_guid())) {
-if(true) {
+if ($entity->canEdit(elgg_get_logged_in_user_guid())) {
     // assign values to object
     foreach ($entity::getFields() as $field => $options) {
         // Skip the created_on & created_by & upload fields as they're handled elsewhere

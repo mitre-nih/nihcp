@@ -1,19 +1,11 @@
 <?php
-/**
- * Describe plugin here
- */
 
 elgg_register_event_handler('init', 'system', 'commons_credit_request_init');
 
 function commons_credit_request_init() {
-	// Rename this function based on the name of your plugin and update the
-	// elgg_register_event_handler() call accordingly
-
 	elgg_define_js('autoNumeric', [
 			"src" => elgg_get_site_url() . "mod/nihcp_commons_credit_request/vendor/bower-asset/autoNumeric/autoNumeric.js"
 	]);
-
-//    elgg_register_js('autoNumeric', "mod/nihcp_commons_credit_request/views/default/js/vendor/autoNumeric/autoNumeric.js");
 
 	elgg_register_page_handler('nihcp_commons_credit_request', 'commons_credit_request_page_handler');
 
@@ -33,8 +25,6 @@ function commons_credit_request_init() {
 	$item = new ElggMenuItem('nihcp_commons_credit_request', elgg_echo('nihcp_commons_credit_request:menu'), 'nihcp_commons_credit_request');
 	elgg_register_menu_item('site', $item);
 
-
-
 	// List of NIH policies.
 	// key: equal to last part of language file key, i.e. nihcp_commons_credit_request:nih_policies:data_sharing:website -> data_sharing:website
 	// value: url link to the policy
@@ -47,7 +37,6 @@ function commons_credit_request_init() {
 		'grants_policy:access_research_data' => 'http://grants.nih.gov/grants/policy/nihgps_2010/nihgps_ch2.htm#info_confidentiality'
 	);
 
-
 	if(elgg_is_logged_in()) {
 		foreach ($policies as $policy=>$policy_link) {
 			elgg_register_menu_item('extras', array(
@@ -57,17 +46,15 @@ function commons_credit_request_init() {
 			));
 		}
 
-
         // Add Service Request Worksheet link to sidebar
         elgg_register_menu_item('extras', array(
             'name' => 'Service Request Worksheet',
             'href' => elgg_get_site_url() . "nihcp_commons_credit_request/service-request-worksheet",
             'text' => 'Service Request Worksheet',
         ));
-
 	}
 
-	// Add a new dummy widget
+	// Add the new widget
 	elgg_register_widget_type('nihcp_commons_credit_request', elgg_echo("nihcp_commons_credit_request"), elgg_echo("nihcp_commons_credit_request:widget:description"));
 }
 
@@ -98,7 +85,7 @@ function commons_credit_request_page_handler($page) {
 			break;
 		case 'service-request-worksheet':
 			header('Content-Disposition: attachment; filename="service_request_worksheet.xlsx"');
-			readfile(elgg_get_plugins_path() . 'nihcp_commons_credit_request/docs/service_request_worksheet.xlsx');
+			readfile(elgg_get_data_path() . '/docs/service_request_worksheet.xlsx');
 			break;
 		case 'all':
 			include "$ccreq_dir/overview.php";

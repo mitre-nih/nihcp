@@ -278,4 +278,8 @@ class Catalog extends \ElggObject {
 
 		return $this->file_guid = $guid;
 	}
+
+	public function canEdit($guid = 0) {
+		return nihcp_vendor_admin_gatekeeper(false, $guid);
+	}
 }

@@ -19,8 +19,6 @@ function nihcp_theme_init() {
 
 	elgg_register_event_handler('pagesetup', 'system', 'nihcp_theme_pagesetup', 1001);
 
-	elgg_register_plugin_hook_handler('registeruser:validate:password', 'all', 'nihcp_password_verify');
-
 	elgg_register_plugin_hook_handler('forward', 'all', 'nihcp_xss_forward_check');
 
 	// write permission plugin hooks
@@ -215,6 +213,7 @@ function nihcp_pages_write_permission_check($hook, $entity_type, $returnvalue, $
 function nihcp_pages_container_permission_check($hook, $entity_type, $returnvalue, $params) {
 	if (elgg_get_context() != "pages") {
 		return null;
+
 	}
 	if (elgg_get_page_owner_guid()
 		&& can_write_to_container(elgg_get_logged_in_user_guid(), elgg_get_page_owner_guid())) {

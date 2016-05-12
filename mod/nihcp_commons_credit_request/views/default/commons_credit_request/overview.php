@@ -14,13 +14,8 @@ if ($requests) {
 
 	$content .= "
 	<table class=\"elgg-table ccreq-overview-table\">
-		<tr>";
-	if ($full_view) {
-		$content .= "
-			<th><b>ID</b></th>";
-	}
-	$content .= "
-			<th><b>Project Name</b></th>";
+		<tr>
+                      <th><b>Project Name</b></th>";
 	if ($full_view) {
 		$content .= "
 			<th><b>Submission Date</b></th>";
@@ -58,14 +53,7 @@ if ($requests) {
 
 		$credit_amount = $request->getExpectedCostTotal();
 
-		$row = "
-				<tr id='$request->guid'>";
-		if ($full_view) {
-			$row .= "
-					<td>$request->guid</td>";
-		}
-		$row .=
-			"
+		$row = "	<tr id='$request->guid'>
 					<td><a href=\"" .
 			elgg_get_site_url() .
 			"nihcp_commons_credit_request/request/$request->guid\">$request->project_title</a></td>";

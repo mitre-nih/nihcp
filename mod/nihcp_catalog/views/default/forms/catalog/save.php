@@ -9,6 +9,11 @@ if (is_numeric($guid) && elgg_entity_exists($guid)) {
 	$subtype = $entity::SUBTYPE;
 } else {
 	$subtype = get_input('subtype');
+	$catalog_subtypes = [\Nihcp\Entity\Equivalency::SUBTYPE, \Nihcp\Entity\Glossary::SUBTYPE, \Nihcp\Entity\Services::SUBTYPE];
+	if(!in_array($subtype, $catalog_subtypes)) {
+		register_error(elgg_echo('nihcp_catalog:save:fail'));
+		forward(REFERRER);
+	}
 	$class = get_subtype_class('object', $subtype);
 	$entity = new $class();
 }
