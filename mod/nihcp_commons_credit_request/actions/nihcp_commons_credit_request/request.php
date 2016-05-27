@@ -6,7 +6,7 @@ elgg_make_sticky_form('request');
 
 // which button was pressed
 $action = get_input('action', '', false);
-$guid = get_input('request_guid');
+$guid = htmlspecialchars(get_input('request_guid', '', false), ENT_QUOTES, 'UTF-8');
 switch ($action) {
     case 'Next':
 		if($guid) {

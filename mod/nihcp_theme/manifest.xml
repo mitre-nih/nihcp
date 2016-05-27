@@ -16,5 +16,14 @@
         <type>plugin</type>
         <name>aalborg_theme</name>
     </requires>
+    <requires>
+        <type>plugin</type>
+        <name>file</name>
+    </requires>
+    <requires>
+        <type>priority</type>
+        <priority>after</priority>
+        <plugin>file</plugin>
+    </requires>
 	<activate_on_install>true</activate_on_install>
 </plugin_manifest>

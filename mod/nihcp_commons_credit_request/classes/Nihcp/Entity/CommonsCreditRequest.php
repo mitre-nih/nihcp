@@ -30,6 +30,18 @@ class CommonsCreditRequest extends \ElggObject {
 //		return "/commons_credit_request/view/{$this->guid}";
 //	}
 
+    public function hasDatasets() {
+        return !empty($this->datasets);
+    }
+
+    public function hasApplicationsTools() {
+        return !empty($this->applications_tools);
+    }
+
+    public function hasWorkflows() {
+        return !empty($this->workflows);
+    }
+
     public function getExpectedCostTotal() {
         return $this->server_compute_expected_cost + $this->storage_expected_cost + $this->network_services_expected_cost + $this->web_servers_expected_cost + $this->databases_expected_cost + $this->other_expected_cost;
     }

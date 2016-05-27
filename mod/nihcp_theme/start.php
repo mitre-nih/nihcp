@@ -14,8 +14,11 @@ function nihcp_theme_init() {
 	elgg_register_plugin_hook_handler('comments', 'object', 'nihcp_hide_page_comments');
 
 	elgg_register_page_handler('', 'forward_to_dashboard');
+	elgg_unregister_page_handler('file');
+	elgg_register_page_handler('file', 'nihcp_file_page_handler');
 
 	elgg_unregister_plugin_hook_handler('prepare', 'menu:site', '_elgg_site_menu_setup');
+	elgg_register_plugin_hook_handler('prepare', 'menu:page', 'nihcp_page_menu_setup');
 
 	elgg_register_event_handler('pagesetup', 'system', 'nihcp_theme_pagesetup', 1001);
 
@@ -100,6 +103,9 @@ function nihcp_pages_title_menu_setup($hook, $type, $value, $params) {
 function nihcp_theme_site_menu_setup($hook, $type, $return, $params) {
 
 	$allowed_item_names = ['dashboard', 'pages', 'faq', 'help_center'];
+	if(elgg_is_admin_logged_in()) {
+		array_push($allowed_item_names, 'groups');
+	}
 
 	foreach($return['default'] as $i => $item) {
 		$j = array_search($item->getName(), $allowed_item_names);
@@ -125,7 +131,15 @@ function compare_priority($a, $b) {
 	return ($pa < $pb) ? -1 : 1;
 }
 
+function nihcp_page_menu_setup($hook, $type, $return, $params) {
+	foreach($return['default'] as $i => $item) {
+		if(startsWith($item->getName(), 'groups')) {
+			unset($return['default'][$i]);
+		}
+	}
 
+	return $return;
+}
 
 /*
  * Function to hook into elgg's password checking and enforce password complexity:
@@ -271,4 +285,53 @@ function nihcp_hide_page_comments($hook, $type, $return_value, $params) {
 	} else {
 		return $return_value;
 	}
+}
+
+/**
+ * Dispatches file pages.
+ * URLs take the form of
+ *  All files:       file/all
+ *  User's files:    file/owner/<username>
+ *  Friends' files:  file/friends/<username>
+ *  View file:       file/view/<guid>/<title>
+ *  New file:        file/add/<guid>
+ *  Edit file:       file/edit/<guid>
+ *  Group files:     file/group/<guid>/all
+ *  Download:        file/download/<guid>
+ *
+ * Title is ignored
+ *
+ * @param array $page
+ * @return bool
+ */
+function nihcp_file_page_handler($page) {
+
+	if (!isset($page[0])) {
+		$page[0] = 'all';
+	}
+
+	$file_dir = elgg_get_plugins_path() . 'file/pages/file';
+
+	$page_type = $page[0];
+	switch ($page_type) {
+		case 'owner':
+			file_register_toggle();
+			include "$file_dir/owner.php";
+			break;
+		case 'view':
+			set_input('guid', $page[1]);
+			include "$file_dir/view.php";
+			break;
+		case 'group':
+			file_register_toggle();
+			include "$file_dir/owner.php";
+			break;
+		case 'download':
+			set_input('guid', $page[1]);
+			include "$file_dir/download.php";
+			break;
+		default:
+			return false;
+	}
+	return true;
 }
