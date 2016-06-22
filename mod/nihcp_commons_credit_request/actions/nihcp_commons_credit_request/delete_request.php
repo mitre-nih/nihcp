@@ -2,6 +2,9 @@
 $guid = get_input('request_guid');
 if($guid) {
     $request = get_entity($guid);
+	if(!$request instanceof \Nihcp\Entity\CommonsCreditRequest) {
+		return false;
+	}
     $pricing_upload_guid = $request->pricing_upload_guid;
     $supplementary_materials_upload_guid = $request->supplementary_materials_upload_guid;
     if($pricing_upload_guid) {

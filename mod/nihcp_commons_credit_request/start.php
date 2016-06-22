@@ -8,8 +8,7 @@ function commons_credit_request_init() {
 	]);
 
 	elgg_register_page_handler('nihcp_commons_credit_request', 'commons_credit_request_page_handler');
-
-	elgg_register_entity_type('object', \Nihcp\Entity\CommonsCreditRequest::SUBTYPE);
+	
 	// Register a script to handle (usually) a POST request (an action)
 	$action_path = __DIR__ . '/actions';
 	elgg_register_action('request', "$action_path/nihcp_commons_credit_request/request.php");
@@ -17,6 +16,8 @@ function commons_credit_request_init() {
 	elgg_register_action('file/delete', "$action_path/nihcp_commons_credit_request/file/delete.php");
 	elgg_register_action('delete_request', "$action_path/nihcp_commons_credit_request/delete_request.php");
     elgg_register_action('withdraw_request', "$action_path/nihcp_commons_credit_request/withdraw_request.php");
+
+	elgg_register_ajax_view('commons_credit_request/overview/requests_in_cycle');
 
 	// Extend the main CSS file
 	elgg_extend_view('css/elements/layout', 'css/request');

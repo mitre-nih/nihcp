@@ -4,15 +4,14 @@ use \Nihcp\Entity\CommonsCreditRequest;
 
 return [
 	'nihcp_commons_credit_request' => 'Commons Credit Request',
-	'nihcp_commons_credit_request:description' => 'Request Commons Credits here.',
-	'nihcp_commons_credit_request:widget:description' => 'Widget for requesting Commons Credits through the Commons Portal.',
+	'nihcp_commons_credit_request:description' => 'Request Commons Credits here',
+	'nihcp_commons_credit_request:widget:description' => 'Widget for requesting Commons Credits through the Commons Portal',
 	'nihcp_commons_credit_request:menu' => 'Commons Credit Request',
 
 	'item:object:commonscreditrequest' => 'Commons Credit Request',
 
 	'nihcp_commons_credit_request:save:failed' => 'Unabled to save',
 	'nihcp_commons_credit_request:ccreq:deletefiletooltip' => 'Delete file',
-
 
 	// NIH Policies
 	'nihcp_commons_credit_request:nih_policies:data_sharing' => 'NIH Data Sharing Policy and Implementation Guidance',
@@ -147,5 +146,22 @@ cloud vendors.<br />
 concurrence from MITRE and NIH for violating these terms and conditions, state or
 federal law, or any other justifiable reason. Written notice will be provided. The
 occurrence of this will result in the suspension of all Credits. This decision may not be
-contested.<br />"
+contested.<br />",
+
+	'nihcp_commons_credit_request:ccreq:feedback' => "Feedback",
+
+	'item:object:commonscreditcycle' => 'Submission Cycle',
+	'nihcp_commons_credit_request:cycles' => 'Submission Cycles',
+	'nihcp_commons_credit_request:cycles:view' => 'View Submission Cycles',
+	'nihcp_commons_credit_request:cycles:none' => 'No cycles found',
+	'nihcp_commons_credit_request:cycle:start' => 'Application Start',
+	'nihcp_commons_credit_request:cycle:finish' => 'Application Finish',
+	'nihcp_commons_credit_request:cycle:threshold' => 'Stratification Threshold',
+	'nihcp_commons_credit_request:cycle:active' => 'Active',
+	'nihcp_commons_credit_request:cycle:action' => 'Action',
+	'nihcp_commons_credit_request:cycle:add' => 'Add',
+	'nihcp_commons_credit_request:cycle:save:failed' => 'Unable to save cycle',
+	'nihcp_commons_credit_request:cycle:save:success' => 'Saved cycle',
+	'nihcp_commons_credit_request:cycle:noaccess' => 'You do not have permission to access this cycle',
+	'nihcp_commons_credit_request:cycle:noactive' => 'No current available cycle. Please try again later.',
 ];

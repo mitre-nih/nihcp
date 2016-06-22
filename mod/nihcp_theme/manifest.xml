@@ -17,6 +17,11 @@
         <name>aalborg_theme</name>
     </requires>
     <requires>
+        <type>priority</type>
+        <priority>after</priority>
+        <plugin>aalborg_theme</plugin>
+    </requires>
+    <requires>
         <type>plugin</type>
         <name>file</name>
     </requires>

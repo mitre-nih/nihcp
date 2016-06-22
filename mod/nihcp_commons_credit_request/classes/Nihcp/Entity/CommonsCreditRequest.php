@@ -6,6 +6,18 @@ class CommonsCreditRequest extends \ElggObject {
 
 	const SUBTYPE = 'commonscreditrequest';
 
+    const DATASETS = 'datasets';
+    const APPLICATIONS_TOOLS = 'applications_tools';
+    const WORKFLOWS = 'workflows';
+
+    // status constants
+    const COMPLETED_STATUS = 'Completed';
+	const APPROVED_STATUS = 'Approved';
+    const DENIED_STATUS = 'Denied';
+	const SUBMITTED_STATUS = 'Submitted';
+	const DRAFT_STATUS = 'Draft';
+	const WITHDRAWN_STATUS = 'Withdrawn';
+
     // form field max lengths
     const PROJECT_TITLE_MAX_LENGTH = 200;
     const GRANT_LINKAGE_MAX_LENGTH = 200;
@@ -26,9 +38,24 @@ class CommonsCreditRequest extends \ElggObject {
 		$this->attributes['subtype'] = $class::SUBTYPE;
 	}
 
-//	public function getURL() {
-//		return "/commons_credit_request/view/{$this->guid}";
-//	}
+	public static function isValidStatus($s) {
+		$statuses = [self::COMPLETED_STATUS, self::APPROVED_STATUS, self::DENIED_STATUS, self::SUBMITTED_STATUS, self::DRAFT_STATUS, self::WITHDRAWN_STATUS];
+		return !(array_search($s, $statuses) === false);
+	}
+
+	public function getURL() {
+		return elgg_get_site_url() . "nihcp_commons_credit_request/request/{$this->guid}";
+	}
+
+    public function isEditable() {
+        return $this->status != self::COMPLETED_STATUS
+            && $this->status != self::APPROVED_STATUS
+            && $this->status != self::DENIED_STATUS;
+    }
+
+    public function isComplete() {
+        return !$this->isEditable();
+    }
 
     public function hasDatasets() {
         return !empty($this->datasets);
@@ -94,8 +121,7 @@ class CommonsCreditRequest extends \ElggObject {
 			$new_request->supplementary_materials_upload_guid = $new_supplementary_materials_upload_guid;
 		}
 
-        $new_request->save();
-		return $new_request->getGUID();
+		return $new_request->guid ?: $new_request->save();
     }
 
 	private static function saveUploadFile($file_form_name) {
@@ -206,4 +232,157 @@ class CommonsCreditRequest extends \ElggObject {
         return $saved ? $file->getGUID() : false;
 
     }
+
+	public function assignToCycle($cycle_guid = 0) {
+		if(!$cycle_guid) {
+			$cycle_guid = CommonsCreditCycle::getActiveCycleGUID();
+		}
+		if($cycle_guid === false) {
+			return false;
+		}
+		$ia = elgg_set_ignore_access();
+		$cycle = get_entity($cycle_guid);
+		elgg_set_ignore_access($ia);
+		return $cycle && $cycle instanceof CommonsCreditCycle ? $cycle->assignRequest($this) : false;
+	}
+
+    public static function compareROI($ccreq1, $ccreq2) {
+        if ($ccreq1 == $ccreq2) {
+            return 0;
+        } else {
+            return FinalScore::calculateROI($ccreq2->guid) - FinalScore::calculateROI($ccreq1->guid);
+        }
+        
+    }
+
+    public static function compareCost($ccreq1, $ccreq2) {
+        if ($ccreq1 == $ccreq2) {
+            return 0;
+        } else {
+            return $ccreq1->getExpectedCostTotal() - $ccreq2->getExpectedCostTotal() ;
+        }
+    }
+
+    public static function sortByRecommendation($requests, $user_guid = 0) {
+		if(!$user_guid) {
+			$user_guid = elgg_get_logged_in_user_guid();
+		}
+
+        $recommend = array();
+        $downselect = array();
+        $unreviewed = array();
+
+        foreach($requests as $r) {
+            $rec = get_entity(FinalRecommendation::getFinalRecommendation($r->guid));
+            if (empty($rec) || !FinalRecommendation::isValidStatus($rec->final_recommendation)) {
+                $unreviewed[] = $r;
+            } else if ($rec->final_recommendation == FinalRecommendation::RECOMMEND) {
+                $recommend[] = $r;
+            } else { // must be downselect by this point
+                $downselect[] = $r;
+            }
+        }
+
+		if(nihcp_nih_approver_gatekeeper(false, $user_guid)) {
+			return array_merge($recommend, $downselect, $unreviewed);
+		}
+		return array_merge($unreviewed, $recommend, $downselect);
+
+    }
+
+    public static function sortByStatus($requests) {
+        $pending = array();
+        $approved = array();
+        $denied = array();
+        $withdrawn = array();
+
+        foreach($requests as $r) {
+            $status = $r->status;
+            if (!CommonsCreditRequest::isValidStatus($status) || $status == CommonsCreditRequest::WITHDRAWN_STATUS) {
+                $withdrawn[] = $r;
+            } else if ($status == CommonsCreditRequest::APPROVED_STATUS) {
+                $approved[] = $r;
+            } else if ($status == CommonsCreditRequest::DENIED_STATUS) {
+                $denied[] = $r;
+            } else { // pending
+                $pending[] = $r;
+            }
+        }
+
+        return array_merge($pending, $approved, $denied, $withdrawn);
+
+
+    }
+
+
+
+    // sorts given set of requests
+    // sort criteria:
+    // 1. approved/denied/withdrawn
+    // 2. recommended/downselected
+    // 3. ROI
+    // 4. credit amount (ascending)
+    public static function sort($requests, $user_guid = 0) {
+
+        usort($requests, ['self', 'compareCost']);
+        usort($requests, ['self', 'compareROI']);
+        $requests = self::sortByRecommendation($requests, $user_guid);
+        $requests = self::sortByStatus($requests);
+
+        return $requests;
+    }
+
+    public static function getAll() {
+        return elgg_get_entities([
+            'type' => 'object',
+            'subtype' => CommonsCreditRequest::SUBTYPE,
+        ]);
+    }
+
+	public static function getByUser($status = 'all', $user_guid = 0) {
+		if(!$user_guid) {
+			$user_guid = elgg_get_logged_in_user_guid();
+		}
+		$requests = elgg_get_entities_from_metadata([
+			'type' => 'object',
+			'subtype' => CommonsCreditRequest::SUBTYPE,
+			'owner_guid' => $user_guid,
+			'limit' => 0,
+			'metadata_name_value_pairs' => $status !== 'all' && self::isValidStatus($status) ? [
+				['name' => 'status', 'value' => $status, 'operand' => '=']
+			] : null,
+		]);
+		return $requests;
+	}
+
+	public static function getByCycle($cycle_guid = 0) {
+		if(!$cycle_guid) {
+			$cycle_guid = CommonsCreditCycle::getActiveCycleGUID();
+		}
+		$ia = elgg_set_ignore_access();
+		$cycle = get_entity($cycle_guid);
+		elgg_set_ignore_access($ia);
+		if(!$cycle || !$cycle instanceof CommonsCreditCycle) {
+			return false;
+		}
+		return $cycle->getRequests();
+	}
+
+	public static function getByUserAndCycle($status = 'all', $user_guid = 0, $cycle_guid = 0) {
+		$user_requests = self::getByUser($status, $user_guid);
+		$cycle_requests = self::getByCycle($cycle_guid);
+		if(!$user_requests || !$cycle_requests) {
+			return false;
+		}
+		$intersect_requests = array_intersect($user_requests, $cycle_requests);
+		return $intersect_requests;
+	}
+
+	public function getFeedback() {
+		return \Nihcp\Entity\Feedback::getFeedback($this->guid);
+	}
+
+	public function __toString() {
+		return strval($this->guid);
+	}
 }

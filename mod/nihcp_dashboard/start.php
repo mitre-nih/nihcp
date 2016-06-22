@@ -30,6 +30,8 @@ function nihcp_dashboard_init() {
 
 	elgg_register_plugin_hook_handler('get_list', 'default_widgets', 'nihcp_dashboard_default_widgets');
 
+	elgg_register_plugin_hook_handler('prepare', 'menu:widget', 'nihcp_widget_menu_setup');
+
 	elgg_register_widget_type('reinit_user_widgets', elgg_echo("nihcp_dashboard:widgets:reinit_user_widgets:title"), elgg_echo("nihcp_dashboard:widgets:reinit_user_widgets:description"), array("admin"));
 }
 
@@ -111,4 +113,16 @@ function nihcp_create_default_widgets($event, $type, $params) {
 	$group = $params['group'];
 
 	\Nihcp\Manager\WidgetManager::createWidgetsForUserInGroup($entity, $group);
+}
+
+function nihcp_widget_menu_setup($hook, $type, $return, $params) {
+	if(!elgg_is_admin_logged_in()) {
+		foreach ($return['default'] as $i => $item) {
+			if (in_array($item->getName(), ['delete', 'settings'])) {
+				unset($return['default'][$i]);
+			}
+		}
+	}
+
+	return $return;
 }

@@ -4,14 +4,21 @@
 	$supplementary_materials_upload_file = get_entity($request->supplementary_materials_upload_guid);
 ?>
 
-<b>ID</b>
-<br/>
-<?php echo $request->guid; ?>
-<br/>
+
 
 <b><?php echo elgg_echo("nihcp_commons_credit_request:ccreq:project_title"); ?></b>
 <br/>
 <?php echo $request->project_title; ?>
+<br/>
+
+<b>Submitter</b>
+<br/>
+<?php echo get_entity($request->owner_guid)->getDisplayName(); ?>
+<br/>
+
+<b>Submission Date</b>
+<br/>
+<?php echo $request->submission_date; ?>
 <br/>
 
 

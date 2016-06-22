@@ -37,6 +37,8 @@ function nihcp_theme_init() {
 	elgg_extend_view('css/elements/layout', 'nihcp_theme/css/elements/layout');
 
 	elgg_extend_view('page/elements/header_logo', 'nihcp_theme/page/elements/header_logo');
+
+	elgg_unextend_view('page/elements/sidebar', 'search/header');
 }
 
 function forward_to_dashboard($hook, $type, $return = null, $params = null) {
@@ -132,9 +134,11 @@ function compare_priority($a, $b) {
 }
 
 function nihcp_page_menu_setup($hook, $type, $return, $params) {
-	foreach($return['default'] as $i => $item) {
-		if(startsWith($item->getName(), 'groups')) {
-			unset($return['default'][$i]);
+	if(!(empty($return) || empty($return['default']))) {
+		foreach ($return['default'] as $i => $item) {
+			if (startsWith($item->getName(), 'groups')) {
+				unset($return['default'][$i]);
+			}
 		}
 	}
 

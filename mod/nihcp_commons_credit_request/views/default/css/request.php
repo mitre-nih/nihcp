@@ -22,3 +22,8 @@ table a {
     display:block;
     text-decoration:none;
 }
+
+.elgg-widget-content .nihcp-ccreq-cycle-select {
+	margin-bottom: 5px;
+	display:block;
+}

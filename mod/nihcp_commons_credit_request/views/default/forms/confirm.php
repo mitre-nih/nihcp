@@ -4,14 +4,9 @@ use \Nihcp\Entity\CommonsCreditRequest;
 
 elgg_require_js('confirm');
 
-// retrieve current request based on GUID
-$guid = get_input('request_guid');
-$current_request = get_entity($guid);
-
-$site_url = elgg_get_site_url();
+$current_request = $vars['current_request'];
 
 echo elgg_view_entity($current_request);
-echo '<br/>';
 
 echo "<div>";
 echo elgg_view('input/checkbox', array(
@@ -35,8 +30,6 @@ echo elgg_view('input/checkbox', array(
 		'label' => elgg_echo("nihcp_commons_credit_request:ccreq:agreement_nih_policies_digital_objects")));
 echo "</div>";
 
-echo '<br/>';
-echo '<br/>';
-echo elgg_view('input/hidden', array('name' => 'request_guid', 'id'=>'request_guid', 'value'=>get_input('request_guid')));
+echo elgg_view('input/hidden', array('name' => 'request_guid', 'id'=>'request_guid', 'value'=>$current_request->guid));
 echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Submit', 'id' => 'ccreq-submit-button', 'class' => 'disabled', 'disabled'=>true));
 echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Cancel'));

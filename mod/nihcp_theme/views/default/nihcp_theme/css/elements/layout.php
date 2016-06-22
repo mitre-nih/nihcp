@@ -79,10 +79,6 @@
 	display: none!important;
 }
 
-.elgg-menu-item-collapse {
-	display:none!important;
-}
-
 /* Page body */
 
 body {
@@ -139,10 +135,6 @@ a {
 .elgg-page-footer > .elgg-inner, .elgg-sidebar,
 .elgg-head, .elgg-item, .elgg-menu, .elgg-input-file {
 	border-color: darkgrey!important;
-}
-
-.elgg-widget-edit-button, .elgg-widget-delete-button {
-	display:none!important;
 }
 
 .elgg-widgets .elgg-body {
@@ -268,12 +260,6 @@ input::-webkit-inner-spin-button {
 	Tables
 *************************************** */
 
-
-table {
-    table-layout: fixed;
-    width: 100%;
-}
-
 td {
     word-wrap: break-word;
 }
@@ -288,3 +274,60 @@ td {
 
 .elgg-table th {
 	background-color: #fff; }
+
+.elgg-table td {
+	max-width: 350px;
+}
+
+input {
+	width: auto;
+}
+
+.elgg-widget-content table.elgg-table {
+	table-layout: fixed;
+}
+
+.elgg-widget-content .elgg-table td:not(.ccreq-status), .elgg-widget-content .elgg-table td:not(.ccreq-status) * {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Tooltip container */
+.tooltip {
+	position: relative;
+	display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 300px;
+	background-color: white;
+	text-align: center;
+	padding: 5px;
+	border-radius: 5px;
+	border: thick solid #1e3b61;
+
+	/* Position the tooltip text - see examples below! */
+	position: absolute;
+	z-index: 1;
+}
+
+.tooltipborder {
+	border-bottom: thin dashed black;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+.ccr-overview-layout > .elgg-body, .crr-overview-layout > .elgg-body,
+.elgg-widget-instance-nihcp-commons-credit-request > .elgg-body, .elgg-widget-instance-nihcp-commons-credit-request {
+	overflow: visible!important;
+}
+
+.feedback {
+	text-align: left!important;
+}

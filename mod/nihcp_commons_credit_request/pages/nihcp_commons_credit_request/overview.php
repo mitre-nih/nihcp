@@ -1,19 +1,21 @@
 <?php
 
-use \Nihcp\Entity\CommonsCreditRequest;
+use \Nihcp\Entity\CommonsCreditCycle;
 
-$requests = elgg_get_entities([
-    'type' => 'object',
-    'subtype' => CommonsCreditRequest::SUBTYPE,
-    'owner_guid' => elgg_get_logged_in_user_entity()->getGUID()
-]);
+$ia = elgg_set_ignore_access();
 
+$cycles = CommonsCreditCycle::getCycles($omit_future = true);
+
+$selected_cycle_guid = CommonsCreditCycle::getActiveCycleGUID();
 
 $params = array(
     'title' => elgg_echo("nihcp_commons_credit_request"),
-    'content' => elgg_view('commons_credit_request/overview', array('requests' => $requests)),
+    'content' => elgg_view('commons_credit_request/overview', array('cycles' => $cycles, 'selected_cycle_guid' => $selected_cycle_guid)),
     'filter' => '',
+	'class' => 'ccr-overview-layout'
 );
+
+elgg_set_ignore_access($ia);
 
 $body = elgg_view_layout('content', $params);
 

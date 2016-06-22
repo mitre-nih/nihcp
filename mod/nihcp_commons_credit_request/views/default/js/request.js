@@ -92,7 +92,7 @@ define(function(require) {
         var button = $(this);
         var confirm = window.confirm(elgg.echo('question:areyousure'));
         if(confirm) {
-            var request_guid = button.attr('request_guid');
+			var request_guid = button.closest('tr').attr('id');
             elgg.action('delete_request', {
                 data: {request_guid: request_guid},
                 success: function () {
@@ -102,19 +102,36 @@ define(function(require) {
         }
     });
 
-    // withdrawing submitted requests
-    $('.ccreq-withdraw-button').click(function() {
-        var button = $(this);
-        var confirm = window.confirm(elgg.echo('question:areyousure'));
-        if(confirm) {
-            var request_guid = button.attr('request_guid');
-            elgg.action('withdraw_request', {
-                data: {request_guid: request_guid},
-                success: function () {
-                    $('#' + request_guid + ' > .ccreq-status').text('Withdrawn');
-                    button.closest('.ccreq-withdraw-button').remove();
-                }
-            });
-        }
-    });
+
+
+	$(function() {
+		$('#nihcp-ccreq-cycle-select').change(function() {
+			var cycle_guid = $(this).val();
+			elgg.get('ajax/view/commons_credit_request/overview/requests_in_cycle', {
+				data: {
+					cycle_guid: cycle_guid,
+					full_view: $(this).closest('.elgg-widget-content').length !== 0 ? 'widget' : true
+				},
+				success: function(output) {
+					$('#nihcp-ccr-overview-requests-in-cycle').html(output);
+					// withdrawing submitted requests
+					$('.ccreq-withdraw-button').click(function() {
+						var button = $(this);
+						var confirm = window.confirm(elgg.echo('question:areyousure'));
+						if(confirm) {
+							var request_guid = button.closest('tr').attr('id');
+							elgg.action('withdraw_request', {
+								data: {request_guid: request_guid},
+								success: function () {
+									$('#' + request_guid + ' > .ccreq-status').text('Withdrawn');
+									button.closest('.ccreq-withdraw-button').remove();
+								}
+							});
+						}
+					});
+				}
+			});
+		});
+		$('#nihcp-ccreq-cycle-select').trigger('change');
+	});
 });

@@ -14,8 +14,8 @@ if(elgg_is_sticky_form('request')) {
 
 
 // set the form fields if this is an existing draft
-if (isset($vars['request_guid'])) {
-    $request_draft = get_entity($vars['request_guid']);
+if (isset($vars['current_request'])) {
+    $request_draft = $vars['current_request'];
     $project_title = $request_draft->project_title;
     $grant_linkage = $request_draft->grant_linkage;
     $proposed_research = $request_draft->proposed_research;
@@ -425,7 +425,7 @@ foreach($required_fields as $field) {
 
 <div class="elgg-foot">
     <?php
-		echo elgg_view('input/hidden', array('name' => 'request_guid', 'id'=>'request_guid', 'value'=>get_input('request_guid')));
+		echo elgg_view('input/hidden', array('name' => 'request_guid', 'id'=>'request_guid', 'value'=>$request_draft->guid));
         echo elgg_view('input/submit', array('name' => 'action', 'id' => 'ccreq-next-button', 'class' => $all_filled ? null : 'disabled', 'value' => 'Next', 'disabled'=>!$all_filled));
         echo elgg_view('input/submit', array('name' => 'action', 'id' => 'ccreq-save-button', 'class' => isset($project_title) ? null : 'disabled', 'value' => 'Save', 'disabled'=>!isset($project_title)));
         echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Discard Changes'));

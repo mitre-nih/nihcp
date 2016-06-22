@@ -1,22 +1,31 @@
 <?php
 
-$guid = get_input('request_guid');
-$form_vars = array(
-    'enctype' => 'multipart/form-data',
-    'id' => 'ccreq-form'
-);
+use Nihcp\Manager\RoleManager;
 
-$body_vars = array(
-    'request_guid' => $guid
-);
+$guid = get_input('request_guid');
 
 $ia = elgg_get_ignore_access();
 
-if (nihcp_triage_coordinator_gatekeeper(false) || nihcp_nih_approver_gatekeeper(false)) {
+if (nihcp_role_gatekeeper(array(RoleManager::TRIAGE_COORDINATOR, RoleManager::NIH_APPROVER, RoleManager::DOMAIN_EXPERT), false)) {
     $ia = elgg_set_ignore_access(true);
 }
 
-$request = get_entity($guid);
+if($guid) {
+	$request = get_entity($guid);
+	if (!$request instanceof \Nihcp\Entity\CommonsCreditRequest) {
+		register_error(elgg_echo('error:404:content'));
+		forward('/nihcp_commons_credit_request/overview');
+	}
+}
+
+$form_vars = array(
+	'enctype' => 'multipart/form-data',
+	'id' => 'ccreq-form'
+);
+
+$body_vars = array(
+	'current_request' => $request
+);
 
 // allow form editing only if new request or in draft state.
 if ((empty($request) || $request->status === "Draft" || !$request->status) && nihcp_investigator_gatekeeper(false)) {
