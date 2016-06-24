@@ -78,7 +78,6 @@ function commons_credit_request_page_handler($page) {
 			include "$ccreq_dir/request.php";
 			break;
         case 'confirm':
-
             include "$ccreq_dir/confirm.php";
             break;
 		case 'terms-and-conditions':
@@ -88,6 +87,8 @@ function commons_credit_request_page_handler($page) {
 			header('Content-Disposition: attachment; filename="service_request_worksheet.xlsx"');
 			readfile(elgg_get_data_path() . '/docs/service_request_worksheet.xlsx');
 			break;
+		case 'attachment':
+			include "$ccreq_dir/attachment.php";
 		case 'all':
 			include "$ccreq_dir/overview.php";
 			break;
