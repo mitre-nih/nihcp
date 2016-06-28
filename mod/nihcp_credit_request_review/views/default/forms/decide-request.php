@@ -16,7 +16,8 @@ if (!empty($request_guid)) {
 	echo "<a class=\"elgg-button-submit elgg-button\" href=\" " . elgg_get_site_url() . "nihcp_credit_request_review/overview\">Back to Overview</a>";
 	echo "</div>";
 	echo "<div>";
-	echo "Project : <a href=\"" . elgg_get_site_url() . "nihcp_commons_credit_request/request/$request_guid\">$project_title</a>";
+	$project_url = elgg_get_site_url() . "nihcp_credit_request_review/review/$request_guid";
+	echo "Project : <a href=\"$project_url\">$project_title</a>";
 	echo "</div>";
 }
 ?>
@@ -34,5 +35,5 @@ echo "<div>";
 echo elgg_view('input/hidden', array('name' => 'request_guid', 'id'=>'request_guid', 'value'=>$request_guid));
 echo elgg_view('input/hidden', array('name' => 'decision', 'id'=>'decision', 'value'=>$decision));
 echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Save'));
-echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Discard Changes'));
+echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Cancel'));
 echo "</div>";

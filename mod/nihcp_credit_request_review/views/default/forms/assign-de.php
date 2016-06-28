@@ -18,7 +18,8 @@ if (!empty($request_guid)) {
     echo "<a class=\"elgg-button-submit elgg-button\" href=\" " . elgg_get_site_url() . "nihcp_credit_request_review/risk-benefit-score-overview/$request_guid\">Back to Risk/Benefit Score Overview</a>";
     echo "</div>";
     echo "<div>";
-    echo "Project : <a href=\"" . elgg_get_site_url() . "nihcp_commons_credit_request/request/$request_guid\">$project_title</a>";
+    $project_url = elgg_get_site_url() . "nihcp_credit_request_review/review/$request_guid";
+    echo "Project : <a href=\"$project_url\">$project_title</a>";
     echo "</div>";
 }
 

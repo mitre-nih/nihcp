@@ -3,6 +3,9 @@
 use Nihcp\Entity\RiskBenefitScore;
 
 $entity = elgg_extract('entity', $vars);
+$do_class = $entity->class;
+
+echo "<h3>Benefit and Risk Score for " . elgg_echo("nihcp_commons_credit_request:ccreq:$do_class") . "</h3>";
 
 echo "<div class='pvs'>";
 echo "<div><b>Digital Object Class</b></div>";

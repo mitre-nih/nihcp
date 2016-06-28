@@ -24,7 +24,7 @@ switch($review_class) {
         break;
 }
 
-echo "<h3>" . elgg_echo('nihcp_credit_request_review:crr:final_score') . " for " . $review_class_text . "</h3>";
+echo "<h3>" . elgg_echo('nihcp_credit_request_review:crr:final_score:sv') . " for " . $review_class_text . "</h3>";
 echo "<br>";
 
 
@@ -41,7 +41,8 @@ if (!empty($request_guid)) {
     echo "<a class=\"elgg-button-submit elgg-button\" href=\" " . elgg_get_site_url() . "nihcp_credit_request_review/overview\">Back to Overview</a>";
     echo "</div>";
     echo "<div>";
-    echo "Project : <a href=\"" . elgg_get_site_url() . "nihcp_commons_credit_request/request/$request_guid\">$project_title</a>";
+    $project_url = elgg_get_site_url() . "nihcp_credit_request_review/review/$request_guid";
+    echo "Project : <a href=\"$project_url\">$project_title</a>";
     echo "</div>";
 }
 

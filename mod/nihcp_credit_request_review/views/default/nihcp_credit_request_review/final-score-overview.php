@@ -21,7 +21,8 @@ pseudo_atomic_set_ignore_access(function() {
         echo "</div>";
         echo "<br />";
         echo "<div>";
-        echo "Project : <a href=\"" . elgg_get_site_url() . "nihcp_commons_credit_request/request/$request_guid\">$project_title</a>";
+        $project_url = elgg_get_site_url() . "nihcp_credit_request_review/review/$request_guid";
+        echo "Project : <a href=\"$project_url\">$project_title</a>";
         echo "</div>";
     }
 
@@ -38,9 +39,9 @@ pseudo_atomic_set_ignore_access(function() {
 	<table class=\"elgg-table\">
         <tr>
             <th>Class</th>
-            <th>Mean Scientific Benefit Ratio</th>
-            <th>Scientific Value</th>
-            <th>Computational Factor</th>
+            <th>" . elgg_echo("nihcp_credit_request_review:crr:final_score:sbr") . "</th>
+            <th>" . elgg_echo("nihcp_credit_request_review:crr:final_score:sv") . "</th>
+            <th>" . elgg_echo("nihcp_credit_request_review:crr:final_score:cf") . "</th>
         </tr>
         ";
 

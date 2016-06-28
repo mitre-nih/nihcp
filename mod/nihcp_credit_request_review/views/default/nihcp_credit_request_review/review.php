@@ -21,6 +21,7 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
     || (nihcp_nih_approver_gatekeeper(false) && $request->isComplete())
     || (nihcp_domain_expert_gatekeeper(false) && RiskBenefitScore::isDomainExpertAssignedToRequest(elgg_get_logged_in_user_entity(), $request_guid)) ) {
 
+    $ia = elgg_set_ignore_access(true);
 
     $acco = get_entity(AlignmentCommonsCreditsObjectives::getFromRequestGuid($request_guid));
     $gs_ds_guid = GeneralScore::getGeneralScoreDatasetsFromRequestGuid($request_guid);
@@ -35,6 +36,7 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
 
     $final_recommendation = get_entity(FinalRecommendation::getFinalRecommendation($request_guid));
 
+
     $rbscore_empty = true;
     foreach ($benefit_risk_scores as $rb) {
         if ($rb->status == RiskBenefitScore::COMPLETED_STATUS) {
@@ -42,8 +44,10 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
         }
     }
 
+    elgg_set_ignore_access($ia);
 
-    if( !empty($benefit_risk_scores) && !(empty($acco) && empty($gs_ds_guid) && empty($gs_at_guid) && empty($gs_wf_guid)
+    // if not everything is empty, show a review.
+    if( !(empty($benefit_risk_scores) && empty($acco) && empty($gs_ds_guid) && empty($gs_at_guid) && empty($gs_wf_guid)
         && empty($fs_ds_guid) && empty($fs_at_guid) && empty($fs_wf_guid) && empty($final_recommendation) && $rbscore_empty) ) {
 
         echo "<h3>Review Summary</h3>";

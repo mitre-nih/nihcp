@@ -11,7 +11,7 @@ echo "<div>" . $entity->num_digital_objects . "</div>";
 echo "</div>";
 
 echo "<div class='pvs'>";
-echo "<div><b>Mean Score</b></div>";
+echo "<div><b>" . elgg_echo("nihcp_credit_request_review:crr:mean_general_score") . "</b></div>";
 echo "<div>" . round($entity->general_score) . "</div>";
 echo "</div>";
 

@@ -34,8 +34,9 @@ return [
 	'nihcp_credit_request_review:crr:align_cc_obj:tooltip4' => 'Does the requester propose a selection of Commons resources commensurate with the research proposed in the request?  Guidance to estimating requisite storage, compute and data transfer rates is available in the credit market place pages of the Commons Credits Portal; additional information is described in sections 9 and 10 of the NIH Commons Credit Decision Framework and Process. Compare the estimates provided by the requester against justifiable resource levels.',
 
 	'nihcp_credit_request_review:crr:general_score' => 'General Score',
+	'nihcp_credit_request_review:crr:mean_general_score' => 'Mean General Score',
 	'nihcp_credit_request_review:crr:general_score:number_of_dos' => 'Number of Digital Objects',
-	'nihcp_credit_request_review:crr:general_score:mean_score' => 'Mean Score (Enter number from 0.00 to 20.00)',
+	'nihcp_credit_request_review:crr:general_score:range' => '(Enter number from 0.00 to 20.00)',
 
 	'nihcp_credit_request_review:crr:benefit_risk_score' => 'Benefit and Risk Scores',
 	'nihcp_credit_request_review:crr:risk_score' => 'Assign Mean Risk Score',
@@ -43,7 +44,7 @@ return [
 
 	'nihcp_credit_request_review:crr:final_score' => 'Scientific ROI',
 	'nihcp_credit_request_review:crr:final_score:sbr' => 'Mean Scientific Benefit Ratio',
-	'nihcp_credit_request_review:crr:final_score:sv' => 'Scientific Value',
+	'nihcp_credit_request_review:crr:final_score:sv' => 'Total Scientific Value',
 	'nihcp_credit_request_review:crr:final_score:cf' => 'Computational Factor',
 
 	'nihcp_credit_request_review:crr:final_recommendation' => 'Final Recommendation',

@@ -11,15 +11,18 @@ if (isset($rb_entity)) {
     $benefit_score = $rb_entity->benefit_score;
     $risk_score = $rb_entity->risk_score;
     $score_comments = $rb_entity->comments;
+    $do_class = $rb_entity->class;
 }
 
 elgg_set_ignore_access($ia);
 
+echo "<h3>Benefit and Risk Score for " . elgg_echo("nihcp_commons_credit_request:ccreq:$do_class") . "</h3>";
 
 if (!empty($request_guid)) {
 
     echo "<div>";
-    echo "Project : <a href=\"" . elgg_get_site_url() . "nihcp_commons_credit_request/request/$request_guid\">$project_title</a>";
+    $project_url = elgg_get_site_url() . "nihcp_credit_request_review/review/$request_guid";
+    echo "Project : <a href=\"$project_url\">$project_title</a>";
     echo "</div>";
 }
 
