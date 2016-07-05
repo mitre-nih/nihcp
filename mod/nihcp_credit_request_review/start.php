@@ -93,6 +93,9 @@ function nihcp_credit_request_review_page_handler($page) {
 			set_input('review_class', $class);
 			include "$crr_dir/final-score.php";
 			break;
+		case 'feedback':
+			include "$crr_dir/feedback.php";
+			break;
 		case 'all':
 			include "$crr_dir/overview.php";
 			break;

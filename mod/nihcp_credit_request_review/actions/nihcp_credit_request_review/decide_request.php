@@ -32,6 +32,7 @@ switch ($action) {
 				$feedback_guid = $feedback->save();
 				add_entity_relationship($guid, Feedback::RELATIONSHIP_CCREQ_TO_FEEDBACK, $feedback_guid);
 			}
+			$feedback->decision = $decision;
 			$feedback->comments = $comments;
 			elgg_set_ignore_access($ia);
 			return true;

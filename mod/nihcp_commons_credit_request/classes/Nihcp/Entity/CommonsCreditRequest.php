@@ -379,7 +379,7 @@ class CommonsCreditRequest extends \ElggObject {
 	}
 
 	public function getFeedback() {
-		return \Nihcp\Entity\Feedback::getFeedback($this->guid);
+		return Feedback::getFeedback($this->guid);
 	}
 
 	public function __toString() {

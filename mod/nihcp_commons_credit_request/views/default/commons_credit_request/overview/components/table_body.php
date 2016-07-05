@@ -35,7 +35,8 @@ if(!empty($requests)) {
 		if($request->status === CommonsCreditRequest::APPROVED_STATUS || $request->status === CommonsCreditRequest::DENIED_STATUS) {
 			$ia = elgg_set_ignore_access();
 			$feedback = get_entity($request->getFeedback());
-			$row .= "<td class='ccreq-status'><span class='tooltip tooltipborder'>$request->status<span class='tooltiptext feedback'><h4>"
+			$feedback_url = elgg_get_site_url() . "nihcp_credit_request_review/feedback/" . $request->getGUID();
+			$row .= "<td class='ccreq-status'><span class='tooltip tooltipborder'><a href='$feedback_url'>$request->status</a><span class='tooltiptext feedback'><h4>"
 				.elgg_echo('nihcp_commons_credit_request:ccreq:feedback').":</h4>$feedback->comments</span></span></td>";
 			elgg_set_ignore_access($ia);
 		} else {

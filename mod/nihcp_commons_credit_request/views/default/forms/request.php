@@ -38,6 +38,7 @@ if (isset($vars['current_request'])) {
     $web_servers_expected_cost = $request_draft->web_servers_expected_cost;
     $databases_expected_cost = $request_draft->databases_expected_cost;
     $other_expected_cost = $request_draft->other_expected_cost;
+    $other_expected_cost_explanation = $request_draft->other_expected_cost_explanation;
     $pricing_upload = $request_draft->pricing_upload;
     $supplementary_materials_upload = $request_draft->supplementary_materials_upload;
 	$pricing_upload_file = get_entity($request_draft->pricing_upload_guid);
@@ -371,7 +372,7 @@ foreach($required_fields as $field) {
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:other_explanation:desc"); ?>
 
     <br />
-    <textarea name='other_explanation' id='other_explanation' maxlength='<?php echo CommonsCreditRequest::OTHER_EXPECTED_COSTS_EXPLANATION ?>'><?php echo $other_explanation;?></textarea>
+    <textarea name='other_expected_cost_explanation' id='other_expected_cost_explanation' maxlength='<?php echo CommonsCreditRequest::OTHER_EXPECTED_COSTS_EXPLANATION ?>'><?php echo $other_expected_cost_explanation;?></textarea>
 
 </div>
 

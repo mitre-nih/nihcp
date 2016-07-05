@@ -186,6 +186,13 @@ echo "</div>";
 echo "</div>";
 
 echo "<div class='pvs'>";
+echo "<b>" . elgg_echo("nihcp_commons_credit_request:ccreq:other_explanation") . "</b>";
+echo "<div>";
+echo $request->other_expected_cost_explanation;
+echo "</div>";
+echo "</div>";
+
+echo "<div class='pvs'>";
 echo "<b>" . elgg_echo("nihcp_commons_credit_request:ccreq:total_cost") . "</b>";
 echo "<div>";
 echo $request->getExpectedCostTotal();
