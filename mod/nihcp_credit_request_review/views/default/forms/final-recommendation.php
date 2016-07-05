@@ -44,6 +44,6 @@ echo elgg_view('input/select', array(
 <?php
 echo "<div>";
 echo elgg_view('input/hidden', array('name' => 'request_guid', 'id'=>'request_guid', 'value'=>$request_guid));
-echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Save'));
-echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Discard Changes'));
+echo elgg_view('input/submit', array('name' => 'action', 'value' => elgg_echo("nihcp_credit_request_review:crr:final_recommendation:complete")));
+echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Cancel'));
 echo "</div>";

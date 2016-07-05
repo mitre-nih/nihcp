@@ -48,6 +48,7 @@ return [
 	'nihcp_credit_request_review:crr:final_score:cf' => 'Computational Factor',
 
 	'nihcp_credit_request_review:crr:final_recommendation' => 'Final Recommendation',
+	'nihcp_credit_request_review:crr:final_recommendation:complete' => 'Complete Triage',
 
 	'nihcp_credit_request_review:crr:decision:approve' => 'Approved',
 	'nihcp_credit_request_review:crr:decision:deny' => 'Denied',
