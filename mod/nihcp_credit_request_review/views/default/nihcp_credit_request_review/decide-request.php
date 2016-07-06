@@ -1,4 +1,5 @@
 <?php
+
 nihcp_nih_approver_gatekeeper();
 
 $ia = elgg_set_ignore_access(true);

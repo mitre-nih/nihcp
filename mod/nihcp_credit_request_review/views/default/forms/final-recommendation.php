@@ -1,5 +1,8 @@
 <?php
 
+elgg_require_js('jquery');
+elgg_require_js('crr');
+
 $ia = elgg_set_ignore_access(true);
 $request_guid = $vars['request_guid'];
 $project_title = get_entity($request_guid)->project_title;
@@ -24,6 +27,7 @@ if (!empty($request_guid)) {
 }
 
 echo elgg_view('input/select', array(
+    'id' => 'final_recommendation',
     'name' => 'final_recommendation',
     'value' => $final_recommendation,
     'options_values' => array (
@@ -44,6 +48,9 @@ echo elgg_view('input/select', array(
 <?php
 echo "<div>";
 echo elgg_view('input/hidden', array('name' => 'request_guid', 'id'=>'request_guid', 'value'=>$request_guid));
-echo elgg_view('input/submit', array('name' => 'action', 'value' => elgg_echo("nihcp_credit_request_review:crr:final_recommendation:complete")));
+echo elgg_view('input/button', array(
+    'id'=> 'crr-final-recommendation-submit-button',
+    'class' => 'elgg-button elgg-button-submit crr-final-recommendation-submit-button',
+    'value' => elgg_echo("nihcp_credit_request_review:crr:final_recommendation:save")));
 echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Cancel'));
 echo "</div>";

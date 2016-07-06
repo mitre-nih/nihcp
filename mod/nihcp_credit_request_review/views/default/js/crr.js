@@ -31,6 +31,28 @@ define(function(require) {
 							data: {request_guid: request_guid, decision: decision},
 							success: function (output) {
 								$('.crr-overview-page').html(output);
+								// submitting Final Decision
+								$('#crr-final-decision-submit-button').click(function() {
+
+									var button = $(this);
+									var confirm = window.confirm(elgg.echo('question:areyousure'));
+									if(confirm) {
+										var action = button.attr('value');
+										var request_guid = $('#request_guid').attr('value');
+										var decision = $('#decision').attr('value');
+										var feedback_comments = $('#feedback_comments').val();
+										elgg.action('decide-request', {
+											data: {action: action,
+												request_guid: request_guid,
+												decision: decision,
+												feedback_comments: feedback_comments},
+											success: function () {
+												location.reload();
+											}
+
+										});
+									}
+								});
 							}
 						});
 					});
@@ -55,5 +77,29 @@ define(function(require) {
 			});
 		}
 	});
+
+	// submitting Final Recommendation
+	$('#crr-final-recommendation-submit-button').click(function() {
+
+		var button = $(this);
+		var confirm = window.confirm(elgg.echo('question:areyousure'));
+		if(confirm) {
+			var action = button.attr('value');
+			var request_guid = $('#request_guid').attr('value');
+			var final_recommendation = $('#final_recommendation').attr('value');
+			var final_recommendation_comments = $('#final_recommendation_comments').val();
+			elgg.action('final-recommendation', {
+				data: {action: action,
+					request_guid: request_guid,
+					final_recommendation: final_recommendation,
+					final_recommendation_comments: final_recommendation_comments},
+				success: function () {
+					window.location.href = "..";
+				}
+
+			});
+		}
+	});
+
 
 });

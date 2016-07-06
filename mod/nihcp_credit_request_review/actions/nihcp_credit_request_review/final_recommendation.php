@@ -13,8 +13,7 @@ if (nihcp_triage_coordinator_gatekeeper()) {
 	elgg_set_ignore_access($ia);
 
 	switch ($action) {
-		case elgg_echo("nihcp_credit_request_review:crr:final_recommendation:complete"):
-
+		case elgg_echo("nihcp_credit_request_review:crr:final_recommendation:save"):
 			// get the object related to this ccreq
 			// see if there is existing saved answers entity
 			// if so, update it and save

@@ -1,4 +1,5 @@
 <?php
+
 $ia = elgg_set_ignore_access(true);
 $request_guid = $vars['request_guid'];
 $project_title = get_entity($request_guid)->project_title;
@@ -20,6 +21,12 @@ if (!empty($request_guid)) {
 	echo "Project : <a href=\"$project_url\">$project_title</a>";
 	echo "</div>";
 }
+
+echo "<div class='ptm'>";
+echo "<div><b>Decision</b></div>";
+echo "<div>" . $decision . "</div>";
+echo "</div>";
+
 ?>
 
 	<div class="ptm">
@@ -34,6 +41,10 @@ if (!empty($request_guid)) {
 echo "<div>";
 echo elgg_view('input/hidden', array('name' => 'request_guid', 'id'=>'request_guid', 'value'=>$request_guid));
 echo elgg_view('input/hidden', array('name' => 'decision', 'id'=>'decision', 'value'=>$decision));
-echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Save'));
+echo elgg_view('input/button', array(
+	'id' => 'crr-final-decision-submit-button',
+	'name' => 'action',
+	'class' => 'elgg-button elgg-button-submit crr-final-decision-submit-button',
+	'value' => elgg_echo("nihcp_credit_request_review:crr:decision:save")));
 echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Cancel'));
 echo "</div>";

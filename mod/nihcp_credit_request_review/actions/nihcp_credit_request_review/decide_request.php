@@ -5,7 +5,7 @@ nihcp_nih_approver_gatekeeper();
 $action = get_input('action', '', false);
 
 switch ($action) {
-	case 'Save':
+	case elgg_echo("nihcp_credit_request_review:crr:decision:save"):
 
 		$guid = get_input('request_guid');
 		$decision = get_input('decision');
