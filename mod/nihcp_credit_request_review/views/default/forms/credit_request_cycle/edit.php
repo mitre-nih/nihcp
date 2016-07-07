@@ -36,5 +36,5 @@ echo "</div>";
 echo "<div>";
 echo elgg_view('input/hidden', array('name'=>'cycle_guid', 'value' => $cycle_guid));
 echo elgg_view('input/submit', array('id' => 'ccr-cycle-save-button', 'name' => 'action', 'value' => 'Save'));
-echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Discard Changes'));
+echo elgg_view('input/submit', array('id' => 'ccr-cycle-discard-button', 'name' => 'action', 'value' => 'Discard Changes'));
 echo "</div>";

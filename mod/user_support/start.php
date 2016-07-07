@@ -9,7 +9,6 @@ require_once(dirname(__FILE__) . "/lib/page_handlers.php");
 // register default Elgg events
 elgg_register_event_handler("init", "system", "user_support_init");
 
-
 /**
  * Gets called during system init
  *
@@ -47,11 +46,9 @@ function user_support_init() {
 	elgg_extend_view("groups/tool_latest", "user_support/faq/group_module");
 	
 	// register widgets
-	elgg_register_widget_type("faq", elgg_echo("user_support:widgets:faq:title"), elgg_echo("user_support:widgets:faq:description"));
-	elgg_register_widget_type("support_ticket", elgg_echo("user_support:widgets:support_ticket:title"), elgg_echo("user_support:widgets:support_ticket:description"));
-
+	elgg_register_widget_type("faq", elgg_echo("user_support:widgets:faq:title"), elgg_echo("user_support:widgets:faq:description"), array("groups"));
+	elgg_register_widget_type("support_ticket", elgg_echo("user_support:widgets:support_ticket:title"), elgg_echo("user_support:widgets:support_ticket:description"), array("all"), true);
 	elgg_register_widget_type("support_staff", elgg_echo("user_support:widgets:support_staff:title"), elgg_echo("user_support:widgets:support_staff:description"));
-
 	
 	// register events
 	elgg_register_event_handler("create", "object", "user_support_create_comment_event");
