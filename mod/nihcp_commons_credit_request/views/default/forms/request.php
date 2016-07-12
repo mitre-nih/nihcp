@@ -385,7 +385,7 @@ foreach($required_fields as $field) {
 
 <div>
     <label for="pricing">
-        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:pricing"); ?>
+		<span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:pricing"); ?>
     </label>
 	<div class="ccreq-file-upload">
 		<?php
