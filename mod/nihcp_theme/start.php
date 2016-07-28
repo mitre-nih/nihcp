@@ -78,10 +78,6 @@ function nihcp_theme_pagesetup() {
 }
 
 function nihcp_pages_title_menu_setup($hook, $type, $value, $params) {
-	/* @var $item \ElggMenuItem */
-
-	$entity = $params['entity'];
-
 	$should_remove = !elgg_is_admin_logged_in() && elgg_get_context() === "pages";
 
 	foreach ($value as $section => $menu) {
@@ -261,7 +257,7 @@ function nihcp_email_verify($hook, $type, $return_value, $params) {
     // TODO we should probably get this whitelist from config file instead of hardcoding
     $whitelisted_domains = array(
         "@mitre.org",
-        "@nih.gov",
+        ".gov",
         ".edu"
     );
 
@@ -309,6 +305,8 @@ function nihcp_hide_page_comments($hook, $type, $return_value, $params) {
  * @return bool
  */
 function nihcp_file_page_handler($page) {
+
+	nihcp_role_gatekeeper([\Nihcp\Manager\RoleManager::TRIAGE_COORDINATOR, \Nihcp\Manager\RoleManager::DOMAIN_EXPERT, \Nihcp\Manager\RoleManager::NIH_APPROVER, \Nihcp\Manager\RoleManager::VENDOR_ADMIN]);
 
 	if (!isset($page[0])) {
 		$page[0] = 'all';

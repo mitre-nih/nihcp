@@ -28,14 +28,18 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
     $gs_at_guid = GeneralScore::getGeneralScoreAppsToolsFromRequestGuid($request_guid);
     $gs_wf_guid = GeneralScore::getGeneralScoreWorkflowsFromRequestGuid($request_guid);
 
-    $benefit_risk_scores = RiskBenefitScore::getRiskBenefitScoreEntitiesForRequest($request_guid);
+    $benefit_risk_scores = [];
+	if(nihcp_domain_expert_gatekeeper(false) && !elgg_is_admin_logged_in()) {
+		$benefit_risk_scores = RiskBenefitScore::getEntitiesForRequestAndDomainExpert($request_guid, elgg_get_logged_in_user_guid());
+	} else {
+		$benefit_risk_scores = RiskBenefitScore::getRiskBenefitScoreEntitiesForRequest($request_guid);
+	}
 
     $fs_ds_guid = FinalScore::getFinalScoreDatasetsFromRequestGuid($request_guid);
     $fs_at_guid = FinalScore::getFinalScoreAppsToolsFromRequestGuid($request_guid);
     $fs_wf_guid = FinalScore::getFinalScoreWorkflowsFromRequestGuid($request_guid);
 
     $final_recommendation = get_entity(FinalRecommendation::getFinalRecommendation($request_guid));
-
 
     $rbscore_empty = true;
     foreach ($benefit_risk_scores as $rb) {

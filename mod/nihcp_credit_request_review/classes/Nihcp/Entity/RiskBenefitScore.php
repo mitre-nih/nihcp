@@ -125,7 +125,6 @@ class RiskBenefitScore extends \ElggObject {
         $rb_scores_request = self::getRiskBenefitScoreEntitiesForRequest($request_guid);
         $rb_scores_de = self::getRiskBenefitScoreEntitiesForDomainExpert($de_guid);
 
-
         $result = array();
 
         foreach ($rb_scores_request as $rsr) {
@@ -135,7 +134,6 @@ class RiskBenefitScore extends \ElggObject {
                 }
             }
         }
-;
 
         return $result;
     }

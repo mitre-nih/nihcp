@@ -67,8 +67,8 @@ return [
 
 	// confirm screen
 	'nihcp_commons_credit_request:ccreq:agreement_terms_and_conditions' => 'I agree to <a target="_blank" href="' . elgg_get_site_url() . 'nihcp_commons_credit_request/terms-and-conditions">Terms and Conditions</a>',
-	'nihcp_commons_credit_request:ccreq:agreement_nih_policies_digital_objects' => 'I agree to abide with NIH policies governing a Digital Objects (DO). Please refer to the sidebar for details.',
-	'nihcp_commons_credit_request:ccreq:agreement_biocaddie' => 'I agree to Index Digital Objects in <a target="_blank" href="https://biocaddie.org/">BioCADDIE</a>',
+	'nihcp_commons_credit_request:ccreq:agreement_nih_policies_digital_objects' => 'I agree to abide with NIH policies governing Digital Objects (DO). Please refer to the sidebar for details.',
+	'nihcp_commons_credit_request:ccreq:agreement_biocaddie' => 'I agree to Index Digital Objects in <a target="_blank" href="https://biocaddie.org/">bioCADDIE</a>',
 
 	// terms and conditions
 	'nihcp_commons_credit_request:ccreq:terms_and_conditions' =>
