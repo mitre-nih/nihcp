@@ -12,4 +12,6 @@ return array(
 
 	// browser warning text
 	'browser_support_warning' => 'This website is not optimized for use on Internet Explorer or older versions of other browsers. Please use a different browser for the best experience on this site.',
+
+	'nihcp_theme:settings:portal_admin_email' => 'Portal admin email address'
 );

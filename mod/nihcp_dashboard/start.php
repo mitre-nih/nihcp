@@ -13,6 +13,7 @@ function nihcp_system_init() {
 }
 
 function nihcp_dashboard_init() {
+
 	elgg_register_page_handler('dashboard', 'nihcp_dashboard_page_handler');
 
 	elgg_register_action("nihcp_dashboard/reinit_user_widgets", dirname(__FILE__) . "/actions/admin/reinit_user_widgets.php", "admin");
@@ -48,14 +49,20 @@ function nihcp_dashboard_page_handler() {
 	elgg_set_page_owner_guid(elgg_get_logged_in_user_guid());
 	$title = elgg_echo('dashboard');
 
-	// wrap intro message in a div
-	$intro_message = ''; //elgg_view('dashboard/blurb');
+	$roles = \Nihcp\Manager\RoleManager::getRolesByUser(elgg_get_logged_in_user_guid());
+	if(!$roles && !elgg_is_admin_logged_in()) {
+		$intro_message = elgg_view('nihcp_dashboard/blurb');
+	}
 
 	$params = array(
 		'content' => $intro_message,
 		'num_columns' => 3,
 		'show_access' => false,
 	);
+
+	if(!elgg_is_admin_logged_in()) {
+		$params['show_add_widgets'] = false;
+	}
 
 	$widgets = elgg_view_layout('widgets', $params);
 

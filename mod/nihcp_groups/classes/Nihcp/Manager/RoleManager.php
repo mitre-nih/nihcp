@@ -67,4 +67,15 @@ class RoleManager {
 		}
 		return false;
 	}
+
+	public static function getRolesByUser($user_guid) {
+		$user = get_entity($user_guid);
+		if(!elgg_instanceof($user, 'user')) {
+			return false;
+		}
+		$ia = elgg_set_ignore_access();
+		$groups = $user->getGroups([]);
+		elgg_set_ignore_access($ia);
+		return $groups;
+	}
 }

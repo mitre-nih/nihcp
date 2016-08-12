@@ -22,5 +22,9 @@
         <type>plugin</type>
         <name>nihcp_groups</name>
     </requires>
+    <requires>
+        <type>plugin</type>
+        <name>nihcp_theme</name>
+    </requires>
 	<activate_on_install>true</activate_on_install>
 </plugin_manifest>

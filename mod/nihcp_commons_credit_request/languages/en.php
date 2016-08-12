@@ -72,81 +72,369 @@ return [
 
 	// terms and conditions
 	'nihcp_commons_credit_request:ccreq:terms_and_conditions' =>
-			"This set of Terms and Conditions (“T&C”) documents requirements incumbent upon applicants
-for Commons Credits that must be accepted as part of participation in the Commons Credits
-Pilot.
-The following conditions apply to all investigators applying for Commons Credits awards as part
-of the pilot (“applicants”), whether or not they obtain awards:<br />
-1. Applicant agrees to use the Commons Credits Web Portal to generate any request for
-Commons Credits.<br />
-2. Applicant acknowledges that only holders of active NIH grants on the first day of any
-award cycle are eligible for submitting requests for Commons Credits.<br />
-3. Applicant acknowledges that Commons Credits may only be used to obtain services
-consistent with pilot objectives. Such services include, but are not limited to, cloud
-storage, computations, virtual machines, as well as technical support consistent with the
-use of such services.<br />
-4. Applicant acknowledges that only cloud vendors admitted to the pilot by MITRE and NIH,
-and who have previously both passed the list of Conformance Requirements and signed
-the required business agreement with MITRE, may be utilized when using Commons
-Credits. No other vendors may be used for the pilot.<br />
-5. Applicant acknowledges that utilization of Commons Credits in the pilot must be reported
-to MITRE and NIH on a periodic basis in accordance with detailed metrics and measures
-as specified in the award and that this information will be aggregated with other data to
-assess the feasibility of the Commons Credits approach.<br />
-6. Applicant acknowledges that NIH, not MITRE Corporation, makes the final decisions
-about awards and amounts of Credits. MITRE provides a triage process for the
-applications, but does not provide final adjudication.<br />
-7. Applicant accepts that the processes for determining awards may differ from
-conventional NIH grant processes, and that this process is acceptable.<br />
-8. Applicant agrees to ensure that credit requests are not made for work that directly
-overlaps with work already covered by existing grant funding.<br />
-9. Applicant accepts that there is no recourse to award decisions, and that there is no
-process for protesting or disputing outcomes of this process.<br />
-10. Applicant waives privacy of the award application, in that their name, project title,
-amount of Commons Credits requested, or other relevant information may be made
-public in final or interim project reports.<br />
-11. Applicant accepts that pledges of data, tools, and workflows to be shared made during
-the Commons Credits application process are expected to be honored if an award is
-made, unless these artifacts are not usable owing to research failures. This sharing is
-expected within 12 months of the date of award, or September 1, 2018, whichever
-comes first.<br />
-12. Applicant agrees to each credit request generating a separate and distinct funding
-stream based on the work proposed in that request, and that funds between these
-accounts cannot be comingled without NIH and MITRE consent.<br />
-13. Applicant acknowledges that the Commons is not a Federal Data System.In addition to the conditions included above, the following additional conditions apply to
-applicants who have been awarded Commons Credits for the purpose of participating in the
-Pilot (hereafter called “awardees”):<br />
-1. Awardee agrees to establish an account agreement all Cloud Vendors utilized by the
-awardee during the pilot, and to be bound by the terms and conditions of that agreement<br />
-2. Awardee agrees that the award amount constitutes the full amount of resources that will
-be provided in the pilot for any individual application submission, and that any
-expenditure in excess of this amount will be the responsibility of the Awardee. Awardee
-may, however, supplement the Commons Credits award with their own funds (e.g.,
-existing NIH grant award funds) at any time, though this will not be considered part of
-the pilot process.<br />
-3. Awardees agree to provide a “secondary surety” to all Cloud Vendors utilized by them in
-the pilot (e.g., credit card) to cover all resources expended by them in excess of the
-Commons Credits awarded.<br />
-4. Awardee agrees to expend the Commons Credits awards provided to them within 12
-months of the date of award, or September 1, 2018, whichever comes first.<br />
-5. Awardee agrees to provide a post-implementation report of project outcomes within 12
-months of the date of award, or September 1, 2018, whichever comes first.<br />
-6. Awardee accepts responsibility for protecting personally identifiable information (PII) that
-may reside within the data sets which they provide, use, or share during the pilot<br />
-7. Awardee accepts responsibility for protecting intellectual property (IP) consistent with
-their home institution’s rules and regulations, and with US law.<br />
-8. Awardee acknowledges that while the Commons Credit Web Portal will provide monthly
-updates to the amount of Credits remaining for any award, this information is not
-provided on the same timescale in which charges are accrued. As such, awardees are
-strongly encouraged to engage in more proactive monitoring of resources consumed,
-including by, but not limited to, use of a cloud-vendor provided account dashboard.<br />
-9. Awardee accepts to be bound by dispute resolution processes provided by participating
-cloud vendors.<br />
-10. An awardee may be suspended from the pilot, including loss of credits balance, upon
-concurrence from MITRE and NIH for violating these terms and conditions, state or
-federal law, or any other justifiable reason. Written notice will be provided. The
-occurrence of this will result in the suspension of all Credits. This decision may not be
-contested.<br />",
+			"
+
+
+<div class=WordSection1>
+
+<p class=MsoNormal align=center style='text-align:center'><b><span
+style='font-size:12.0pt;line-height:107%;font-family:Arial'>INVESTIGATOR <span
+style='text-transform:uppercase'>Program PARTICIPATiON Requirements for
+participation in the Commons Credits Pilot</span></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b><span
+style='font-size:12.0pt;line-height:107%;font-family:Arial'>&nbsp;</span></b></p>
+
+<p class=MsoNormal><b><span style='font-family:Arial'>INTRODUCTION TO THE
+COMMONS CREDITS PILOT</span></b></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>These Program Participation
+Requirements for the Commons Credits Pilot (hereafter sometimes \"the Pilot\" or
+\"Pilot\") sets out the obligations that applicants for funding in the form of
+Commons Credits to enable participation in the Pilot must accept as a condition
+of such funding and participation.&nbsp; </span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>The following comments
+briefly summarize the purpose and operation of the Pilot to facilitate
+understanding of the Program Participation Requirements. </span></p>
+
+<p class=MsoNormal><b><span style='font-family:Arial'>What is \"The Commons\"?</span></b></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>The NIH is developing The
+Commons, a shared virtual space that will be scalable and exploit new computing
+models, be more cost effective given digital growth, simplify sharing digital
+research objects (data, metadata workflows, etc.) and will make these object
+more FAIR: Findable, Accessible, Interoperable and Reusable. NIH hopes to instantiate
+elements of the Commons in a mix of public and publicly accessible clouds and
+high performance computing centers that meet NIH standards for business
+relationships, capacity (compute and storage), interfaces, networking and
+connectivity, information assurance and authentication/authorization; these
+entities are referred to as Ôconformant vendors'. </span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>The Commons is not a
+traditional information technology system. Rather, <i>the Commons is the sum of
+its infrastructure (e.g., public clouds), data, metadata and usable software</i>.
+Thus, to create the Commons, the NIH needs to instantiate a self-sustaining
+collection of data and software on generally accessible infrastructure that is
+indexed in such a way that it can be found and used by other investigators. In
+short, the NIH needs to assemble sufficient FAIR objects onto accessible
+infrastructure such that scientists will utilize the Commons for their work and
+enable its continued growth. NIH is using a variety of strategies to develop
+and aggregate the capabilities described above, including conventional grants,
+cooperative agreements and grant supplements. These strategies can be effective
+for the collection of large data sets or the development of large scale
+software, however, the vast majority of data and software (85% by some
+estimates) are relatively small in scale, do not fit into conventional data
+resources, are functionally inaccessible and are produced by investigators with
+small levels of support.</span></p>
+
+<p class=MsoNormal><b><span style='font-family:Arial'>What is the Commons
+Credits Pilot's Purpose?</span></b></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>The purpose of the Commons
+Credits Pilot is to test the funding and operation of the Commons Credit model
+designed by MITRE and NIH to:</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>1.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Deal with the 85% of data identified above by making
+useful but generally small scale digital objects available in the Commons</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>2.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Improve access to public clouds for biomedical
+investigators</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>3.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Provide a new, and potentially more cost effective
+strategy to provide computing resources to NIH investigators</span></p>
+
+<p class=MsoNormal style='margin-left:.25in'><span style='font-family:Arial'>4.&nbsp;
+Create a marketplace for biomedically useful cloud services that would use market
+forces to deliver high value at the lowest possible cost.</span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>Pursuant to the model to be
+tested in the Commons Credits Pilot, eligible investigators would apply to
+MITRE for dollar denominated sums called Commons Credits in the form of a prepaid
+account for purchase of cloud computing services with the conformant vendor or vendors
+identified in their respective applications, thereby providing investigators
+the resources needed to perform their proposed tasks thus providing a test bed
+to assess the viability of the Commons Credit model.</span></p>
+
+<p class=MsoNormal><b><span style='font-family:Arial'>How Can Investigators
+Participate in the Pilot?</span></b></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>1.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Eligible Principal Investigators may apply for to
+MITRE Commons Credits in accordance with the application process summarized
+below. Applications will incorporate a proposed scope of work, which will,
+among other things, identify the digital objects the applicant proposes to
+place on Commons infrastructure and the conformant cloud vendor or vendors as
+to whom the Applicant proposes to use the Commons Credits to access
+computational resources.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>2.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Pursuant to the applications process designed and
+operated by MITRE as approved by NIH, MITRE will receive, review and triage all
+applications from eligible Principal Investigators and make recommendations to
+NIH for award of Commons Credits in specific amounts to applicants whose
+proposals meet the criteria for award. Applicants approved by NIH for award
+will be identified as \"Funded Participants.\" </span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>3.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Upon approval by NIH of a given Funded Participant
+MITRE will distribute Commons Credits in the form of prepaid accounts with the
+respective conformant vendors identified by Funded Participants in their
+proposals.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>4.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participants may thereafter draw on the
+Commons Credits up to the amount awarded to perform the scope of work proposed
+in their respective applications and subject to Program Requirements.</span></p>
+
+<p class=MsoNormal><b><span style='font-family:Arial'>PROGRAM PARTICIPATION REQUIREMENTS</span></b></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>The following requirements
+apply to all investigators applying for award of Commons Credits (\"applicants\"),
+whether or not they are awarded such Credits. </span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>1.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that award of Commons Credits
+is a condition of participation in the Commons Credits Pilot.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>2.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that only individual
+scientists who are Principal Investigators or Co-Principal Investigators on an
+active NIH grant on the date within an awards cycle that an application for
+Common Credits is submitted and awarded and can demonstrate that the
+institution holding the grant supports the application are eligible for
+participation in the Pilot and that ineligible applicants will not receive
+awards of Commons Credits.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>3.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that the sole purpose of the
+restriction of eligibility for award of Commons Credits to such Principal
+Investigators (\"PI\") or Co-Principal Investigators (\"Co-PI\") is identification
+of qualified researchers as potential participants in the Commons Credit Pilot.
+&nbsp;</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>4.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that the Commons Credits Pilot
+is not a part of the NIH grants process and that an award of Commons Credits to
+a PI or Co-PI is not the award of or equivalent to the award of a grant but
+results only in the recipient becoming a \"Funded Participant\" in the Pilot. </span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>5.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that the processes for awarding
+Commons Credits in the Pilot is separate and distinct from the NIH grant award
+process, that the Pilot process is acceptable and that, as the sponsor of this
+effort, NIH reserves the right to modify or adopt this process for either the
+pilot or the post-pilot period.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>6.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Applicant agrees use the Commons Credits Web Portal
+to generate all communications relating in any way to the Commons Credits
+Pilot. &nbsp;</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>7.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Applicant agrees that Commons Credits will not be
+used in connection with any other federally funded research program and will be
+used solely in connection with the Pilot to obtain services consistent with Pilot
+objectives.&nbsp; Such services include cloud storage, computations, hosting, virtual
+machines, as well as technical support consistent with the use of such
+services. Questions as to the use of Commons Credits for services other than
+those identified must be addressed to and will be promptly resolved by MITRE.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>8.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that only conformant vendors
+admitted to the pilot by MITRE and NIH, and who have previously both passed the
+list of Conformance Requirements and signed the required business agreement
+with MITRE, may be utilized when using Commons Credits.&nbsp; No other vendors
+may be used for the pilot.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>9.<span style='font:7.0pt \"Times New Roman\"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that utilization of Commons
+Credits in the pilot must be reported to MITRE and NIH on a periodic basis in
+accordance with detailed metrics and measures as specified in the award and
+that this information will be aggregated with other data to assess the
+feasibility of the Commons Credits approach. </span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>10.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that NIH, not MITRE
+Corporation, makes the final decisions as to awards and amounts of
+Credits.&nbsp; MITRE provides a triage process for the applications, but does
+not provide final adjudication.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>11.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Applicant accepts that there is no recourse to award
+decisions, and that there is no process for protesting or disputing outcomes of
+the Commons Credits Pilot selection process.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>12.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Applicant hereby consents to disclosure of the
+contents of any application for Commons Credits, in that specific information,
+limited to Applicant's name, project title, and amount of Commons Credits requested,
+may be made publicly available in interim or final project reports.&nbsp; Note
+also that all information within any application for Commons Credits will be
+available to the NIH upon request.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>13.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Applicant understands and accepts that all pledges of
+electronic artifacts to be shared with the community (e.g., data, tools, and
+workflows) within the Commons made as part of an application for Commons
+Credits shall be honored if the application results in an award and that sharing
+of electronic artifacts within 12 months of the date of award, or September 1,
+2018, whichever comes first, is mandatory for all participants in the Commons
+Credits Pilot. </span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>14.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that shared artifacts may have
+access or usage restrictions.&nbsp; This is typically most relevant for data
+artifacts.&nbsp; The two tier system of \"open access data\" and \"controlled
+access data\" at dbGAP is a useful reference for consideration, but is not prescriptive
+for the pilot (</span><a
+href=\"http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/about.html\"><span
+style='font-family:Arial'>http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/about.html</span></a><span
+style='font-family:Arial'>).&nbsp;&nbsp; In this context, if the use of a data
+use agreement (DUA) or related agreement is appropriate for granting access to
+artifacts, the artifact vendor and artifact recipient will be sole parities to
+that agreement.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>15.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Applicant agrees that each application for Commons
+Credits will propose a specific scope of work and, if Commons Credits are
+awarded, can be used solely for the work proposed in the subject application &nbsp;and
+that Commons Credits identified to that work can be commingled with Commons
+Credits identified to other work proposed in other applications only upon a
+MITRE recommendation to NIH that commingling is appropriate in a given instance
+&nbsp;and NIH&nbsp; final approval of commingling in that instance. &nbsp;&nbsp;</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>16.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that the Commons is not a Federal
+Data System, and as such no attestation of specific security controls is made
+beyond what is provided by individual cloud vendors.&nbsp; Applicant
+acknowledges that cloud vendors typically do not provide security above the
+hypervisor layer, and that the applicant must consider their security needs
+carefully and plan accordingly before instantiating services or uploading data.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>17.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Applicant acknowledges that all cloud vendors require
+all persons accessing their cloud services to enter into agreements governing access
+to and utilization of such services. </span></p>
+
+<p class=MsoNormal><span style='font-family:Arial'>In addition to the
+conditions included above, the following additional conditions apply to
+applicants who have been awarded Commons Credits for the purpose of
+participating in the Pilot (hereafter called \"funded participants\"):</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>18.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participant agrees enter into and be bound by
+the terms and conditions of agreements for access and utilization of cloud
+services as required by conformant vendors utilized by the Participant in
+connection with the Pilot. </span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>19.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participant agrees that the award amount
+constitutes the full amount of resources that will be provided in the pilot for
+any individual application submission, and that any expenditure in excess of
+this amount will be the responsibility of the Funded Participant.&nbsp; Funded
+Participant may, however, supplement the Commons Credits award with its own
+funds at any time, though work performed using such funds will not be
+considered part of the pilot process.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>20.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participants agree to provide a \"secondary
+surety\" to all Cloud Vendors utilized by them in the pilot (e.g., credit card)
+to cover all resources expended by them in excess of the Commons Credits
+awarded.&nbsp; Funded Participant acknowledges that this mechanism will be used
+by the vendors to ensure full payment of all utilization charges.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>21.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participant agrees that all Commons Credits funds
+provided through awards that are not expended within 12 months of the date of
+award, or by September 1, 2018, whichever comes first, will be used by other
+Funded Participants or for other purposes consistent with the objectives of the
+Pilot as directed by MITRE. </span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>22.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participant agrees to provide a short post-implementation
+report of project outcomes within 12 months of the date of award, or September
+1, 2018, whichever comes first.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>23.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participant acknowledges that the Commons is a
+shared environment, which places considerable responsibility on the Funded
+Participant for maintaining data and application security related to their own
+activities.&nbsp; For example, Funded Participant accepts responsibility for
+protecting personally identifiable information (PII) that may reside within the
+data sets which they provide, use, or share during the pilot.&nbsp; </span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>24.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participant accepts responsibility for
+protecting intellectual property (IP) consistent with their home institution's
+rules and regulations, and with U.S. law.&nbsp; </span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>25.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participant acknowledges that the list of
+example responsibilities related to security provided here is not comprehensive,
+and that there may be legal ramifications for data breaches.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>26.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participant acknowledges that while the Commons
+Credit Web Portal will provide monthly updates to the amount of Credits
+remaining for any award, this information is not provided on the same timescale
+in which charges are accrued.&nbsp; As such, Funded Participants are required
+to engage in more proactive monitoring of resources consumed, including by, but
+not limited to, use of a cloud-vendor provided account dashboard or other tools
+which can be used to accomplish this purpose. </span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>27.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participant agrees to be bound by dispute
+resolution processes provided by participating cloud vendors.</span></p>
+
+<p class=MsoListParagraph style='text-indent:-.25in'><span style='font-family:
+Arial'>28.<span style='font:7.0pt \"Times New Roman\"'>&nbsp; </span></span><span
+style='font-family:Arial'>Funded Participant may be suspended from the pilot,
+including loss of credits balance, upon concurrence from MITRE and NIH for violating
+these terms and conditions, state or federal law, or any other reason.&nbsp;
+Written notice will be provided.&nbsp; The occurrence of this will result in
+the suspension of all Credits to the Funded Participant in question and used
+for other purposes consistent with the objectives of the Pilot as directed by
+MITRE. &nbsp;&nbsp;This decision cannot be contested.</span></p>
+
+</div>",
 
 	'nihcp_commons_credit_request:ccreq:feedback' => "Feedback",
 
