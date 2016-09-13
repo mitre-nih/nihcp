@@ -28,7 +28,7 @@ function credit_request_review_init() {
 	elgg_register_ajax_view('nihcp_credit_request_review/overview/requests');
 	elgg_register_ajax_view('nihcp_credit_request_review/decide-request');
 
-	// Add a new dummy widget
+	// Add a new widget
 	elgg_register_widget_type('nihcp_credit_request_review', elgg_echo("nihcp_credit_request_review"), elgg_echo("nihcp_credit_request_review:widget:description"));
 
 	elgg_register_page_handler('nihcp_credit_request_review', 'nihcp_credit_request_review_page_handler');

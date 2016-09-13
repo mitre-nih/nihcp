@@ -256,7 +256,7 @@ function nihcp_email_verify($hook, $type, $return_value, $params) {
 
     // TODO we should probably get this whitelist from config file instead of hardcoding
     $whitelisted_domains = array(
-        "@mitre.org",
+        ".org",
         ".gov",
         ".edu"
     );

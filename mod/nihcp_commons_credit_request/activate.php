@@ -9,3 +9,8 @@ if (get_subtype_id('object', 'commonscreditcycle')) {
 } else {
 	add_subtype('object', 'commonscreditcycle', 'Nihcp\Entity\CommonsCreditCycle');
 }
+if (get_subtype_id('object', 'commonscreditrequestid')) {
+	update_subtype('object', 'commonscreditrequestid', 'Nihcp\Entity\CommonsCreditRequestId');
+} else {
+	add_subtype('object', 'commonscreditrequestid', 'Nihcp\Entity\CommonsCreditRequestId');
+}

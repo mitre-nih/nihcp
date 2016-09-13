@@ -10,6 +10,7 @@ class RoleManager {
 	const TRIAGE_COORDINATOR = 'Triage Coordinator';
 	const VENDOR_ADMIN = 'Vendor Administrator';
 	const HELP_ADMIN = 'Help Administrator';
+	const CREDIT_ADMIN = 'Credit Administrator';
 
 
 	public static function getConfig() {
@@ -18,7 +19,8 @@ class RoleManager {
 				2 => self::DOMAIN_EXPERT,
 				3 => self::TRIAGE_COORDINATOR,
 				4 => self::VENDOR_ADMIN,
-                5 => self::HELP_ADMIN];
+                5 => self::HELP_ADMIN,
+				6 => self::CREDIT_ADMIN];
 	}
 
 	public static function createRoles() {
@@ -68,13 +70,16 @@ class RoleManager {
 		return false;
 	}
 
-	public static function getRolesByUser($user_guid) {
+	public static function getRolesByUser($user_guid = 0) {
+		if(!$user_guid) {
+			$user_guid = elgg_get_logged_in_user_guid();
+		}
 		$user = get_entity($user_guid);
 		if(!elgg_instanceof($user, 'user')) {
 			return false;
 		}
 		$ia = elgg_set_ignore_access();
-		$groups = $user->getGroups([]);
+		$groups = $user->getGroups([], $limit = 0);
 		elgg_set_ignore_access($ia);
 		return $groups;
 	}

@@ -80,7 +80,10 @@ class RiskBenefitScore extends \ElggObject {
         return !empty(self::getRiskBenefitScoreEntitiesForRequest($request_guid));
     }
 
-    public static function isAllAssignedCompleted($request_guid, $de_guid) {
+    public static function isAllAssignedCompleted($request_guid, $de_guid = 0) {
+		if(!$de_guid) {
+			$de_guid = elgg_get_logged_in_user_guid();
+		}
         $assigned_reviews = self::getEntitiesForRequestAndDomainExpert($request_guid, $de_guid);
         if (empty($assigned_reviews)) {
             return false;

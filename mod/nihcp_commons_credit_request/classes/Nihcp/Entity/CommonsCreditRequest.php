@@ -18,6 +18,8 @@ class CommonsCreditRequest extends \ElggObject {
 	const DRAFT_STATUS = 'Draft';
 	const WITHDRAWN_STATUS = 'Withdrawn';
 
+	const DATE_FORMAT = 'n/j/Y';
+
     // form field max lengths
     const PROJECT_TITLE_MAX_LENGTH = 200;
     const GRANT_LINKAGE_MAX_LENGTH = 200;
@@ -77,7 +79,7 @@ class CommonsCreditRequest extends \ElggObject {
 	public static function saveRequestFromForm($new_request, $submit=false) {
 
         $new_request->status = $submit ? 'Submit' : 'Draft';
-        $new_request->submission_date = $submit ? date('n/j/Y') : null;
+        $new_request->submission_date = $submit ? date(self::DATE_FORMAT) : null;
 
         $new_request->project_title = htmlspecialchars(get_input('project_title', '', false), ENT_QUOTES, 'UTF-8');
         $new_request->grant_linkage = htmlspecialchars(get_input('grant_linkage', '', false), ENT_QUOTES, 'UTF-8');
@@ -102,7 +104,7 @@ class CommonsCreditRequest extends \ElggObject {
         $new_request->databases_expected_cost = htmlspecialchars(get_input('databases_expected_cost', '', false), ENT_QUOTES, 'UTF-8');
         $new_request->other_expected_cost = htmlspecialchars(get_input('other_expected_cost', '', false), ENT_QUOTES, 'UTF-8');
         $new_request->other_expected_cost_explanation = htmlspecialchars(get_input('other_expected_cost_explanation', '', false), ENT_QUOTES, 'UTF-8');
-		$new_pricing_upload_guid = CommonsCreditRequest::saveUploadFile('pricing_upload');
+		$new_pricing_upload_guid = self::saveUploadFile('pricing_upload');
 		if($new_pricing_upload_guid) {
 			if(isset($new_request->pricing_upload_guid)) {
 				$old_file = get_entity($new_request->pricing_upload_guid);
@@ -111,7 +113,7 @@ class CommonsCreditRequest extends \ElggObject {
 			}
 			$new_request->pricing_upload_guid = $new_pricing_upload_guid;
 		}
-        $new_supplementary_materials_upload_guid = CommonsCreditRequest::saveUploadFile('supplementary_materials_upload');
+        $new_supplementary_materials_upload_guid = self::saveUploadFile('supplementary_materials_upload');
 		if($new_supplementary_materials_upload_guid) {
 			if(isset($new_request->supplementary_materials_upload_guid)) {
 				$old_file = get_entity($new_request->supplementary_materials_upload_guid);
@@ -246,6 +248,28 @@ class CommonsCreditRequest extends \ElggObject {
 		return $cycle && $cycle instanceof CommonsCreditCycle ? $cycle->assignRequest($this) : false;
 	}
 
+	public function getCycle() {
+		$entities = elgg_get_entities_from_relationship([
+			'type' => 'object',
+			'subtype' => CommonsCreditCycle::SUBTYPE,
+			'limit' => 1,
+			'relationship' => CommonsCreditCycle::RELATIONSHIP_CCREQ_TO_CYCLE,
+			'relationship_guid' => $this->guid,
+		]);
+		if(!$entities) {
+			return false;
+		}
+		return $entities[0];
+	}
+
+	public function getSubmissionNumberWithinCycle() {
+		$cycle = $this->getCycle();
+		if(!$cycle) {
+			return false;
+		}
+		return $cycle->getRequestSubmissionNumber($this->guid);
+	}
+
     public static function compareROI($ccreq1, $ccreq2) {
         if ($ccreq1 == $ccreq2) {
             return 0;
@@ -259,7 +283,7 @@ class CommonsCreditRequest extends \ElggObject {
         if ($ccreq1 == $ccreq2) {
             return 0;
         } else {
-            return $ccreq1->getExpectedCostTotal() - $ccreq2->getExpectedCostTotal() ;
+            return $ccreq1->getExpectedCostTotal() - $ccreq2->getExpectedCostTotal();
         }
     }
 
@@ -298,11 +322,11 @@ class CommonsCreditRequest extends \ElggObject {
 
         foreach($requests as $r) {
             $status = $r->status;
-            if (!CommonsCreditRequest::isValidStatus($status) || $status == CommonsCreditRequest::WITHDRAWN_STATUS) {
+            if (!self::isValidStatus($status) || $status == self::WITHDRAWN_STATUS) {
                 $withdrawn[] = $r;
-            } else if ($status == CommonsCreditRequest::APPROVED_STATUS) {
+            } else if ($status == self::APPROVED_STATUS) {
                 $approved[] = $r;
-            } else if ($status == CommonsCreditRequest::DENIED_STATUS) {
+            } else if ($status == self::DENIED_STATUS) {
                 $denied[] = $r;
             } else { // pending
                 $pending[] = $r;
@@ -310,11 +334,7 @@ class CommonsCreditRequest extends \ElggObject {
         }
 
         return array_merge($pending, $approved, $denied, $withdrawn);
-
-
     }
-
-
 
     // sorts given set of requests
     // sort criteria:
@@ -335,7 +355,8 @@ class CommonsCreditRequest extends \ElggObject {
     public static function getAll() {
         return elgg_get_entities([
             'type' => 'object',
-            'subtype' => CommonsCreditRequest::SUBTYPE,
+            'subtype' => self::SUBTYPE,
+			'limit' => 0,
         ]);
     }
 
@@ -343,13 +364,21 @@ class CommonsCreditRequest extends \ElggObject {
 		if(!$user_guid) {
 			$user_guid = elgg_get_logged_in_user_guid();
 		}
+		$operand = '=';
+		if($status && strlen($status) > 1 && $status[0] === '!') {
+			$_status = substr($status, 1);
+			if(self::isValidStatus($_status)) {
+				$status = $_status;
+				$operand = '!=';
+			}
+		}
 		$requests = elgg_get_entities_from_metadata([
 			'type' => 'object',
-			'subtype' => CommonsCreditRequest::SUBTYPE,
+			'subtype' => self::SUBTYPE,
 			'owner_guid' => $user_guid,
 			'limit' => 0,
-			'metadata_name_value_pairs' => $status !== 'all' && self::isValidStatus($status) ? [
-				['name' => 'status', 'value' => $status, 'operand' => '=']
+			'metadata_name_value_pairs' => strtolower($status) !== 'all' && self::isValidStatus($status) ? [
+				['name' => 'status', 'value' => $status, 'operand' => $operand]
 			] : null,
 		]);
 		return $requests;
@@ -385,4 +414,43 @@ class CommonsCreditRequest extends \ElggObject {
 	public function __toString() {
 		return strval($this->guid);
 	}
+
+	public function getRequestIdEntity() {
+		$entities = elgg_get_entities_from_relationship([
+			'type' => 'object',
+			'subtype' => CommonsCreditRequestId::SUBTYPE,
+			'limit' => 1,
+			'relationship_guid' => $this->guid,
+		]);
+		if(!$entities) {
+			return false;
+		}
+		return $entities[0];
+	}
+
+	public function getRequestId() {
+		$entity = $this->getRequestIdEntity();
+		if(!$entity) {
+			return false;
+		}
+		return $entity->getValue();
+	}
+
+    public static function getRequestGUIDfromCCREQID($ccreq_id) {
+        $ccreq_id_guid = CommonsCreditRequestId::getGUIDFromName($ccreq_id);
+
+        if ($ccreq_id_guid) {
+            $entities = elgg_get_entities_from_relationship([
+                'type' => 'object',
+                'subtype' => self::SUBTYPE,
+                'limit' => 0,
+                'relationship' => CommonsCreditRequestId::RELATIONSHIP_CCREQ_TO_ID,
+                'relationship_guid' => $ccreq_id_guid,
+                'inverse_relationship' => true,
+            ]);
+            return empty($entities) ? false : $entities[0]->getGUID();
+        } else {
+            return false;
+        }
+    }
 }

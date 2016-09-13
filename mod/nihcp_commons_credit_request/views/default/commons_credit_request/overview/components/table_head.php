@@ -5,6 +5,7 @@ $content = "<tr>
 			<th><b>Project Name</b></th>";
 	if ($full_view) {
 		$content .= "
+			<th><b>CCREQ ID</b></th>
 			<th><b>Submission Date</b></th>";
 	}
 	$content .= "

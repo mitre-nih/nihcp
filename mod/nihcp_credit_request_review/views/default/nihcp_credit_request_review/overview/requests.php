@@ -31,16 +31,11 @@ $content = '';
 if($requests) {
 	$content .= "<table class=\"elgg-table crr-overview-table\">";
 	$content .=	"<tr>";
-
-	// excluded until ID format is determined
-//    if ($full_view) {
-//        $content .= "
-//			<th><b>ID</b></th>";
-//    }
 	$content .= "<th class='project-name'><b>Project Name</b></th>";
 	if ($full_view) {
+		$content .= "<th><b>CCREQ ID</b></th>";
 		if (!$isDomainExpert) {
-			$content .= "<th><b>Investigator</b>";
+			$content .= "<th><b>Investigator</b></th>";
 		}
 		$content .= "<th><b>Submission Date</b></th>";
 	}
@@ -79,6 +74,7 @@ if($requests) {
 			$project_url = elgg_get_site_url() . "nihcp_credit_request_review/review/$request->guid";
 			$row .= "<td><a href=\"$project_url\">$request->project_title</a></td>";
 			if ($full_view) {
+				$row .= "<td>{$request->getRequestId()}</td>";
 				if (!$isDomainExpert) {
 					$row .= "<td>$requester</td>";
 				}
@@ -123,7 +119,8 @@ if($requests) {
 						$row .= "<td>N/A</td>";
 					} else {
 						$risk_benefit_score_url = elgg_get_site_url() . "nihcp_credit_request_review/risk-benefit-score-overview/" . $request->getGUID();
-						if (RiskBenefitScore::isCompleted($request)) {
+						if (RiskBenefitScore::isCompleted($request)
+							|| (!elgg_is_admin_logged_in() && nihcp_domain_expert_gatekeeper(false, elgg_get_logged_in_user_guid(), true) && RiskBenefitScore::isAllAssignedCompleted($request))) {
 							$risk_benefit_score_link = "Completed";
 						} else {
 							$risk_benefit_score_link = elgg_view_icon('attention-hover');

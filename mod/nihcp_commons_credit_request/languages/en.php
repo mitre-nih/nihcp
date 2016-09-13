@@ -452,4 +452,6 @@ MITRE. &nbsp;&nbsp;This decision cannot be contested.</span></p>
 	'nihcp_commons_credit_request:cycle:save:success' => 'Saved cycle',
 	'nihcp_commons_credit_request:cycle:noaccess' => 'You do not have permission to access this cycle',
 	'nihcp_commons_credit_request:cycle:noactive' => 'No current available cycle. Please try again later.',
+
+	'nihcp_commons_credit_request:id:assign_fail' => 'Unable to assign a CCREQ ID. Please contact the Support Staff for further assistance.'
 ];

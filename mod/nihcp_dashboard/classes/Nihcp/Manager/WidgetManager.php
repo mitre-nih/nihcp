@@ -9,15 +9,17 @@ class WidgetManager {
 			//Investigator
 			0 => ['nihcp_catalog', 'nihcp_commons_credit_request', 'nihcp_credit_awards'],
 			//NIH Approver
-			1 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log'],
+			1 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log', 'nihcp_credit_allocation'],
 			//Domain Expert
 			2 => ['nihcp_catalog', 'nihcp_credit_request_review'],
 			//Triage Coordinator
-			3 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log'],
+			3 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log', 'nihcp_credit_allocation'],
 			//Vendor Administrator
 			4 => ['nihcp_catalog'],
 			//Helpdesk Administrator
-			5 => ['support_staff']
+			5 => ['support_staff'],
+			//Credit Administrator
+			6 => ['nihcp_credit_allocation']
 		];
 		return $config;
 	}

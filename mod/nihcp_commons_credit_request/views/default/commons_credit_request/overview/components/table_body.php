@@ -7,19 +7,27 @@ $full_view = $vars['full_view'];
 $content = '';
 if(!empty($requests)) {
 	foreach ($requests as $request) {
-		$delete_or_withdraw_button = null;
+		$action_button = null;
 		// default delete button for drafts
-		if ($request->status === "Draft") {
-			$delete_or_withdraw_button = elgg_view('input/button', array(
+		if ($request->status === CommonsCreditRequest::DRAFT_STATUS) {
+			$action_button = elgg_view('input/button', array(
 				'value' => 'Delete',
 				'class' => 'elgg-button-cancel ccreq-delete-button'
 			));
 		}
 		// change button to withdraw button if already submitted
-		if ($request->status === "Submitted") {
-			$delete_or_withdraw_button = elgg_view('input/button', array(
+		if ($request->status === CommonsCreditRequest::SUBMITTED_STATUS) {
+			$action_button = elgg_view('input/button', array(
 				'value' => 'Withdraw',
 				'class' => 'elgg-button-cancel ccreq-withdraw-button'
+			));
+		}
+
+		if ($request->status === CommonsCreditRequest::APPROVED_STATUS) {
+			$action_button = elgg_view('input/button', array(
+				'value' => 'Allocate',
+				'class' => 'elgg-button-submit ccreq-allocate-button',
+				'onclick' => "location.href='" . elgg_get_site_url() . "nihcp_credit_allocation/allocations/$request->guid';"
 			));
 		}
 
@@ -30,6 +38,8 @@ if(!empty($requests)) {
 			elgg_get_site_url() .
 			"nihcp_commons_credit_request/request/$request->guid\">$request->project_title</a></td>";
 		if ($full_view) {
+			$ccreq_id = $request->submission_date ? $request->getRequestId() : 'N/A';
+			$row .= "<td>$ccreq_id</td>";
 			$row .= "<td>$request->submission_date</td>";
 		}
 		if($request->status === CommonsCreditRequest::APPROVED_STATUS || $request->status === CommonsCreditRequest::DENIED_STATUS) {
@@ -46,7 +56,7 @@ if(!empty($requests)) {
 		if ($full_view) {
 			$row .= "
 				<td>
-					$delete_or_withdraw_button
+					$action_button
 				</td>";
 		}
 		$row .= "

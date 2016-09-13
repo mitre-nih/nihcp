@@ -6,6 +6,7 @@ class CommonsCreditCycle extends \ElggObject {
 
 	const SUBTYPE = 'commonscreditcycle';
 	const RELATIONSHIP_CCREQ_TO_CYCLE = 'requested_in';
+	const DATE_FORMAT = 'Y-m-d';
 
 	public function initializeAttributes() {
 		parent::initializeAttributes();
@@ -25,7 +26,7 @@ class CommonsCreditCycle extends \ElggObject {
 		$proposed_finish = htmlspecialchars(get_input('application_finish', '', false), ENT_QUOTES, 'UTF-8');
 		$proposed_threshold = htmlspecialchars(get_input('stratification_threshold', '', false), ENT_QUOTES, 'UTF-8');
 		if($new_cycle->guid && $new_cycle->isActive() && !elgg_is_admin_logged_in()) {
-			$now = date('Y-m-d');
+			$now = date(CommonsCreditCycle::DATE_FORMAT);
 			if(($proposed_start !== $new_cycle->start) || ($proposed_threshold !== $new_cycle->threshold) || ($proposed_finish < $now)) {
 				register_error('Cannot change start date or threshold or move finish date to before today on an active cycle');
 				elgg_set_ignore_access($ia);
@@ -56,8 +57,8 @@ class CommonsCreditCycle extends \ElggObject {
 	}
 
 	private static function validateDate($date) {
-		$d = \DateTime::createFromFormat('Y-m-d', $date);
-		return $d && $d->format('Y-m-d') === $date;
+		$d = \DateTime::createFromFormat(CommonsCreditCycle::DATE_FORMAT, $date);
+		return $d && $d->format(CommonsCreditCycle::DATE_FORMAT) === $date;
 	}
 
 	private function sanityCheck() {
@@ -93,10 +94,10 @@ class CommonsCreditCycle extends \ElggObject {
 		return strval($this->guid);
 	}
 
-	// if $now is not set to a valid date string in Y-m-d, we use the current date
+	// if $now is not set to a valid date string in our expected format, we use the current date
 	public static function getActiveCycleGUID($now = true) {
 		if(!$now || !CommonsCreditCycle::validateDate($now)) {
-			$now = date('Y-m-d');
+			$now = date(CommonsCreditCycle::DATE_FORMAT);
 		}
 		$ia = elgg_set_ignore_access();
 		$result = elgg_get_entities_from_metadata([
@@ -119,14 +120,14 @@ class CommonsCreditCycle extends \ElggObject {
 	}
 
 	public static function getCycles($omit_future = false) {
-		$now = date('Y-m-d');
+		$now = date(CommonsCreditCycle::DATE_FORMAT);
 		$ia = elgg_set_ignore_access();
 		$result = elgg_get_entities_from_metadata([
 			'type' => 'object',
 			'subtype' => CommonsCreditCycle::SUBTYPE,
 			'limit' => 0,
 			'metadata_name_value_pairs' => $omit_future ? [
-				['name' => 'start', 'value' => $now, 'operand' => '<']
+				['name' => 'start', 'value' => $now, 'operand' => '<=']
 			] : null,
 			'order_by_metadata' => array(
 				'name' => 'start',
@@ -149,13 +150,14 @@ class CommonsCreditCycle extends \ElggObject {
 			'relationship' => CommonsCreditCycle::RELATIONSHIP_CCREQ_TO_CYCLE,
 			'relationship_guid' => $this->guid,
 			'inverse_relationship' => true,
+			'limit' => 0,
 		]);
 		elgg_set_ignore_access($ia);
 		return $requests;
 	}
 	
 	public function isActive() {
-		$now = date('Y-m-d');
+		$now = date(CommonsCreditCycle::DATE_FORMAT);
 		if($now >= $this->start && $now <= $this->finish) {
 			return true;
 		}
@@ -183,5 +185,66 @@ class CommonsCreditCycle extends \ElggObject {
 		$ccreqs = $this::getRequests();
 
 		return nihcp_role_gatekeeper([\Nihcp\Manager\RoleManager::TRIAGE_COORDINATOR], false, $user_guid) && !$ccreqs && !$this->isActive();
+	}
+
+	public function getNumberWithinYear() {
+		$ia = elgg_set_ignore_access();
+		$d = \DateTime::createFromFormat(CommonsCreditCycle::DATE_FORMAT, $this->start);
+		$myyear = $d->format('Y');
+		$result = elgg_get_entities_from_metadata([
+			'type' => 'object',
+			'subtype' => CommonsCreditCycle::SUBTYPE,
+			'limit' => 0,
+			'metadata_name_value_pairs' => [
+				['name' => 'start', 'value' => $myyear.'-%', 'operand' => 'LIKE'],
+				['name' => 'start', 'value' => $this->start, 'operand' => '<='],
+			],
+		]);
+		elgg_set_ignore_access($ia);
+		return count($result);
+	}
+
+	public function getRequestSubmissionNumber($request_guid) {
+		$request = get_entity($request_guid);
+		$ia = elgg_set_ignore_access();
+		$requests = $request->getCycle()->getRequests();
+		/*elgg_get_entities_from_relationship([
+			'type' => 'object',
+			'subtype' => CommonsCreditRequest::SUBTYPE,
+			'relationship' => CommonsCreditCycle::RELATIONSHIP_CCREQ_TO_CYCLE,
+			'relationship_guid' => $this->guid,
+			'inverse_relationship' => true,
+			'metadata_name_value_pairs' => [
+				['name' => 'submission_date', 'value' => $this->start, 'operand' => '<='],
+				['name' => 'status', 'value' => 'Draft', 'operand' => '!=']
+			],
+		]);*/
+		if(!$requests) {
+			return false;
+		}
+		$mysubmission_metadata = elgg_get_metadata([
+			'metadata_names' => 'submission_date',
+			'guid' => $request_guid,
+		]);
+		if(!$mysubmission_metadata) {
+			return false;
+		}
+		//should this be time modified?
+		$mysubmission_datetime = $mysubmission_metadata[0]->getTimeCreated();
+		$get_entity_guid = function($e) {
+			return $e->guid;
+		};
+		$request_guids = array_map($get_entity_guid, $requests);
+		$submission_metadata_entities = elgg_get_metadata([
+				'metadata_names' => 'submission_date',
+				'guid' => $request_guids,
+				'metadata_created_time_upper' => $mysubmission_datetime,
+				'limit' => 0,
+		]);
+		elgg_set_ignore_access($ia);
+		if(!$submission_metadata_entities) {
+			return false;
+		}
+		return count($submission_metadata_entities);
 	}
 }

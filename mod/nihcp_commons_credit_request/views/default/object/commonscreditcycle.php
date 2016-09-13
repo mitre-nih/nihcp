@@ -1,3 +1,6 @@
 <?php
 $cycle = elgg_extract('entity', $vars);
-echo $cycle->start." &mdash; ".$cycle->finish;
+$ia = elgg_set_ignore_access();
+$val = $cycle->start." &mdash; ".$cycle->finish;
+elgg_set_ignore_access($ia);
+echo $val;

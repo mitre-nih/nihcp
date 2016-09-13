@@ -15,7 +15,7 @@
 
     .crr-overview-table {
         table-layout: fixed;
-        width: 1300px;
+        width: 1500px;
     }
 
     .crr-approver-button {

@@ -17,7 +17,8 @@ pseudo_atomic_set_ignore_access(function () {
 		'order_by_metadata' => array(
 			'name' => 'start',
 			'direction' => ASC
-		)
+		),
+		'limit' => 0,
 	]);
 
 	$selected_cycle_guid = CommonsCreditCycle::getActiveCycleGUID();

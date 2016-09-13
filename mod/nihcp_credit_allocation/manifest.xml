@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin_manifest xmlns="http://www.elgg.org/plugin_manifest/1.8">
-	<name>Credit Awards</name>
+	<name>Credit Allocation</name>
 	<author>William Kim</author>
-	<id>nihcp_credit_awards</id>
+	<id>nihcp_credit_allocation</id>
 	<category>mitre</category>
 	<category>nihcp</category>
 
@@ -11,11 +11,17 @@
 	<website>http://www.elgg.org/</website>
 	<copyright>(C) My Name or Company 2012</copyright>
 	<license>GNU General Public License version 2</license>
-
 	<requires>
 		<type>elgg_release</type>
 		<version>1.8</version>
 	</requires>
-
+    <requires>
+        <type>plugin</type>
+        <name>nihcp_groups</name>
+    </requires>
+    <requires>
+        <type>plugin</type>
+        <name>nihcp_commons_credit_request</name>
+    </requires>
 
 </plugin_manifest>

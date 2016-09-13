@@ -10,6 +10,8 @@ return array(
 	'groups:usernotadded' => 'User could not be added.',
 	'groups:useralreadymember' => 'User is already a member',
 
+	'groups:closedgroup:request' => '',
+
 	'nihcp_groups:add' => 'Add',
 	'nihcp_groups:role:notfound' => 'Unable to find role with the name "%s"',
 	'nihcp_groups:role:gatekeeper' => 'You do not have permission to view this resource',

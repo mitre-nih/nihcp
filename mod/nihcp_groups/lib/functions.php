@@ -39,7 +39,7 @@ function pseudo_atomic_set_ignore_access(callable $callback, $parameter = null, 
  *
  * @return bool
  */
-function nihcp_role_gatekeeper($role_names, $forward = true, $user_guid = 0) {
+function nihcp_role_gatekeeper($role_names, $forward = true, $user_guid = 0, $strict = false) {
 	$result = false;
 
 	if(!is_array($role_names)) {
@@ -52,29 +52,41 @@ function nihcp_role_gatekeeper($role_names, $forward = true, $user_guid = 0) {
 	}
 
 	if (!empty($user_guid)) {
-			$member_cache = array();
+		$user = get_user($user_guid);
+		if ($user && $user->isAdmin()) {
+			return true;
+		}
 
-			foreach($role_names as $role_name) {
+		$member_cache = array();
 
-				$role_group = RoleManager::getRoleByName($role_name);
-				if (!$role_group) {
-					error_log(elgg_echo("nihcp_groups:role:notfound", $role_name));
-					continue;
-				}
+		foreach($role_names as $role_name) {
 
-				$users = $role_group ? $role_group->getMembers() : null;
+			$role_group = RoleManager::getRoleByName($role_name);
+			if (!$role_group) {
+				error_log(elgg_echo("nihcp_groups:role:notfound", $role_name));
+				continue;
+			}
 
-				if (!empty($users)) {
-					foreach ($users as $user) {
-						$member_cache[] = $user->getGUID();
-					}
+			$users = $role_group ? $role_group->getMembers() : null;
+
+			if (!empty($users)) {
+				foreach ($users as $user) {
+					$member_cache[] = $user->getGUID();
 				}
 			}
+		}
 
 		if (in_array($user_guid, $member_cache)) {
 			$result = true;
-		} elseif (($user = get_user($user_guid)) && $user->isAdmin()) {
-			$result = true;
+		}
+
+		if($result && $strict) {
+			$group_names = array_map(function($group) {return $group->getDisplayName();}, RoleManager::getRolesByUser());
+			error_log($group_names);
+			$diff = array_diff($group_names, $role_names);
+			if(!empty($diff)) {
+				$result = false;
+			}
 		}
 	}
 
@@ -86,26 +98,31 @@ function nihcp_role_gatekeeper($role_names, $forward = true, $user_guid = 0) {
 	return $result;
 }
 
-function nihcp_investigator_gatekeeper($forward = true, $user_guid = 0) {
-	return nihcp_role_gatekeeper(RoleManager::INVESTIGATOR, $forward, $user_guid);
+function nihcp_investigator_gatekeeper($forward = true, $user_guid = 0, $strict = false) {
+	return nihcp_role_gatekeeper(RoleManager::INVESTIGATOR, $forward, $user_guid, $strict);
 }
 
-function nihcp_nih_approver_gatekeeper($forward = true, $user_guid = 0) {
-	return nihcp_role_gatekeeper(RoleManager::NIH_APPROVER, $forward, $user_guid);
+function nihcp_nih_approver_gatekeeper($forward = true, $user_guid = 0, $strict = false) {
+	return nihcp_role_gatekeeper(RoleManager::NIH_APPROVER, $forward, $user_guid, $strict);
 }
 
-function nihcp_domain_expert_gatekeeper($forward = true, $user_guid = 0) {
-	return nihcp_role_gatekeeper(RoleManager::DOMAIN_EXPERT, $forward, $user_guid);
+function nihcp_domain_expert_gatekeeper($forward = true, $user_guid = 0, $strict = false) {
+	return nihcp_role_gatekeeper(RoleManager::DOMAIN_EXPERT, $forward, $user_guid, $strict);
 }
 
-function nihcp_triage_coordinator_gatekeeper($forward = true, $user_guid = 0) {
-	return nihcp_role_gatekeeper(RoleManager::TRIAGE_COORDINATOR, $forward, $user_guid);
+function nihcp_triage_coordinator_gatekeeper($forward = true, $user_guid = 0, $strict = false) {
+	return nihcp_role_gatekeeper(RoleManager::TRIAGE_COORDINATOR, $forward, $user_guid, $strict);
 }
 
-function nihcp_vendor_admin_gatekeeper($forward = true, $user_guid = 0) {
-	return nihcp_role_gatekeeper(RoleManager::VENDOR_ADMIN, $forward, $user_guid);
+function nihcp_vendor_admin_gatekeeper($forward = true, $user_guid = 0, $strict = false) {
+	return nihcp_role_gatekeeper(RoleManager::VENDOR_ADMIN, $forward, $user_guid, $strict);
 }
 
-function nihcp_help_admin_gatekeeper($forward = true, $user_guid = 0) {
-	return nihcp_role_gatekeeper(RoleManager::HELP_ADMIN, $forward, $user_guid);
+function nihcp_help_admin_gatekeeper($forward = true, $user_guid = 0, $strict = false) {
+	return nihcp_role_gatekeeper(RoleManager::HELP_ADMIN, $forward, $user_guid, $strict);
+}
+
+function nihcp_credit_admin_gatekeeper($forward = true, $user_guid = 0, $strict = false) {
+	return nihcp_role_gatekeeper(RoleManager::CREDIT_ADMIN, $forward, $user_guid, $strict);
+
 }

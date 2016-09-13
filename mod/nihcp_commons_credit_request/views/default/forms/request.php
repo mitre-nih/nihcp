@@ -77,13 +77,8 @@ foreach($required_fields as $field) {
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:project_title:desc"); ?>
     <br />
-    <?php echo elgg_view('input/text', array(
-        'name' => 'project_title',
-        'value' => $project_title,
-        'id' => 'project_title',
-        'maxlength' => CommonsCreditRequest::PROJECT_TITLE_MAX_LENGTH,
-        'required' => 'true'
-        )); ?>
+    <textarea name='project_title' id='project_title' required='true' maxlength='<?php echo CommonsCreditRequest::PROJECT_TITLE_MAX_LENGTH ?>'><?php echo $project_title;?></textarea>
+
 </div>
 
 <div class="required-field">
@@ -92,11 +87,8 @@ foreach($required_fields as $field) {
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_linkage:desc"); ?>
     <br />
-    <?php echo elgg_view('input/text', array(
-        'name' => 'grant_linkage',
-        'value' => $grant_linkage,
-        'id' => 'grant_linkage',
-        'maxlength' => CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH)); ?>
+    <textarea name='grant_linkage' id='grant_linkage' required='true' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $grant_linkage;?></textarea>
+
 </div>
 
 <div class="required-field">
