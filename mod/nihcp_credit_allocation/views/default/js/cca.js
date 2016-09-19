@@ -4,6 +4,24 @@ define(function(require) {
     var autoNumeric = require("autoNumeric");
 
 	$(function() {
+		function registerCCADeleteButtonHandler() {
+			$('.cca-delete-button').click(function () {
+				var button = $(this);
+				var request_guid = button.data('request-guid'),
+					vendor_guid = button.data('vendor-guid');
+				elgg.action('nihcp_credit_allocation/delete', {
+					data: {request_guid: request_guid, vendor_guid: vendor_guid},
+					success: function (output) {
+						if (output.status !== -1) {
+							button.closest('tr').remove();
+						}
+					}
+				});
+			})
+		}
+		registerCCADeleteButtonHandler();
+
+
 		$('#nihcp-ccreq-cycle-select').change(function() {
 			var cycle_guid = $(this).val();
 			elgg.get('ajax/view/nihcp_credit_allocation/allocations/allocations_in_cycle', {
@@ -16,6 +34,7 @@ define(function(require) {
 					if (tableWidth > $(".elgg-page-default .elgg-page-body .elgg-inner").width()) {
 						$(".elgg-page-default .elgg-page-body .elgg-inner").css("max-width", $(".cca-overview-table").width() * 1.02);
 					}// 1.02 is to account for margins/paddings
+					registerCCADeleteButtonHandler();
 				}
 			});
 		});
@@ -30,6 +49,13 @@ define(function(require) {
 					data: {request_guid: request_guid},
 					success: function (output) {
 						if(output.status !== -1) {
+							$('.cca-allocate-link').each(function() {
+								var link = $(this);
+								var request_guid = link.data('request-guid'),
+									vendor_guid = link.data('vendor-guid');
+								var new_url = elgg.config.wwwroot+"nihcp_credit_allocation/balance_history/"+request_guid+'/'+vendor_guid;
+								link.attr('href', new_url);
+							});
 							$('.cca-allocation-status').text('Submitted');
 							$('#cca-allocate-button').remove();
 							$('.cca-action').remove();
@@ -40,19 +66,6 @@ define(function(require) {
 			}
 		});
 
-		$('.cca-delete-button').click(function() {
-			var button = $(this);
-			var request_guid = button.data('request-guid');
-			var vendor_guid = button.data('vendor-guid');
-			elgg.action('nihcp_credit_allocation/delete', {
-				data: {request_guid: request_guid, vendor_guid: vendor_guid},
-				success: function (output) {
-					if(output.status !== -1) {
-						button.closest('tr').remove();
-					}
-				}
-			});
-		})
 	});
 
 });

@@ -13,7 +13,7 @@ if($review_mode) {
 $requests = elgg_extract('requests', $vars, true);
 $full_view = elgg_extract('full_view', $vars, true);
 
-$show_action = ((count($requests) > 1 ? true : CommonsCreditAllocation::getAllocations($requests[0]->guid)[0]->status === CommonsCreditAllocation::STAGED_STATUS) && !$review_mode) || elgg_is_admin_logged_in();
+$show_action = ((count($requests) > 1 ? true : !CommonsCreditAllocation::isAllocated($requests[0]->guid)) && !$review_mode) || elgg_is_admin_logged_in();
 
 $content = '';
 
@@ -84,7 +84,7 @@ if($requests) {
 				$allocation_url = $allocation->status === CommonsCreditAllocation::STAGED_STATUS ?
 									elgg_get_site_url() . "nihcp_credit_allocation/allocate/$request_guid/$vendor_guid" :
 									elgg_get_site_url() . "nihcp_credit_allocation/balance_history/$request_guid/$vendor_guid";
-				$row .= "<td><a href=\"$allocation_url\">$credit_allocated</a></td>";
+				$row .= "<td><a class=\"cca-allocate-link\" data-request-guid=$request_guid data-vendor-guid=$vendor_guid href=\"$allocation_url\">$credit_allocated</a></td>";
 
 				$credit_remaining = $allocation->credit_remaining;
 				$row .= "<td>$credit_remaining</td>";

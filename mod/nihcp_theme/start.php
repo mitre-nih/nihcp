@@ -179,7 +179,7 @@ function nihcp_password_verify($hook, $type, $return_value, $params) {
 	}
 
 	if (!preg_match('#.*^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@\#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?]).*$#', $password)) {
-		throw new \RegistrationException('Your password is not strong enough');
+		throw new \RegistrationException('Your password must be at least 8 characters in length and contain at least one of each of the following: lowercase letter, uppercase letter, number, and special character.');
 	}
 
 	return true;

@@ -64,6 +64,8 @@ function nihcp_credit_allocation_page_handler($page) {
 }
 
 function nihcp_credit_allocation_handle_notifications($event, $object_type, $object) {
+
+	$ia = elgg_set_ignore_access();
 	$users = $object['users'];
 	$subject = elgg_echo('nihcp_credit_allocation:notify:subject');
 	foreach($users as $user_guid) {
@@ -94,5 +96,7 @@ function nihcp_credit_allocation_handle_notifications($event, $object_type, $obj
 		}
 		//$body .= "</table>";
 		elgg_send_email(elgg_get_config('siteemail'), $user->email, $subject, $body, []);
+
+		elgg_set_ignore_access($ia);
 	}
 }

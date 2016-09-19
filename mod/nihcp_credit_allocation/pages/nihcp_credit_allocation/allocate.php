@@ -1,11 +1,11 @@
 <?php
-use Nihcp\Entity\CommonsCreditRequest;
+namespace Nihcp\Entity;
 
 $request_guid = get_input("request_guid");
 $vendor_guid = get_input("vendor_guid");
 
 $current_request = get_entity($request_guid);
-if(!$current_request instanceof CommonsCreditRequest || $current_request->status !== CommonsCreditRequest::APPROVED_STATUS) {
+if(!$current_request instanceof CommonsCreditRequest || $current_request->status !== CommonsCreditRequest::APPROVED_STATUS || CommonsCreditAllocation::isAllocated($request_guid)) {
 	register_error(elgg_echo('error:404:content'));
 	forward('/nihcp_commons_credit_request/overview');
 }

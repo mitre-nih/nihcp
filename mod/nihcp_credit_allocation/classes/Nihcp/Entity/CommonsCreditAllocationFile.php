@@ -276,6 +276,7 @@ class CommonsCreditAllocationFile extends \ElggObject {
      *
      */
     private function processFile() {
+        $ia = elgg_set_ignore_access();
         $file = new \FilePluginFile($this->file_guid);
 
         ini_set('auto_detect_line_endings',TRUE);
@@ -290,9 +291,15 @@ class CommonsCreditAllocationFile extends \ElggObject {
             while (!feof($csv)) {
                 $line_number++;
                 $line = fgetcsv($csv);
-                if (empty($line[0])) { // empty line denotes end of the file
+
+                while (!feof($csv) && empty($line[0])) { // skip blank lines
+                    $line_number++;
+                    $line = fgetcsv($csv);
+                }
+                if (feof($csv) || empty($line[0])) { // check if we're at the end of the file
                     break;
                 }
+
                 if (!$this->validateData($line, $line_number)) {
                     return false;
                 }
@@ -317,14 +324,21 @@ class CommonsCreditAllocationFile extends \ElggObject {
         while (!feof($csv)) {
             $line_number++;
             $line = fgetcsv($csv);
-            if (empty($line[0])) { // empty line denotes end of the file
+
+            while (!feof($csv) && empty($line[0])) { // skip blank lines
+                $line_number++;
+                $line = fgetcsv($csv);
+            }
+            if (feof($csv) || empty($line[0])) { // check if we're at the end of the file
                 break;
             }
+
             array_push($users, $this->ingestLine($line, $line_number));
         }
 
         elgg_log("Finished ingesting file.", Logger::INFO);
 		elgg_trigger_event('ingested', 'object:'.self::SUBTYPE, ['users' => array_unique($users)]);
+        elgg_set_ignore_access($ia);
         return true;
     }
 
@@ -412,7 +426,7 @@ class CommonsCreditAllocationFile extends \ElggObject {
 
     private function ingestLine($account_data_array, $line_number) {
 
-        $ia = elgg_set_ignore_access();
+
         $request_guid = CommonsCreditRequest::getRequestGUIDfromCCREQID(trim($account_data_array[1]));
         $status = CommonsCreditAllocation::UPDATED_STATUS;
 		$vendor_id = trim($account_data_array[2]);
@@ -448,7 +462,7 @@ class CommonsCreditAllocationFile extends \ElggObject {
 
 		$allocation->owner_guid = get_entity($request_guid)->getOwnerGUID();
 
-        $allocation->vendor = $account_data_array[2];
+        $allocation->vendor = $vendor_id;
         $allocation->cloud_account_id = trim($account_data_array[3]);
         $allocation->credit_remaining = $new_remaining;
         $allocation->credit_allocated = $new_initial;
@@ -459,7 +473,7 @@ class CommonsCreditAllocationFile extends \ElggObject {
 		add_entity_relationship($request_guid, CommonsCreditAllocation::RELATIONSHIP_CCREQ_TO_ALLOCATION, $allocation->getGUID());
 		add_entity_relationship($this->file_guid, CommonsCreditAllocationFile::RELATIONSHIP_FILE_TO_CCA, $allocation->getGUID());
 
-        elgg_set_ignore_access($ia);
+
 
 		return $allocation->getOwnerGUID();
     }

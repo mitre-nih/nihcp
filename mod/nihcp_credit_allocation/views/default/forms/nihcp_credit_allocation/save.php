@@ -16,11 +16,6 @@ foreach ($entity::getFields() as $field => $field_vars) {
         $field_vars['value'] = $entity->$field;
     }
 
-    // If the field is required add a * to the label
-    if ($field_vars['required']) {
-        $field_vars['label'] .= '*';
-    }
-
     //Echo out each field
     switch ($field_vars['type']) {
         case 'input/checkbox':

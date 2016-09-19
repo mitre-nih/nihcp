@@ -31,6 +31,7 @@ class CommonsCreditAllocation extends \ElggObject {
 		$saved = false;
 		if ($new_allocation->validateNewAllocationAmount($credit_allocated, $request_guid)) {
 			$new_allocation->credit_allocated = $credit_allocated;
+			$new_allocation->credit_remaining = $credit_allocated;
 			$saved = $new_allocation->save() ? true : false;
 		} else {
 			register_error('Unable to allocate that amount');
@@ -91,11 +92,11 @@ class CommonsCreditAllocation extends \ElggObject {
 	 * exist for the same cloud account. However, this method will return only the newest, or most recently updated CCA
 	 * entity per cloud account.
 	 *
-	 * @param $request_id
+	 * @param $request_guid
 	 * @return bool|\ElggEntity[]|mixed
 	 */
-	public static function getAllocations($request_id) {
-		if(!$request_id) {
+	public static function getAllocations($request_guid) {
+		if(!$request_guid) {
 			return false;
 		}
 		$entities = elgg_get_entities_from_relationship([
@@ -103,7 +104,7 @@ class CommonsCreditAllocation extends \ElggObject {
 			'subtype' => CommonsCreditAllocation::SUBTYPE,
 			'limit' => 0,
 			'relationship' => CommonsCreditAllocation::RELATIONSHIP_CCREQ_TO_ALLOCATION,
-			'relationship_guid' => $request_id
+			'relationship_guid' => $request_guid
 		]);
 
 		// group by vendor first
@@ -169,6 +170,20 @@ class CommonsCreditAllocation extends \ElggObject {
 			],
 		]);
 		return $entities;
+	}
+
+	public static function isAllocated($request_guid) {
+		$is_allocated = false;
+		$allocations = self::getAllocations($request_guid);
+		if(!empty($allocations)) {
+			$is_allocated = true;
+		}
+		foreach($allocations as $allocation) {
+			if($allocation->status === CommonsCreditAllocation::STAGED_STATUS) {
+				$is_allocated = false;
+			}
+		}
+		return $is_allocated;
 	}
 
 

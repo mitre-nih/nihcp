@@ -42,5 +42,7 @@ return [
 	'nihcp_credit_allocation:submit:areyousure' => 'Are you sure you want to submit your allocations? This is a binding action and cannot be reversed once confirmed.',
 	'nihcp_credit_allocation:notify:subject' => 'NIH Commons Credits Allocations Updated',
 	'nihcp_credit_allocation:notify:body' => '%s,
-Your remaining NIH Commons Credits have been updated to the following:'
+Your remaining NIH Commons Credits have been updated to the following:',
+	'nihcp_credit_allocation:action:allocate' => 'Allocate',
+	'nihcp_credit_allocation:action:view_allocation' => 'View Allocation',
 ];

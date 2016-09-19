@@ -56,11 +56,13 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
 
         echo "<h3>Review Summary</h3>";
 
-        echo "<div class='pvm'>";
+		if($acco) {
+			echo "<div class='pvm'>";
 
-        echo elgg_view_entity($acco);
+			echo elgg_view_entity($acco);
 
-        echo "</div>";
+			echo "</div>";
+		}
 
         echo "<div class='pvm'>";
 
@@ -125,11 +127,15 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
 
             echo "</div>";
 
-            echo "<div class='pvm'>";
+			if($final_recommendation) {
 
-            echo elgg_view_entity($final_recommendation);
+				echo "<div class='pvm'>";
 
-            echo "</div>";
+				echo elgg_view_entity($final_recommendation);
+
+				echo "</div>";
+			}
+
         }
     }
 }

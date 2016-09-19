@@ -14,7 +14,9 @@ pseudo_atomic_set_ignore_access(function() {
     $request = get_entity($request_guid);
     $project_title = $request->project_title;
 
-    $reviews = RiskBenefitScore::getRiskBenefitScoreEntitiesForRequest($request_guid);
+    $reviews = nihcp_domain_expert_gatekeeper(false) && !elgg_is_admin_logged_in() ?
+		RiskBenefitScore::getEntitiesForRequestAndDomainExpert($request_guid, elgg_get_logged_in_user_guid()) :
+		RiskBenefitScore::getRiskBenefitScoreEntitiesForRequest($request_guid);
 
 
     $content = "";

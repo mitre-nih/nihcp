@@ -82,7 +82,6 @@ function nihcp_role_gatekeeper($role_names, $forward = true, $user_guid = 0, $st
 
 		if($result && $strict) {
 			$group_names = array_map(function($group) {return $group->getDisplayName();}, RoleManager::getRolesByUser());
-			error_log($group_names);
 			$diff = array_diff($group_names, $role_names);
 			if(!empty($diff)) {
 				$result = false;

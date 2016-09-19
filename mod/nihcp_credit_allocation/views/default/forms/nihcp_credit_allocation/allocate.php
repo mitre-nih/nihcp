@@ -6,7 +6,7 @@ $request_guid = elgg_extract('request_guid', $vars, false);
 $vendor_guid = elgg_extract('vendor_guid', $vars, false);
 
 $request = get_entity($request_guid);
-$vendor = get_entity($vendor_guid);
+$vendor = pseudo_atomic_set_ignore_access(function($guid) {return get_entity($guid);}, $vendor_guid);
 
 echo "<h2 class=\"mbl\">$request->project_title</h2>";
 
