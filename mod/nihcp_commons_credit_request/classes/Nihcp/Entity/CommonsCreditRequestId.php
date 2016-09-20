@@ -66,11 +66,11 @@ class CommonsCreditRequestId extends \ElggObject {
 	public static function assignToRequest($request_guid) {
 		if(!elgg_instanceof(get_entity($request_guid), 'object', CommonsCreditRequest::SUBTYPE)
 			|| get_entity($request_guid)->getRequestIdEntity()
-			|| get_entity($request_guid)->status == CommonsCreditRequest::DRAFT_STATUS) {
+			|| get_entity($request_guid)->status === CommonsCreditRequest::DRAFT_STATUS) {
 			return false;
 		}
 		$ccreq_id_entity = pseudo_atomic_set_ignore_access(function($_request_guid) {
-			return CommonsCreditRequestId::generateForRequest($_request_guid);;
+			return CommonsCreditRequestId::generateForRequest($_request_guid);
 		}, $request_guid);
 		if(!$ccreq_id_entity) {
 			return false;

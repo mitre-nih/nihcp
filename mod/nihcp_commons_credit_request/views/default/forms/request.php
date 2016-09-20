@@ -382,7 +382,7 @@ foreach($required_fields as $field) {
 	<div class="ccreq-file-upload">
 		<?php
 			if($pricing_upload_file) {
-				echo elgg_view("output/url", ['file_guid' => $pricing_upload_file->guid, 'class' => 'elgg-button elgg-button-action ccreq-delete-file-button', 'text' => '&#10006;', 'title'=>elgg_echo('nihcp_commons_credit_request:ccreq:deletefiletooltip')]);
+				echo elgg_view("output/url", ['file_guid' => $pricing_upload_file->guid, 'class' => 'elgg-button elgg-button-action ccreq-delete-file-button mrs mbs', 'text' => '&#10006;', 'title'=>elgg_echo('nihcp_commons_credit_request:ccreq:deletefiletooltip')]);
 				echo elgg_view("output/url", ['text' => $pricing_upload_file->title, 'href' => "/file/download/$pricing_upload_file->guid"]);
 			}
 		?>
@@ -401,7 +401,7 @@ foreach($required_fields as $field) {
 	<div class="ccreq-file-upload">
 		<?php
 			if($supplementary_materials_upload_file) {
-				echo elgg_view("output/url", ['file_guid' => $supplementary_materials_upload_file->guid, 'class' => 'elgg-button elgg-button-action ccreq-delete-file-button', 'text' => '&#10006;', 'title'=>elgg_echo('nihcp_commons_credit_request:ccreq:deletefiletooltip')]);
+				echo elgg_view("output/url", ['file_guid' => $supplementary_materials_upload_file->guid, 'class' => 'elgg-button elgg-button-action ccreq-delete-file-button mrs mbs', 'text' => '&#10006;', 'title'=>elgg_echo('nihcp_commons_credit_request:ccreq:deletefiletooltip')]);
 				echo elgg_view("output/url", ['text' => $supplementary_materials_upload_file->title, 'href' => "/file/download/$supplementary_materials_upload_file->guid"]);
 			}
 		?>

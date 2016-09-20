@@ -306,10 +306,13 @@ function nihcp_hide_page_comments($hook, $type, $return_value, $params) {
  */
 function nihcp_file_page_handler($page) {
 
-	nihcp_role_gatekeeper([\Nihcp\Manager\RoleManager::TRIAGE_COORDINATOR, \Nihcp\Manager\RoleManager::DOMAIN_EXPERT, \Nihcp\Manager\RoleManager::NIH_APPROVER, \Nihcp\Manager\RoleManager::VENDOR_ADMIN]);
-
 	if (!isset($page[0])) {
 		$page[0] = 'all';
+	}
+
+	if(array_search($page[0], ['view', 'download']) !== false && $page[1] && get_entity($page[1])) {
+	} else {
+		nihcp_role_gatekeeper([\Nihcp\Manager\RoleManager::TRIAGE_COORDINATOR, \Nihcp\Manager\RoleManager::DOMAIN_EXPERT, \Nihcp\Manager\RoleManager::NIH_APPROVER, \Nihcp\Manager\RoleManager::VENDOR_ADMIN]);
 	}
 
 	$file_dir = elgg_get_plugins_path() . 'file/pages/file';

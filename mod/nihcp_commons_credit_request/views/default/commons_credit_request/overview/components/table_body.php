@@ -23,14 +23,18 @@ if(!empty($requests)) {
 			));
 		}
 
-		$allocation_action = \Nihcp\Entity\CommonsCreditAllocation::isAllocated($request->getGUID()) ? 'view_allocation' : 'allocate';
+		if(elgg_is_active_plugin('nihcp_credit_allocation')) {
+			$allocation_action = \Nihcp\Entity\CommonsCreditAllocation::isAllocated($request->getGUID()) ? 'view_allocation' : 'allocate';
 
-		if ($request->status === CommonsCreditRequest::APPROVED_STATUS) {
-			$action_button = elgg_view('input/button', array(
-				'value' => elgg_echo("nihcp_credit_allocation:action:$allocation_action"),
-				'class' => 'elgg-button-submit ccreq-allocate-button',
-				'onclick' => "location.href='" . elgg_get_site_url() . "nihcp_credit_allocation/allocations/$request->guid';"
-			));
+			if ($request->status === CommonsCreditRequest::APPROVED_STATUS) {
+				$action_button = elgg_view('input/button', array(
+					'value' => elgg_echo("nihcp_credit_allocation:action:$allocation_action"),
+					'class' => 'elgg-button-submit ccreq-allocate-button',
+					'onclick' => "location.href='" .
+						elgg_get_site_url() .
+						"nihcp_credit_allocation/allocations/$request->guid';"
+				));
+			}
 		}
 
 		$credit_amount = $request->getExpectedCostTotal();
