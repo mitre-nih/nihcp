@@ -28,6 +28,18 @@ table a {
 	display:block;
 }
 
+#proposed_research {
+    height: 300px;
+}
+
+#datasets, #applications_tools, #workflows {
+    height: 200px;
+}
+
+textarea {
+    resize:vertical;
+}
+
 /* Terms and Conditions page formatting */
 
 p.MsoNormal, li.MsoNormal, div.MsoNormal

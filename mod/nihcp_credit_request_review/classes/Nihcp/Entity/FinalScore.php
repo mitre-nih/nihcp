@@ -62,6 +62,12 @@ class FinalScore extends \ElggObject {
         return null;
     }
 
+    public static function hasFinalScores($request_guid) {
+        return !(empty(self::getFinalScoreDatasetsFromRequestGuid($request_guid))
+            && empty(self::getFinalScoreAppsToolsFromRequestGuid($request_guid))
+            && empty(self::getFinalScoreWorkflowsFromRequestGuid($request_guid)));
+    }
+
     public static function getFinalScoreDatasetsFromRequestGuid($request_guid) {
         return self::getFinalScoreGuidFromRequestGuid($request_guid, CommonsCreditRequest::DATASETS);
     }

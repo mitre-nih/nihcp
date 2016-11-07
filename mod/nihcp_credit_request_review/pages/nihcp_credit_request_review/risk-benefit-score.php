@@ -30,8 +30,11 @@ if ( ( nihcp_domain_expert_gatekeeper(false) && RiskBenefitScore::isDomainExpert
 // or for NAs and DEs after TC completely finishes review.
     } else if ( !empty($rb_entity) && (nihcp_triage_coordinator_gatekeeper(false) || $request_entity->isComplete()) ) {
         $content = elgg_view_entity($rb_entity);
+    } else if ($request_entity->isComplete()) {
+        $content = elgg_echo("nihcp_credit_request_review:no_review");
     } else {
-        $content = elgg_echo('nihcp_credit_request_review:no_access');
+
+        $content = elgg_echo("nihcp_credit_request_review:no_access");
     }
 
     elgg_set_ignore_access($ia);

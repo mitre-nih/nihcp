@@ -23,6 +23,7 @@ return [
 
 	'nihcp_commons_credit_request:ccreq:new' => 'New Request',
 	'nihcp_commons_credit_request:ccreq:more' => 'More requests',
+	'nihcp_commons_credit_request:ccreq:more_and_allocate' => 'View requests / Allocate credits',
 	'nihcp_commons_credit_request:ccreq:none' => 'No requests found',
 
 	// Commons Credit Request form fields
@@ -32,17 +33,31 @@ return [
 
     'nihcp_commons_credit_request:ccreq:project_title' => 'Project Title',
     'nihcp_commons_credit_request:ccreq:project_title:desc' => '(Limit '. CommonsCreditRequest::PROJECT_TITLE_MAX_LENGTH .' characters)',
-    'nihcp_commons_credit_request:ccreq:grant_linkage' => 'Grant Linkage',
-    'nihcp_commons_credit_request:ccreq:grant_linkage:desc' => 'Provide the active NIH Grant Title and NIH Grant ID. Add Institute Center (IC) information if this is an internal grant ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
-    'nihcp_commons_credit_request:ccreq:proposed_research' => 'Proposed Research and Impact',
-    'nihcp_commons_credit_request:ccreq:proposed_research:desc' => 'Describe and provide rationale for proposed research. Identify research communities impacted and likely to reuse the results of your research. Attach external document (s), if this field space is insufficient (Limit ' . CommonsCreditRequest::PROPOSED_RESEARCH_MAX_LENGTH . ' characters). Attachments should be uploaded as one zipped archive labelled "supporting documents"',
+
+	// Grant Linkage Fields
+	'nihcp_commons_credit_request:ccreq:grant_linkage' => 'Grant Linkage',
+	'nihcp_commons_credit_request:ccreq:nih_program_officer_name' => 'NIH Program Officer Name',
+	'nihcp_commons_credit_request:ccreq:nih_program_officer_email' => 'NIH Program Officer Email',
+	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact' => 'Alternative Grant Verification Contact',
+	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_title' => 'Alternative Grant Verification Contact Title',
+	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_email' => 'Alternative Grant Verification Contact Email',
+	'nihcp_commons_credit_request:ccreq:grant_id' => 'Grant ID',
+    'nihcp_commons_credit_request:ccreq:nih_program_officer_name:desc' => '(First Middle Last) If there is no program officer for this grant, please put N/A and fill out the Alternative Grant Verification Contact fields ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
+	'nihcp_commons_credit_request:ccreq:nih_program_officer_email:desc' => 'Provide active NIH-official email account. This is required for validation of your NIH-awarded grant ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
+	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact:desc' => '(First Middle Last) This field is only required if a program officer is not declared. Please provide the full name of your NIH-sponsored contact that distributed official confirmation of your award ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
+	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_title:desc' => 'This field is only required if a program officer is not declared. Provide the current position title of your alternative grant verification contact ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
+	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_email:desc' => 'This field is only required if a program officer is not declared. Provide active institutional email account of your contact ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
+	'nihcp_commons_credit_request:ccreq:grant_id:desc' => 'Check that the listed Grant ID can be validated in NIH RePORTER. The Grant ID in NIH RePORTER (<a href="https://projectreporter.nih.gov/reporter.cfm">https://projectreporter.nih.gov/reporter.cfm</a>) must populate active identified grant. If the grant is not available in NIH RePORTER, please describe rationale here. In some circumstances, validation of your grant may be required by your project officer ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
+
+	'nihcp_commons_credit_request:ccreq:proposed_research' => 'Proposed Research and Impact',
+    'nihcp_commons_credit_request:ccreq:proposed_research:desc' => 'Describe and provide rationale for proposed research. Identify research communities impacted and likely to reuse the results of your research. Attach external document (s), if this field space is insufficient. Attach any Data Use Agreements (DUA) here if applicable. (Limit ' . CommonsCreditRequest::PROPOSED_RESEARCH_MAX_LENGTH . ' characters). Attachments should be uploaded as one zipped archive labeled "supporting documents"',
     'nihcp_commons_credit_request:ccreq:productivity_gain' => 'Productivity gain through the use of Commons',
-    'nihcp_commons_credit_request:ccreq:productivity_gain:desc' => 'Provide your assessment of how much more research you can accomplish for the same credit award using Commons credit versus other approaches you would normally adopt ' . '(Limit ' . CommonsCreditRequest::PRODUCTIVITY_GAIN_MAX_LENGTH . ' characters)',
+    'nihcp_commons_credit_request:ccreq:productivity_gain:desc' => 'Provide your assessment of how much more research you can accomplish for the same credit award using Commons credits versus other approaches you would normally adopt ' . '(Limit ' . CommonsCreditRequest::PRODUCTIVITY_GAIN_MAX_LENGTH . ' characters)',
     'nihcp_commons_credit_request:ccreq:unique_resource_access' => 'Unique Resource Access',
     'nihcp_commons_credit_request:ccreq:unique_resource_access:desc' => 'Explain how the credit obtained will provide computational or data resources not currently available at your institution datacenter or laboratory ' . '(Limit ' . CommonsCreditRequest::UNIQUE_RESOURCE_ACCESS_MAX_LENGTH . ' characters)',
     'nihcp_commons_credit_request:ccreq:past_experience' => 'Past experience with Commons conformant objects',
     'nihcp_commons_credit_request:ccreq:past_experience:desc' => 'Describe research projects in which you have already used Commons objects ' . '(Limit ' . CommonsCreditRequest::PAST_EXPERIENCE__MAX_LENGTH . ' characters)',
-    'nihcp_commons_credit_request:ccreq:digital_objects:desc' => 'Digital Object Classes such as Datasets, Applications/Tools, or Workflows that may be contributed to the Commons, should the credit be approved and research completed. For each of the following, please leave blank if not applicable.',
+    'nihcp_commons_credit_request:ccreq:digital_objects:desc' => 'Digital Objects generated from biomedical research such as Datasets, Applications/Tools, or Workflows that are pledged to the Commons, should the credit be approved and research completed. Investigators are not expected to share all Data Objects generated by this research, but rather the Data Objects that may be deemed valuable to the Commons community, which is at the discretion of the researcher. For each of the following, please leave blank if not applicable.',
     'nihcp_commons_credit_request:ccreq:datasets' => 'Datasets',
     'nihcp_commons_credit_request:ccreq:datasets:desc' => 'List each Dataset with descriptions and potential value to the Commons. If possible, include information on the metadata, vocabularies, formats, models, dictionaries, normalization, accuracy and precision, data query and access mechanisms, size, and whether any of these Datasets is currently indexed ' . '(Limit ' . CommonsCreditRequest::DATASETS_MAX_LENGTH . ' characters)',
     'nihcp_commons_credit_request:ccreq:applications_tools' => 'Applications/Tools',

@@ -15,11 +15,10 @@ $request_entity = get_entity($request_guid);
 if ( nihcp_role_gatekeeper(array(RoleManager::NIH_APPROVER, RoleManager::TRIAGE_COORDINATOR), false)
     || (!empty($request_entity) && $request_entity->getOwnerGUID() == elgg_get_logged_in_user_guid()) ) {
 
-
     $ia = elgg_set_ignore_access(true);
 
-    $feedback_guid = Feedback::getFeedback($request_guid);
-    $content = elgg_view_entity(get_entity($feedback_guid));
+    $feedback = Feedback::getFeedback($request_guid);
+    $content = elgg_view_entity($feedback);
 
     elgg_set_ignore_access($ia);
 
@@ -28,7 +27,6 @@ if ( nihcp_role_gatekeeper(array(RoleManager::NIH_APPROVER, RoleManager::TRIAGE_
         'content' => $content,
         'filter' => ''
     );
-
 
     $body = elgg_view_layout('one_column', $params);
 

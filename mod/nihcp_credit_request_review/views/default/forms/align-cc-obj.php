@@ -21,7 +21,7 @@ if (!empty($request_guid)) {
     echo "</div>";
 }
 
-echo "<div>";
+echo "<div class='pvl'>";
 
 if (isset($alignment_commons_credits_objectives) && $alignment_commons_credits_objectives->question1) {
     echo elgg_view('input/checkbox', array(
@@ -38,54 +38,7 @@ if (isset($alignment_commons_credits_objectives) && $alignment_commons_credits_o
 echo "<div class=\"elgg-icon-info-hover elgg-icon tooltip mlm\"><span class=\"tooltiptext\">".elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:tooltip1")."</span></div>";
 echo "</div>";
 
-echo "<div>";
 
-if (isset($alignment_commons_credits_objectives) && $alignment_commons_credits_objectives->question2) {
-    echo elgg_view('input/checkbox', array(
-        'name' => 'question2',
-        'id' => 'question2',
-        'label' => elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:question2"),
-        'checked' => true));
-} else {
-    echo elgg_view('input/checkbox', array(
-        'name' => 'question2',
-        'id' => 'question2',
-        'label' => elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:question2")));
-}
-echo "<div class=\"elgg-icon-info-hover elgg-icon tooltip mlm\"><span class=\"tooltiptext\">".elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:tooltip2")."</span></div>";
-echo "</div>";
-
-echo "<div>";
-if (isset($alignment_commons_credits_objectives) && $alignment_commons_credits_objectives->question3) {
-    echo elgg_view('input/checkbox', array(
-        'name' => 'question3',
-        'id' => 'question3',
-        'label' => elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:question3"),
-        'checked' => true));
-} else {
-    echo elgg_view('input/checkbox', array(
-        'name' => 'question3',
-        'id' => 'question3',
-        'label' => elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:question3")));
-}
-echo "<div class=\"elgg-icon-info-hover elgg-icon tooltip mlm\"><span class=\"tooltiptext\">".elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:tooltip3")."</span></div>";
-echo "</div>";
-
-echo "<div>";
-if (isset($alignment_commons_credits_objectives) && $alignment_commons_credits_objectives->question4) {
-    echo elgg_view('input/checkbox', array(
-        'name' => 'question4',
-        'id' => 'question4',
-        'label' => elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:question4"),
-        'checked' => true));
-} else {
-    echo elgg_view('input/checkbox', array(
-        'name' => 'question4',
-        'id' => 'question4',
-        'label' => elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:question4")));
-}
-echo "<div class=\"elgg-icon-info-hover elgg-icon tooltip mlm\"><span class=\"tooltiptext\">".elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:tooltip4")."</span></div>";
-echo "</div>";
 
 elgg_set_ignore_access($ia);
 

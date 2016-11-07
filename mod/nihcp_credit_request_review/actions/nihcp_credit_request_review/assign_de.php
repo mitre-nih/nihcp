@@ -41,7 +41,15 @@ if (nihcp_triage_coordinator_gatekeeper()) {
             }
         }
 
-
+		if(elgg_is_active_plugin('nihcp_notifications')) {
+			$de = get_entity($assign_de_guid);
+			$subject = elgg_echo('nihcp_notifications:notify:assign_de:subject');
+			$message = elgg_echo('nihcp_notifications:notify:assign_de:body', [$de->getDisplayName(), $request->getRequestId()]);
+			$summary = elgg_echo('nihcp_notifications:notify:assign_de:summary', [$de->getDisplayName(), $request->getRequestId()]);
+			notify_user($assign_de_guid, elgg_get_site_entity()->getGUID(), $subject, $message,
+				$params = ['object' => $request, 'action' => 'assign_de', 'summary' => $summary],
+				$methods_override = 'email');
+		}
     } else if ($unassign_de_guid) {
         $rb_score_entities = RiskBenefitScore::getEntitiesForRequestAndDomainExpert($request_guid, $unassign_de_guid);
 

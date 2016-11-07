@@ -41,4 +41,4 @@ foreach ($entity::getFields() as $field => $field_vars) {
     }
 }
 
-echo '<div>' . elgg_view('input/submit', ['value' => 'Save']) . '</div>';
+echo '<div>' . elgg_view('input/submit', ['value' => 'Submit']) . '</div>';

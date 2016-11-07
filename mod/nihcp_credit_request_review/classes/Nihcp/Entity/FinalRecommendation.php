@@ -20,11 +20,11 @@ class FinalRecommendation extends \ElggObject {
 
 	public static function isValidStatus($s) {
 		$statuses = [self::RECOMMEND, self::DOWNSELECT];
-		return !(array_search($s, $statuses) === false);
+		return in_array($s, $statuses);
 	}
 
 	public static function isReviewCompleted($request_guid) {
-		return get_entity(self::getFinalRecommendation($request_guid))->status == 'Completed';
+		return self::getFinalRecommendation($request_guid) && get_entity(self::getFinalRecommendation($request_guid))->status === 'Completed';
 	}
 
 	public static function getFinalRecommendation($request_guid) {

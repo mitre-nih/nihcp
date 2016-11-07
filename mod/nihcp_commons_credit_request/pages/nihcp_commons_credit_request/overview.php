@@ -6,7 +6,8 @@ $ia = elgg_set_ignore_access();
 
 $cycles = CommonsCreditCycle::getCycles($omit_future = true);
 
-$selected_cycle_guid = CommonsCreditCycle::getActiveCycleGUID();
+$session = elgg_get_session();
+$selected_cycle_guid = $session->get('ccr_prev_selected_cycle', CommonsCreditCycle::getActiveCycleGUID());
 
 $params = array(
     'title' => elgg_echo("nihcp_commons_credit_request"),

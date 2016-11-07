@@ -68,12 +68,15 @@ class RiskBenefitScore extends \ElggObject {
     }
 
     public static function getRiskBenefitScoreEntitiesForRequest($request_guid) {
-        return elgg_get_entities_from_relationship(array(
+        $ia = elgg_set_ignore_access();
+        $entities = elgg_get_entities_from_relationship(array(
             'relationship' => self::RELATIONSHIP_CCREQ_TO_RB_SCORE,
             'relationship_guid' => $request_guid,
             'type' => 'object',
             'subtype' => self::SUBTYPE
         ));
+        elgg_set_ignore_access($ia);
+        return $entities;
     }
 
     public static function hasAssignedRiskBenefitScores($request_guid) {
@@ -89,9 +92,7 @@ class RiskBenefitScore extends \ElggObject {
             return false;
         }
         $result = true;
-        error_log(count($assigned_reviews));
         foreach($assigned_reviews as $review) {
-            error_log("status: " . $review->status);
             if ($review->status != self::COMPLETED_STATUS) {
                 $result = false;
             }

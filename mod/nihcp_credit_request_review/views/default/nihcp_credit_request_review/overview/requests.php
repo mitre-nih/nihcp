@@ -5,6 +5,8 @@ use Nihcp\Manager\RoleManager;
 nihcp_role_gatekeeper([RoleManager::TRIAGE_COORDINATOR, RoleManager::NIH_APPROVER, RoleManager::DOMAIN_EXPERT]);
 
 $cycle_guid = elgg_extract('cycle_guid', $vars);
+$session = elgg_get_session();
+$session->set('crr_prev_selected_cycle', $cycle_guid);
 $ia = elgg_set_ignore_access();
 $cycle = get_entity($cycle_guid);
 $requests = CommonsCreditRequest::sort($cycle->getRequests());
@@ -74,7 +76,6 @@ if($requests) {
 
 			$credit_amount = $request->getExpectedCostTotal();
 
-
 			$row = "<tr id=\"$request->guid\">";
 
 			$project_url = elgg_get_site_url() . "nihcp_credit_request_review/review/$request->guid";
@@ -86,7 +87,17 @@ if($requests) {
 				}
 				$row .= "<td>$request->submission_date</td>";
 			}
-			$row .= "<td class='ccreq-status'>$request->status</td>";
+			$row .= "<td class='ccreq-status'>";
+			if(elgg_is_admin_logged_in()) {
+				$statuses = [CommonsCreditRequest::SUBMITTED_STATUS, CommonsCreditRequest::COMPLETED_STATUS];
+				if(!in_array($request->status, $statuses)) {
+					$statuses[] = $request->status;
+				}
+				$row .= elgg_view('input/select', ['options' => $statuses, 'value' => $request->status, 'x-status' => $request->status, 'class' => 'crr-status-select']);
+			} else {
+				$row .= $request->status;
+			}
+			$row .= "</td>";
 			if ($full_view) {
 
 				if ($request->status == 'Withdrawn') { // no review needs to take place
@@ -100,13 +111,21 @@ if($requests) {
 					$align_cc_obj_guid = AlignmentCommonsCreditsObjectives::getFromRequestGuid($request->getGUID());
 
 					if (empty($align_cc_obj_guid) || $is_nih_approver_and_review_not_complete) {
-						$align_cc_obj_link = elgg_view_icon('attention-hover');
+						$align_cc_obj_link = "<div class='crr-overview-incomplete-icon'>&#x26AA;</div>";
 					} else {
 
 						$align_cc_obj_link = get_entity($align_cc_obj_guid)->pass() ? "Pass" : "Fail";
 					}
 					$align_cc_obj_form_url = elgg_get_site_url() . "nihcp_credit_request_review/align-cc-obj/" . $request->getGUID();
-					$row .= "<td><a href='" . $align_cc_obj_form_url . "'>" . $align_cc_obj_link . "</a></td>";
+					$td = "<td><a href='" . $align_cc_obj_form_url . "'>" . $align_cc_obj_link . "</a></td>";
+
+					// check if theres nothing to show
+					if (empty($align_cc_obj_guid) && $request->isComplete()) {
+						$td = "<td>No Review</td>";
+					}
+					$row .= $td;
+
+
 					// check if there is anything to score
 					if (empty($request->datasets) && empty($request->applications_tools) && empty($request->workflows) ) {
 						$row .="<td>N/A</td>";
@@ -117,10 +136,15 @@ if($requests) {
 
 							$general_score_link = GeneralScore::getTableCellView($request->getGUID());
 						} else {
-							$general_score_link = elgg_view_icon('attention-hover');
+							$general_score_link = "<div class='crr-overview-incomplete-icon'>&#x26AA;</div>";
 						}
 						$general_score_url = elgg_get_site_url() . "nihcp_credit_request_review/general-score-overview/" . $request->getGUID();
-						$row .= "<td><a href='" . $general_score_url . "'>" . $general_score_link . "</a></td>";
+						$td = "<td><a href='" . $general_score_url . "'>" . $general_score_link . "</a></td>";
+
+						if (!GeneralScore::hasAnyReviews($request->guid) && $request->isComplete()) {
+							$td = $td = "<td>No Review</td>";
+						}
+						$row .= $td;
 					}
 
 					// check if there is anything to score
@@ -133,9 +157,15 @@ if($requests) {
 							&& !$is_nih_approver_and_review_not_complete) {
 							$risk_benefit_score_link = "Completed";
 						} else {
-							$risk_benefit_score_link = elgg_view_icon('attention-hover');
+							$risk_benefit_score_link = "<div class='crr-overview-incomplete-icon'>&#x26AA;</div>";
 						}
-						$row .= "<td><a href='" . $risk_benefit_score_url . "'>" . $risk_benefit_score_link . "</a></td>";
+						$td = "<td><a href='" . $risk_benefit_score_url . "'>" . $risk_benefit_score_link . "</a></td>";
+
+						if (empty(RiskBenefitScore::getRiskBenefitScoreEntitiesForRequest($request->guid)) && $request->isComplete()) {
+							$td = "<td>No Review</td>";
+						}
+
+						$row .= $td;
 					}
 
 					if (!$isDomainExpert) {
@@ -149,16 +179,21 @@ if($requests) {
 							if (FinalScore::isFinalScoreCompleted($request->getGUID()) && !$is_nih_approver_and_review_not_complete) {
 								$final_score_link = round(FinalScore::calculateROI($request->getGUID()));
 							} else {
-								$final_score_link = elgg_view_icon('attention-hover');
+								$final_score_link = "<div class='crr-overview-incomplete-icon'>&#x26AA;</div>";
 							}
 
 							$final_score_url = elgg_get_site_url() . "nihcp_credit_request_review/final-score-overview/" . $request->getGUID();
-							$row .= "<td><a href='" . $final_score_url . "'>" . $final_score_link . "</a></td>";
+							$td = "<td><a href='" . $final_score_url . "'>" . $final_score_link . "</a></td>";
+							if (!FinalScore::hasFinalScores($request->guid) && $request->isComplete()) {
+								$td = "<td>No Review</td>";
+							}
+
+							$row .= $td;
 						}
 
 						$final_recommendation_form_url = elgg_get_site_url() . "nihcp_credit_request_review/final-recommendation/" . $request->getGUID();
 
-						if (FinalRecommendation::isReviewCompleted($request->getGUID())) {
+						if (FinalRecommendation::isReviewCompleted($request->getGUID()) && $request->isComplete()) {
 							$row .=
 								"
 					<td><a href='" .
@@ -172,7 +207,7 @@ if($requests) {
 					<td><a href='" .
 								$final_recommendation_form_url .
 								"'>" .
-								elgg_view_icon('attention-hover') .
+								"<div class='crr-overview-incomplete-icon'>&#x26AA;</div>" .
 								"</a></td>";
 						}
 					}
@@ -215,7 +250,7 @@ if($requests) {
 						));
 				}
 				if($request->status === CommonsCreditRequest::APPROVED_STATUS || $request->status === CommonsCreditRequest::DENIED_STATUS) {
-					$feedback = get_entity($request->getFeedback());
+					$feedback = $request->getFeedback();
 					$feedback_url = elgg_get_site_url() . "nihcp_credit_request_review/feedback/" . $request->getGUID();
 					$row .= "<span class='tooltip tooltipborder'><a href='$feedback_url'>$decision</a><span class='tooltiptext feedback'><h4>"
 						.elgg_echo('nihcp_commons_credit_request:ccreq:feedback').":</h4>$feedback->comments</span></span></td>";

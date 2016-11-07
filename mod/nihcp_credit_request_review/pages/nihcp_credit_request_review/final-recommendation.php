@@ -21,6 +21,8 @@ if ( nihcp_triage_coordinator_gatekeeper(false) && $request_entity->isEditable()
 // TCs and NAs if the review is in completed state
 } else if ( !empty($final_recommendation_entity) && $request_entity->isComplete() ) {
     $content = elgg_view_entity($final_recommendation_entity);
+} else if ($request_entity->isComplete()) {
+    $content = elgg_echo("nihcp_credit_request_review:no_review");
 } else {
     $content = elgg_echo("nihcp_credit_request_review:no_access");
 }

@@ -16,12 +16,13 @@ pseudo_atomic_set_ignore_access(function () {
 		'subtype' => CommonsCreditCycle::SUBTYPE,
 		'order_by_metadata' => array(
 			'name' => 'start',
-			'direction' => ASC
+			'direction' => 'ASC'
 		),
 		'limit' => 0,
 	]);
 
-	$selected_cycle_guid = CommonsCreditCycle::getActiveCycleGUID();
+	$session = elgg_get_session();
+	$selected_cycle_guid = $session->get('crr_prev_selected_cycle', CommonsCreditCycle::getActiveCycleGUID());
 
 	$params = array(
 		'title' => elgg_echo("nihcp_credit_request_review"),

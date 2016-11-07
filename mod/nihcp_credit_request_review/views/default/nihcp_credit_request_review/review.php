@@ -48,11 +48,15 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
         }
     }
 
+	$feedback = Feedback::getFeedback($request_guid);
+	$feedback_history = Feedback::getFeedbackHistory($request_guid);
+
     elgg_set_ignore_access($ia);
 
     // if not everything is empty, show a review.
     if( !(empty($benefit_risk_scores) && empty($acco) && empty($gs_ds_guid) && empty($gs_at_guid) && empty($gs_wf_guid)
-        && empty($fs_ds_guid) && empty($fs_at_guid) && empty($fs_wf_guid) && empty($final_recommendation) && $rbscore_empty) ) {
+        && empty($fs_ds_guid) && empty($fs_at_guid) && empty($fs_wf_guid) && empty($final_recommendation) && $rbscore_empty
+		&& empty($feedback) && empty($feedback_history)) ) {
 
         echo "<h3>Review Summary</h3>";
 
@@ -64,27 +68,26 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
 			echo "</div>";
 		}
 
-        echo "<div class='pvm'>";
+		if($gs_at_guid || $gs_ds_guid || $gs_wf_guid) {
+			echo "<div class='pvm'>";
 
+			if (!empty($gs_ds_guid)) {
+				echo elgg_view_entity(get_entity($gs_ds_guid));
+			}
 
-        if (!empty($gs_ds_guid)) {
-            echo elgg_view_entity(get_entity($gs_ds_guid));
-        }
+			if (!empty($gs_at_guid)) {
+				echo elgg_view_entity(get_entity($gs_at_guid));
+			}
 
-        if (!empty($gs_at_guid)) {
-            echo elgg_view_entity(get_entity($gs_at_guid));
-        }
+			if (!empty($gs_wf_guid)) {
+				echo elgg_view_entity(get_entity($gs_wf_guid));
+			}
 
-        if (!empty($gs_wf_guid)) {
-            echo elgg_view_entity(get_entity($gs_wf_guid));
-        }
-
-        echo "</div>";
-
-        echo "<div class='pvm'>";
-
+			echo "</div>";
+		}
 
         if (!empty($benefit_risk_scores) && !$rbscore_empty) {
+			echo "<div class='pvm'>";
             echo "<h3>" . elgg_echo("nihcp_credit_request_review:crr:benefit_risk_score") . "</h3>";
 
             foreach ($benefit_risk_scores as $br) {
@@ -94,9 +97,8 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
                     echo "</div>";
                 }
             }
+			echo "</div>";
         }
-
-        echo "</div>";
 
         if (!nihcp_domain_expert_gatekeeper(false) || elgg_is_admin_logged_in()) {
             echo "<div class='pvm'>";
@@ -128,11 +130,48 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
             echo "</div>";
 
 			if($final_recommendation) {
-
 				echo "<div class='pvm'>";
 
 				echo elgg_view_entity($final_recommendation);
 
+				echo "</div>";
+			}
+
+			if($feedback && in_array($request->status, [CommonsCreditRequest::DENIED_STATUS, CommonsCreditRequest::APPROVED_STATUS])) {
+				echo "<div class='pvm'>";
+
+				echo elgg_view_entity($feedback);
+
+				echo "</div>";
+			}
+
+			if($feedback_history && count($feedback_history) > 1) {
+				echo "<div class='pvm'>";
+				echo "<h3>Decision Changelog</h3>";
+				foreach($feedback_history as $prior_feedback) {
+
+					$status_change = $prior_feedback->getStatusChange();
+
+					if($status_change) {
+						echo "<div class='pvs'>";
+
+						echo elgg_view_entity($status_change);
+
+						$next_feedback = $prior_feedback->getNextFeedback();
+
+						if($next_feedback) {
+							echo "<div class='pvs'>";
+
+							echo "<div><b>New decision</b></div>";
+
+							echo "<div>$next_feedback->decision</div>";
+
+							echo "</div>";
+						}
+
+						echo "</div>";
+					}
+				}
 				echo "</div>";
 			}
 

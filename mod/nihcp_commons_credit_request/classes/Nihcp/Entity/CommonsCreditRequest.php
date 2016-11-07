@@ -40,8 +40,12 @@ class CommonsCreditRequest extends \ElggObject {
 		$this->attributes['subtype'] = $class::SUBTYPE;
 	}
 
+	public static function getStatuses() {
+		return [self::COMPLETED_STATUS, self::APPROVED_STATUS, self::DENIED_STATUS, self::SUBMITTED_STATUS, self::DRAFT_STATUS, self::WITHDRAWN_STATUS];
+	}
+
 	public static function isValidStatus($s) {
-		$statuses = [self::COMPLETED_STATUS, self::APPROVED_STATUS, self::DENIED_STATUS, self::SUBMITTED_STATUS, self::DRAFT_STATUS, self::WITHDRAWN_STATUS];
+		$statuses = self::getStatuses();
 		return !(array_search($s, $statuses) === false);
 	}
 
@@ -82,7 +86,14 @@ class CommonsCreditRequest extends \ElggObject {
         $new_request->submission_date = $submit ? date(self::DATE_FORMAT) : null;
 
         $new_request->project_title = htmlspecialchars(get_input('project_title', '', false), ENT_QUOTES, 'UTF-8');
-        $new_request->grant_linkage = htmlspecialchars(get_input('grant_linkage', '', false), ENT_QUOTES, 'UTF-8');
+
+        $new_request->nih_program_officer_name = htmlspecialchars(get_input('nih_program_officer_name', '', false), ENT_QUOTES, 'UTF-8');
+        $new_request->nih_program_officer_email = htmlspecialchars(get_input('nih_program_officer_email', '', false), ENT_QUOTES, 'UTF-8');
+        $new_request->alt_grant_verification_contact = htmlspecialchars(get_input('alt_grant_verification_contact', '', false), ENT_QUOTES, 'UTF-8');
+        $new_request->alt_grant_verification_contact_title = htmlspecialchars(get_input('alt_grant_verification_contact_title', '', false), ENT_QUOTES, 'UTF-8');
+        $new_request->alt_grant_verification_contact_email = htmlspecialchars(get_input('alt_grant_verification_contact_email', '', false), ENT_QUOTES, 'UTF-8');
+        $new_request->grant_id = htmlspecialchars(get_input('grant_id', '', false), ENT_QUOTES, 'UTF-8');
+
         $new_request->proposed_research = htmlspecialchars(get_input('proposed_research', '', false), ENT_QUOTES, 'UTF-8');
         $new_request->productivity_gain = htmlspecialchars(get_input('productivity_gain', '', false), ENT_QUOTES, 'UTF-8');
         $new_request->productivity_gain_explanation = htmlspecialchars(get_input('productivity_gain_explanation', '', false), ENT_QUOTES, 'UTF-8');
@@ -315,7 +326,8 @@ class CommonsCreditRequest extends \ElggObject {
     }
 
     public static function sortByStatus($requests) {
-        $pending = array();
+        $completed = array();
+        $submitted = array();
         $approved = array();
         $denied = array();
         $withdrawn = array();
@@ -324,16 +336,18 @@ class CommonsCreditRequest extends \ElggObject {
             $status = $r->status;
             if (!self::isValidStatus($status) || $status == self::WITHDRAWN_STATUS) {
                 $withdrawn[] = $r;
-            } else if ($status == self::APPROVED_STATUS) {
-                $approved[] = $r;
             } else if ($status == self::DENIED_STATUS) {
                 $denied[] = $r;
-            } else { // pending
-                $pending[] = $r;
+            } else if ($status == self::APPROVED_STATUS) {
+                $approved[] = $r;
+            } else if ($status == self::SUBMITTED_STATUS) {
+                $submitted[] = $r;
+            } else { // completed, i.e. ready for review
+                $completed[] = $r;
             }
         }
 
-        return array_merge($pending, $approved, $denied, $withdrawn);
+        return array_merge($completed, $submitted, $approved, $denied, $withdrawn);
     }
 
     // sorts given set of requests
@@ -453,4 +467,18 @@ class CommonsCreditRequest extends \ElggObject {
             return false;
         }
     }
+
+	public function changeStatus($new_status, $reason) {
+		if(!$this->isValidStatus($new_status)) {
+			return;
+		}
+		$sc = new CommonsCreditStatusChange();
+		$sc->from_status = $this->status;
+		$this->status = $new_status;
+		$sc->to_status = $new_status;
+		$sc->reason = $reason;
+		$sc_guid = $sc->save();
+		add_entity_relationship($this->getGUID(), CommonsCreditStatusChange::RELATIONSHIP_CCREQ_TO_STATUS_CHANGE, $sc_guid);
+		return $sc_guid;
+	}
 }

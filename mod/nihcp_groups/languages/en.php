@@ -15,4 +15,6 @@ return array(
 	'nihcp_groups:add' => 'Add',
 	'nihcp_groups:role:notfound' => 'Unable to find role with the name "%s"',
 	'nihcp_groups:role:gatekeeper' => 'You do not have permission to view this resource',
+
+	'nihcp_groups:register:email_verification' => 'You have been registered. You will receive an email with a validation link to begin using the site.'
 );

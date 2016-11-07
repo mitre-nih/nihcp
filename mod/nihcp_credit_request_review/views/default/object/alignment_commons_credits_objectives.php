@@ -12,15 +12,6 @@ if ($entity->pass()) {
 
 echo "</h3>";
 
-echo "<div class='pvs'>"
+echo "<div class='pvm'>"
     . ($entity->question1 ? elgg_view_icon('checkmark-hover') : elgg_view_icon('delete-hover'))
     . elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:question1") . "</div>";
-echo "<div class='pvs'>"
-    . ($entity->question2 ? elgg_view_icon('checkmark-hover') : elgg_view_icon('delete-hover'))
-    . elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:question2") . "</div>";
-echo "<div class='pvs'>"
-    . ($entity->question3 ? elgg_view_icon('checkmark-hover') : elgg_view_icon('delete-hover'))
-    . elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:question3") . "</div>";
-echo "<div class='pvs'>"
-    . ($entity->question4 ? elgg_view_icon('checkmark-hover') : elgg_view_icon('delete-hover'))
-    . elgg_echo("nihcp_credit_request_review:crr:align_cc_obj:question4") . "</div>";

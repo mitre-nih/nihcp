@@ -5,9 +5,10 @@ define(function(require) {
 
 
     // disable commons credit request form submission on enter key
+    // still allow new lines in textareas
     $("#ccreq-form").keypress(
         function(event){
-            if (event.which == '13') {
+            if (event.which == '13' && !$(":focus").is("textarea")) {
                 event.preventDefault();
             }
 

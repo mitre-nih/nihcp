@@ -13,7 +13,14 @@ define(function(require) {
 					data: {request_guid: request_guid, vendor_guid: vendor_guid},
 					success: function (output) {
 						if (output.status !== -1) {
-							button.closest('tr').remove();
+							var row = button.closest('tr');
+							var old_alloc = parseFloat(row.find('.cca-allocate-link').text());
+							var unalloc_elt = $('#cca-unallocated-amount');
+							var old_unalloc = parseFloat(unalloc_elt.text());
+							unalloc_elt.text(old_unalloc+old_alloc);
+							row.remove();
+							$('#cca-allocations-submit-button').removeClass('elgg-button-submit').addClass('disabled').attr('disabled', 1);
+							$('#cca-allocate-button').removeClass('disabled').addClass('elgg-button-submit').removeAttr('disabled');
 						}
 					}
 				});

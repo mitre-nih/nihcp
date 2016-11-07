@@ -131,7 +131,7 @@ class CommonsCreditCycle extends \ElggObject {
 			] : null,
 			'order_by_metadata' => array(
 				'name' => 'start',
-				'direction' => ASC
+				'direction' => 'ASC'
 			)
 		]);
 		elgg_set_ignore_access($ia);

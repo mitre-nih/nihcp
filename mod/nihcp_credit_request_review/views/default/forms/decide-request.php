@@ -4,7 +4,7 @@ $ia = elgg_set_ignore_access(true);
 $request_guid = $vars['request_guid'];
 $project_title = get_entity($request_guid)->project_title;
 $decision = $vars['decision'];
-$feedback = get_entity(\Nihcp\Entity\Feedback::getFeedback($request_guid));
+$feedback = \Nihcp\Entity\Feedback::getFeedback($request_guid);
 if (!empty($feedback)) {
 	$feedback_comments = $feedback->comments;
 }

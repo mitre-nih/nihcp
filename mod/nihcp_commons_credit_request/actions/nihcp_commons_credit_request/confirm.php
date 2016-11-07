@@ -13,6 +13,7 @@ if($current_request instanceof CommonsCreditRequest) {
 			if ($current_request->assignToCycle()) {
 				$current_request->status = 'Submitted';
 				$current_request->submission_date = date('n/j/Y');
+				elgg_trigger_event('submit', 'object:'.CommonsCreditRequest::SUBTYPE, $current_request);
 			} else {
 				register_error(elgg_echo("nihcp_commons_credit_request:cycle:noactive"));
 			}

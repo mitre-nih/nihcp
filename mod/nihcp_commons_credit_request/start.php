@@ -53,6 +53,21 @@ function commons_credit_request_init() {
             'href' => elgg_get_site_url() . "nihcp_commons_credit_request/service-request-worksheet",
             'text' => 'Service Request Worksheet',
         ));
+
+		// Add Commons Credit Request Overview link to sidebar
+		elgg_register_menu_item('extras', array(
+			'name' => 'Commons Credits Request Overview',
+			'href' => elgg_get_site_url() . "nihcp_commons_credit_request/commons-credit-request-overview",
+			'text' => 'Commons Credits Request Overview',
+		));
+
+		if (nihcp_investigator_gatekeeper(false)) {
+			elgg_register_menu_item('extras', array(
+				'name' => 'Investigator Portal User Manual',
+				'href' => elgg_get_site_url() . "nihcp_commons_credit_request/investigator-portal-user-manual",
+				'text' => 'Investigator Portal User Manual',
+			));
+		}
 	}
 
 	// Add the new widget
@@ -83,15 +98,32 @@ function commons_credit_request_page_handler($page) {
 		case 'terms-and-conditions':
 			include "$ccreq_dir/terms_and_conditions.php";
 			break;
-		case 'service-request-worksheet':
-			header('Content-Disposition: attachment; filename="service_request_worksheet.xlsx"');
-			readfile(elgg_get_data_path() . '/docs/service_request_worksheet.xlsx');
-			break;
 		case 'attachment':
 			include "$ccreq_dir/attachment.php";
 		case 'all':
 			include "$ccreq_dir/overview.php";
 			break;
+
+		// various file resources
+		// the file with the specified filename must be in the elgg data directory under the /docs/ subdirectory.
+		case 'service-request-worksheet':
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment; filename="service_request_worksheet.xlsx"');
+			readfile(elgg_get_data_path() . '/docs/service_request_worksheet.xlsx');
+			break;
+		case 'commons-credit-request-overview':
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: attachment; filename="NIH Commons Credits Request Overview.pdf"');
+			readfile(elgg_get_data_path() . '/docs/NIH Commons Credits Request Overview.pdf');
+			break;
+		case 'investigator-portal-user-manual':
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: attachment; filename="Investigator Portal User Manual.pdf"');
+			readfile(elgg_get_data_path() . '/docs/Investigator Portal User Manual.pdf');
+			break;
+
+
+
 		default:
 			return false;
 	}

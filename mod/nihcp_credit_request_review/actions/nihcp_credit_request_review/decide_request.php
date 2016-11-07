@@ -26,15 +26,18 @@ switch ($action) {
 				elgg_set_ignore_access($ia);
 				return false;
 			}
-			$feedback = $request->getFeedback();
-			if (!$feedback) {
-				$feedback = new Feedback();
-				$feedback_guid = $feedback->save();
-				add_entity_relationship($guid, Feedback::RELATIONSHIP_CCREQ_TO_FEEDBACK, $feedback_guid);
+			$old_feedback = $request->getFeedback();
+			$feedback = new Feedback();
+			$feedback_guid = $feedback->save();
+			add_entity_relationship($guid, Feedback::RELATIONSHIP_CCREQ_TO_FEEDBACK, $feedback_guid);
+			if($old_feedback) {
+				add_entity_relationship($old_feedback->getGUID(), Feedback::RELATIONSHIP_FEEDBACK_TO_FEEDBACK, $feedback_guid);
 			}
+			$feedback->owner_guid = elgg_get_logged_in_user_guid();
 			$feedback->decision = $decision;
 			$feedback->comments = $comments;
 			elgg_set_ignore_access($ia);
+			elgg_trigger_event('decide', 'object:'.CommonsCreditRequest::SUBTYPE, $request);
 			return true;
 		}
 		break;

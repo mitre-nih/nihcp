@@ -33,7 +33,14 @@ function nihcp_dashboard_init() {
 
 	elgg_register_plugin_hook_handler('prepare', 'menu:widget', 'nihcp_widget_menu_setup');
 
+
+	elgg_register_event_handler('login:after', 'user', 'nihcp_dashboard_helpdesk_reminder');
+
 	elgg_register_widget_type('reinit_user_widgets', elgg_echo("nihcp_dashboard:widgets:reinit_user_widgets:title"), elgg_echo("nihcp_dashboard:widgets:reinit_user_widgets:description"), array("admin"));
+}
+
+function nihcp_dashboard_helpdesk_reminder($event, $type, $user) {
+	system_message(elgg_echo("nihcp_dashboard:help:first_time_notification"));
 }
 
 /**
@@ -50,6 +57,7 @@ function nihcp_dashboard_page_handler() {
 	$title = elgg_echo('dashboard');
 
 	$roles = \Nihcp\Manager\RoleManager::getRolesByUser(elgg_get_logged_in_user_guid());
+	$intro_message = '';
 	if(!$roles && !elgg_is_admin_logged_in()) {
 		$intro_message = elgg_view('nihcp_dashboard/blurb');
 	}
@@ -86,6 +94,7 @@ function nihcp_dashboard_page_handler() {
  * @return array
  */
 function nihcp_dashboard_default_widgets($hook, $type, $return, $params) {
+	$ia = elgg_set_ignore_access(true);
 	$groups = elgg_get_entities(array('type'=>'group'));
 	$return=[];
 	foreach($groups as $group) {
@@ -98,7 +107,7 @@ function nihcp_dashboard_default_widgets($hook, $type, $return, $params) {
 			'entity_type' => 'group',
 			'entity_subtype' => ELGG_ENTITIES_ANY_VALUE,]);
 	}
-
+	elgg_set_ignore_access($ia);
 	return $return;
 }
 

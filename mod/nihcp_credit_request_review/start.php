@@ -19,6 +19,7 @@ function credit_request_review_init() {
 	elgg_register_action('final-score', "$action_path/nihcp_credit_request_review/final_score.php");
 	elgg_register_action('final-recommendation', "$action_path/nihcp_credit_request_review/final_recommendation.php");
 	elgg_register_action('decide-request', "$action_path/nihcp_credit_request_review/decide_request.php");
+	elgg_register_action('change-status', "$action_path/nihcp_credit_request_review/change_status.php", 'admin');
 	elgg_register_action('credit_request_cycle/edit', "$action_path/nihcp_credit_request_cycle/save.php");
 	elgg_register_action('credit_request_cycle/delete', "$action_path/nihcp_credit_request_cycle/delete.php");
 
@@ -35,7 +36,6 @@ function credit_request_review_init() {
 
 	elgg_register_page_handler('credit_request_cycle', 'nihcp_credit_request_cycle_page_handler');
 }
-
 
 function nihcp_credit_request_review_page_handler($page) {
 	$crr_dir = elgg_get_plugins_path() . 'nihcp_credit_request_review/pages/nihcp_credit_request_review';

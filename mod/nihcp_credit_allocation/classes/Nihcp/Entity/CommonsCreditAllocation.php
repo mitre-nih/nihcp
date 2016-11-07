@@ -186,6 +186,19 @@ class CommonsCreditAllocation extends \ElggObject {
 		return $is_allocated;
 	}
 
+	public static function getUnallocatedCredit($request_guid) {
+		$request = get_entity($request_guid);
+		$unallocated = $request->getExpectedCostTotal();
+
+		$allocations = self::getAllocations($request->guid);
+		foreach($allocations as $_allocation) {
+			$_allocated = $_allocation->credit_allocated ? $_allocation->credit_allocated : 0;
+			$unallocated -= $_allocated;
+		}
+
+		return $unallocated;
+	}
+
 
 	public function getAttachmentURL() {
 		$file_guid = $this->file_guid;

@@ -27,3 +27,8 @@
 	.ccr-align-cc-obj .elgg-body, .crr-overview-page, .crr-overview-table {
 		overflow:visible!important;
 	}
+
+    .crr-overview-incomplete-icon {
+        font-size: 300%;
+        padding-top: 8%;
+    }

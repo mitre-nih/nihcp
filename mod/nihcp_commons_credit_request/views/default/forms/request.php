@@ -17,7 +17,15 @@ if(elgg_is_sticky_form('request')) {
 if (isset($vars['current_request'])) {
     $request_draft = $vars['current_request'];
     $project_title = $request_draft->project_title;
-    $grant_linkage = $request_draft->grant_linkage;
+
+    // Grant Linkage Fields
+    $nih_program_officer_name = $request_draft->nih_program_officer_name;
+    $nih_program_officer_email = $request_draft->nih_program_officer_email;
+    $alt_grant_verification_contact = $request_draft->alt_grant_verification_contact;
+    $alt_grant_verification_contact_title = $request_draft->alt_grant_verification_contact_title;
+    $alt_grant_verification_contact_email = $request_draft->alt_grant_verification_contact_email;
+    $grant_id = $request_draft->grant_id;
+
     $proposed_research = $request_draft->proposed_research;
     $productivity_gain = $request_draft->productivity_gain;
     $productivity_gain_explanation = $request_draft->productivity_gain_explanation;
@@ -47,7 +55,7 @@ if (isset($vars['current_request'])) {
 
 $required_fields = array(
 	$project_title,
-	$grant_linkage,
+    $grant_id,
 	$proposed_research,
 	$server_compute_expected_cost,
 	$storage_expected_cost,
@@ -81,15 +89,67 @@ foreach($required_fields as $field) {
 
 </div>
 
+<!-- Grant Linkage Fields-->
 <div class="required-field">
-    <label for='grant_linkage'>
-        <span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_linkage");?>
+    <label for='grant_id'>
+        <span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_id");?>
     </label>
-    <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_linkage:desc"); ?>
+    <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_id:desc"); ?>
     <br />
-    <textarea name='grant_linkage' id='grant_linkage' required='true' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $grant_linkage;?></textarea>
+    <textarea name='grant_id' id='grant_id' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $grant_id;?></textarea>
 
 </div>
+<div>
+    <label for='nih_program_officer_name'>
+        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_name");?>
+    </label>
+    <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_name:desc"); ?>
+    <br />
+    <textarea name='nih_program_officer_name' id='nih_program_officer_name' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $nih_program_officer_name;?></textarea>
+
+</div>
+
+<div>
+    <label for='nih_program_officer_email'>
+        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_email");?>
+    </label>
+    <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_email:desc"); ?>
+    <br />
+    <textarea name='nih_program_officer_email' id='nih_program_officer_email' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $nih_program_officer_email;?></textarea>
+
+</div>
+
+<div>
+    <label for='alt_grant_verification_contact'>
+        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact");?>
+    </label>
+    <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact:desc"); ?>
+    <br />
+    <textarea name='alt_grant_verification_contact' id='alt_grant_verification_contact' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $alt_grant_verification_contact;?></textarea>
+
+</div>
+
+<div>
+    <label for='alt_grant_verification_contact_title'>
+        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_title");?>
+    </label>
+    <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_title:desc"); ?>
+    <br />
+    <textarea name='alt_grant_verification_contact_title' id='alt_grant_verification_contact_title' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $alt_grant_verification_contact_title;?></textarea>
+
+</div>
+
+<div>
+    <label for='alt_grant_verification_contact_email'>
+        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_email");?>
+    </label>
+    <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_email:desc"); ?>
+    <br />
+    <textarea name='alt_grant_verification_contact_email' id='alt_grant_verification_contact_email' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $alt_grant_verification_contact_email;?></textarea>
+
+</div>
+
+<!--End Grant Linkage Fields-->
 
 <div class="required-field">
     <label for='proposed_research'>
@@ -98,6 +158,26 @@ foreach($required_fields as $field) {
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:proposed_research:desc");?>
     <br />
     <textarea name='proposed_research' id='proposed_research' maxlength='<?php echo CommonsCreditRequest::PROPOSED_RESEARCH_MAX_LENGTH ?>'><?php echo $proposed_research;?></textarea>
+</div>
+
+
+<div>
+    <label for="supplementary_materials">
+        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:supplementary_materials"); ?>
+    </label>
+    <div class="ccreq-file-upload">
+        <?php
+        if($supplementary_materials_upload_file) {
+            echo elgg_view("output/url", ['file_guid' => $supplementary_materials_upload_file->guid, 'class' => 'elgg-button elgg-button-action ccreq-delete-file-button mrs mbs', 'text' => '&#10006;', 'title'=>elgg_echo('nihcp_commons_credit_request:ccreq:deletefiletooltip')]);
+            echo elgg_view("output/url", ['text' => $supplementary_materials_upload_file->title, 'href' => "/file/download/$supplementary_materials_upload_file->guid"]);
+        }
+        ?>
+    </div>
+    <?php
+    echo elgg_view('input/file', array(
+        'name' => 'supplementary_materials_upload',
+        'id' => 'supplementary_materials'));
+    ?>
 </div>
 
 
@@ -283,6 +363,25 @@ foreach($required_fields as $field) {
     <br />
 </div>
 
+<div>
+    <label for="pricing">
+        <span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:pricing"); ?>
+    </label>
+    <div class="ccreq-file-upload">
+        <?php
+        if($pricing_upload_file) {
+            echo elgg_view("output/url", ['file_guid' => $pricing_upload_file->guid, 'class' => 'elgg-button elgg-button-action ccreq-delete-file-button mrs mbs', 'text' => '&#10006;', 'title'=>elgg_echo('nihcp_commons_credit_request:ccreq:deletefiletooltip')]);
+            echo elgg_view("output/url", ['text' => $pricing_upload_file->title, 'href' => "/file/download/$pricing_upload_file->guid"]);
+        }
+        ?>
+    </div>
+    <?php
+    echo elgg_view('input/file', array(
+        'name' => 'pricing_upload',
+        'id' => 'pricing'));
+    ?>
+</div>
+
 
 <div class="required-field">
     <label>
@@ -375,43 +474,8 @@ foreach($required_fields as $field) {
     <div id="ccreq-total-cost"></div>
 </div>
 
-<div>
-    <label for="pricing">
-		<span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:pricing"); ?>
-    </label>
-	<div class="ccreq-file-upload">
-		<?php
-			if($pricing_upload_file) {
-				echo elgg_view("output/url", ['file_guid' => $pricing_upload_file->guid, 'class' => 'elgg-button elgg-button-action ccreq-delete-file-button mrs mbs', 'text' => '&#10006;', 'title'=>elgg_echo('nihcp_commons_credit_request:ccreq:deletefiletooltip')]);
-				echo elgg_view("output/url", ['text' => $pricing_upload_file->title, 'href' => "/file/download/$pricing_upload_file->guid"]);
-			}
-		?>
-	</div>
-    <?php
-        echo elgg_view('input/file', array(
-            'name' => 'pricing_upload',
-            'id' => 'pricing'));
-    ?>
-</div>
 
-<div>
-    <label for="supplementary_materials">
-        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:supplementary_materials"); ?>
-    </label>
-	<div class="ccreq-file-upload">
-		<?php
-			if($supplementary_materials_upload_file) {
-				echo elgg_view("output/url", ['file_guid' => $supplementary_materials_upload_file->guid, 'class' => 'elgg-button elgg-button-action ccreq-delete-file-button mrs mbs', 'text' => '&#10006;', 'title'=>elgg_echo('nihcp_commons_credit_request:ccreq:deletefiletooltip')]);
-				echo elgg_view("output/url", ['text' => $supplementary_materials_upload_file->title, 'href' => "/file/download/$supplementary_materials_upload_file->guid"]);
-			}
-		?>
-	</div>
-    <?php
-    echo elgg_view('input/file', array(
-        'name' => 'supplementary_materials_upload',
-        'id' => 'supplementary_materials'));
-    ?>
-</div>
+
 
 
 

@@ -34,7 +34,7 @@ $gs_entity = get_entity($gs_guid);
 
 
 // editable view only for Triage Coordinators and available only while a review is not fully completed.
-if (nihcp_triage_coordinator_gatekeeper(false) && $request_entity->status != CommonsCreditRequest::COMPLETED_STATUS) {
+if (nihcp_triage_coordinator_gatekeeper(false) && $request_entity->isEditable()) {
 
     $content = elgg_view_form('general-score', null, array(
         'request_guid' => $request_guid,));
@@ -48,9 +48,11 @@ if (nihcp_triage_coordinator_gatekeeper(false) && $request_entity->status != Com
 ) {
 
     $content = elgg_view_entity($gs_entity);
+} else if ($request_entity->isComplete()) {
+    $content = elgg_echo("nihcp_credit_request_review:no_review");
 } else {
 
-    $content = elgg_echo('nihcp_credit_request_review:no_access');
+    $content = elgg_echo("nihcp_credit_request_review:no_access");
 }
 
 $params = array(

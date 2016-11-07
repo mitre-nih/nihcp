@@ -13,6 +13,10 @@ class CommonsCreditAllocationFile extends \ElggObject {
 
     const NUM_FIELDS = 6;
 
+    // this private variable is to help keep track of allocations we've seen so far during an ingest, so that we can
+    // determine if any given line is for a duplicate allocation.
+    private $allocations_in_file_tracker;
+
     public function initializeAttributes() {
         parent::initializeAttributes();
 
@@ -283,9 +287,12 @@ class CommonsCreditAllocationFile extends \ElggObject {
 
         // read the file and check the data first before ingesting
         elgg_log("Begin file validation.", Logger::INFO);
+        $this->allocations_in_file_tracker = array();
         $csv = fopen($file->getFilenameOnFilestore(), 'r');
         if ($csv) {
-            fgetcsv($csv); // consume first line, should just be header
+            if (!$this->validateHeadingLine(fgetcsv($csv))) {
+                return false;
+            }
             $line_number = 1;
 
             while (!feof($csv)) {
@@ -320,7 +327,7 @@ class CommonsCreditAllocationFile extends \ElggObject {
         $csv = fopen($file->getFilenameOnFilestore(), 'r');
         fgetcsv($csv); // consume first line, should just be header
         $line_number = 1;
-		$users = [];
+		$requests = [];
         while (!feof($csv)) {
             $line_number++;
             $line = fgetcsv($csv);
@@ -333,13 +340,37 @@ class CommonsCreditAllocationFile extends \ElggObject {
                 break;
             }
 
-            array_push($users, $this->ingestLine($line, $line_number));
+            array_push($requests, $this->ingestLine($line, $line_number));
         }
 
         elgg_log("Finished ingesting file.", Logger::INFO);
-		elgg_trigger_event('ingested', 'object:'.self::SUBTYPE, ['users' => array_unique($users)]);
+		elgg_trigger_after_event('ingest', 'object:'.self::SUBTYPE, ['requests' => array_unique($requests)]);
         elgg_set_ignore_access($ia);
         return true;
+    }
+
+    // validate that the first line of the file had the correct headings.
+    private function validateHeadingLine($account_data_array) {
+        // - Check for Appropriate number of data elements
+        if (count($account_data_array) < self::NUM_FIELDS) {
+            register_error(elgg_echo("nihcp_credit_allocation:validate:bad_header"));
+            elgg_log(elgg_echo("nihcp_credit_allocation:validate:bad_header"), Logger::ERROR);
+            return false;
+        }
+
+        if (!(trim($account_data_array[0]) === "Account Holder Name"
+                && trim($account_data_array[1]) === "CCREQ ID"
+                && trim($account_data_array[2]) === "Vendor ID"
+                && trim($account_data_array[3]) === "Cloud Account ID"
+                && trim($account_data_array[4]) === "Remaining Credits"
+                && trim($account_data_array[5]) === "Initial Credits")) {
+            register_error(elgg_echo("nihcp_credit_allocation:validate:bad_header"));
+            elgg_log(elgg_echo("nihcp_credit_allocation:validate:bad_header"), Logger::ERROR);
+            return false;
+        }
+
+        return true;
+
     }
 
     // Checks account data content against the criteria below.
@@ -359,18 +390,23 @@ class CommonsCreditAllocationFile extends \ElggObject {
     // - CCREQ ID exists in our system
     // - Vendor ID exists in our system
     // - Numeric credit values
+
+    // - Cloud account (ccreqid + vendor) must already exist
+    // - Intitial credit amount must not change
     // - Remaining value must be less than initial value
+    // - Check to make sure there are no duplicate allocation accounts
     private function validateData($account_data_array, $line_number) {
 
         // - Check for Appropriate number of data elements
-        if (count($account_data_array) != self::NUM_FIELDS) {
+        if (count($account_data_array) < self::NUM_FIELDS) {
             register_error(elgg_echo("nihcp_credit_allocation:validate:bad_format", [$line_number]));
             elgg_log(elgg_echo("nihcp_credit_allocation:validate:bad_format", [$line_number]), Logger::ERROR);
             return false;
         }
 
         $ia = elgg_set_ignore_access();
-        $request_guid = CommonsCreditRequest::getRequestGUIDfromCCREQID(trim($account_data_array[1]));
+        $ccreq_id = trim($account_data_array[1]);
+        $request_guid = CommonsCreditRequest::getRequestGUIDfromCCREQID($ccreq_id);
         elgg_set_ignore_access($ia);
 
         // - Check for CCREQ ID exists in our system
@@ -398,11 +434,45 @@ class CommonsCreditAllocationFile extends \ElggObject {
             return false;
         }
 
+        $existing_allocation = get_entity(CommonsCreditAllocation::getAllocationGUID($request_guid, $vendor->getGUID()));
+
+        // - Check for Cloud account did exist before
+        if (!$existing_allocation) {
+            register_error(elgg_echo("nihcp_credit_allocation:validate:new_allocation", [$line_number]));
+            elgg_log(elgg_echo("nihcp_credit_allocation:validate:new_allocation", [$line_number]), Logger::ERROR);
+            return false;
+        }
+
+        // - Check for Initial Credits == previous Initial Credits
+        $new_initial = $this->unformatMoney($account_data_array[5]);
+        if ($new_initial != $existing_allocation->credit_allocated) {
+            register_error(elgg_echo("nihcp_credit_allocation:validate:initial_changed", [$line_number]));
+            elgg_log(elgg_echo("nihcp_credit_allocation:validate:initial_changed", [$line_number]), Logger::ERROR);
+
+            return false;
+        }
+
         // - Check for Remaining value must be less than initial value
         if ($remaining_credits > $initial_credits) {
             register_error(elgg_echo("nihcp_credit_allocation:validate:too_much_remaining", [$line_number]));
             elgg_log(elgg_echo("nihcp_credit_allocation:validate:too_much_remaining", [$line_number]), Logger::ERROR);
             return false;
+        }
+
+        // - Check to make sure there are no duplicate allocation accounts
+        // we keep track of each vendor we've already seen per ccreq_id in the allocations_in_file_tracker array
+        // if we find that a vendor was already seen for this line's ccreq_id, then we know it's a duplicate and abort
+        $ccreq_id_vendor_ids = $this->allocations_in_file_tracker[$ccreq_id];
+        if (!empty($ccreq_id_vendor_ids) && in_array($vendor_id, $ccreq_id_vendor_ids)) {
+            register_error(elgg_echo("nihcp_credit_allocation:validate:duplicate_account", [$line_number]));
+            elgg_log(elgg_echo("nihcp_credit_allocation:validate:duplicate_account", [$line_number]), Logger::ERROR);
+            return false;
+        } else {
+            if (empty($ccreq_id_vendor_ids)) {
+                $ccreq_id_vendor_ids = array();
+            }
+            $ccreq_id_vendor_ids[] = $vendor_id;
+            $this->allocations_in_file_tracker[$ccreq_id] = $ccreq_id_vendor_ids;
         }
 
         return true;
@@ -420,12 +490,10 @@ class CommonsCreditAllocationFile extends \ElggObject {
     // [5]Initial Credits
     //
     // Soft checks (only produces elgg_logged warnings):
-    // - Cloud account did exist before
     // - Credit Remaining < previous Credit Remaining
     // - Initial Credits == previous Initial Credits
 
     private function ingestLine($account_data_array, $line_number) {
-
 
         $request_guid = CommonsCreditRequest::getRequestGUIDfromCCREQID(trim($account_data_array[1]));
         $status = CommonsCreditAllocation::UPDATED_STATUS;
@@ -433,27 +501,13 @@ class CommonsCreditAllocationFile extends \ElggObject {
 		$vendor = CommonsCreditVendor::getByVendorId($vendor_id);
 
         $existing_allocation = get_entity(CommonsCreditAllocation::getAllocationGUID($request_guid, $vendor->getGUID()));
-        // - Check for Cloud account did exist before
-        if (!$existing_allocation) {
-            register_error(elgg_echo("nihcp_credit_allocation:validate:new_allocation", [$line_number]));
-            elgg_log(elgg_echo("nihcp_credit_allocation:validate:new_allocation", [$line_number]), Logger::WARNING);
-            $status = CommonsCreditAllocation::FLAGGED_STATUS;
-        }
+
 
         // - Check for Credit Remaining < previous Credit Remaining
         $new_remaining = $this->unformatMoney($account_data_array[4]);
         if ($new_remaining > $existing_allocation->credit_remaining) {
-            register_error(elgg_echo("nihcp_credit_allocation:validate:remaining_credits_increased", [$line_number]));
+            system_message(elgg_echo("nihcp_credit_allocation:validate:remaining_credits_increased", [$line_number]));
             elgg_log(elgg_echo("nihcp_credit_allocation:validate:remaining_credits_increased", [$line_number]), Logger::WARNING);
-            $status = CommonsCreditAllocation::FLAGGED_STATUS;
-        }
-
-        // - Check for Initial Credits == previous Initial Credits
-        $new_initial = $this->unformatMoney($account_data_array[5]);
-        if ($new_initial != $existing_allocation->credit_allocated) {
-            register_error(elgg_echo("nihcp_credit_allocation:validate:initial_changed", [$line_number]));
-            elgg_log(elgg_echo("nihcp_credit_allocation:validate:initial_changed", [$line_number]), Logger::WARNING);
-
             $status = CommonsCreditAllocation::FLAGGED_STATUS;
         }
 
@@ -465,7 +519,7 @@ class CommonsCreditAllocationFile extends \ElggObject {
         $allocation->vendor = $vendor_id;
         $allocation->cloud_account_id = trim($account_data_array[3]);
         $allocation->credit_remaining = $new_remaining;
-        $allocation->credit_allocated = $new_initial;
+        $allocation->credit_allocated = $existing_allocation->credit_allocated;
         $allocation->status = $status;
 
 		$allocation->save();
@@ -473,9 +527,7 @@ class CommonsCreditAllocationFile extends \ElggObject {
 		add_entity_relationship($request_guid, CommonsCreditAllocation::RELATIONSHIP_CCREQ_TO_ALLOCATION, $allocation->getGUID());
 		add_entity_relationship($this->file_guid, CommonsCreditAllocationFile::RELATIONSHIP_FILE_TO_CCA, $allocation->getGUID());
 
-
-
-		return $allocation->getOwnerGUID();
+		return $request_guid;
     }
 
     // Strips the $ and . symbols from a money string

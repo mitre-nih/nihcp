@@ -18,7 +18,7 @@ class AlignmentCommonsCreditsObjectives extends \ElggObject {
     }
 
     public function pass() {
-        return $this->question1 && $this->question2 && $this->question3 && $this->question4;
+        return $this->question1;
     }
 
     // returns guid for the Alignment with CC Objectives entity that is associated with the ccreq guid given as input to this function.

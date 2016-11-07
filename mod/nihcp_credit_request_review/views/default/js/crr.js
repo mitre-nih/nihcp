@@ -10,6 +10,67 @@ define(function(require) {
         'vMax' : 20,
         'mDec': '2'});
 
+	function registerCRRStatusSelectHandler() {
+		$('.crr-status-select').change(function () {
+			var result = window.prompt("Enter the reason for changing the status: ", "Fixing input error");
+			if(result) {
+				var new_status = $(this).val();
+				var request_guid = $(this).closest('tr').attr('id');
+				elgg.action('change-status', {
+					data: {request_guid: request_guid, status: new_status, reason: result}
+				});
+				var decision_field = $(this).closest('tr').children('.crr-decision');
+				if(new_status === 'Completed') {
+					decision_field.html('<input class="elgg-button elgg-button-submit crr-approver-button" value="Approve" type="button"><input class="elgg-button elgg-button-cancel crr-approver-button" value="Deny" type="button">');
+					registerCRRApproverButtonHandler();
+				} else {
+					decision_field.text('N/A');
+				}
+				$('option', $(this)).filter(function() {return ['Approved', 'Denied'].indexOf($(this).val()) !== -1;}).remove();
+			} else {
+				var old_status = $(this).attr('x-status');
+				$(this).val(old_status);
+			}
+		})
+	}
+	registerCRRStatusSelectHandler();
+
+	function registerCRRApproverButtonHandler() {
+		$('.crr-approver-button').click(function() {
+			var button = $(this);
+			var request_guid = button.closest('tr').attr('id');
+			var decision = button.val();
+			elgg.get('ajax/view/nihcp_credit_request_review/decide-request', {
+				data: {request_guid: request_guid, decision: decision},
+				success: function (output) {
+					$('.crr-overview-page').html(output);
+					// submitting Final Decision
+					$('#crr-final-decision-submit-button').click(function() {
+
+						var button = $(this);
+						var confirm = window.confirm(elgg.echo('question:areyousure'));
+						if(confirm) {
+							var action = button.attr('value');
+							var request_guid = $('#request_guid').attr('value');
+							var decision = $('#decision').attr('value');
+							var feedback_comments = $('#feedback_comments').val();
+							elgg.action('decide-request', {
+								data: {action: action,
+									request_guid: request_guid,
+									decision: decision,
+									feedback_comments: feedback_comments},
+								success: function () {
+									location.reload();
+								}
+
+							});
+						}
+					});
+				}
+			});
+		});
+	}
+
 	$(function() {
 		$('#nihcp-ccreq-cycle-select').change(function() {
 			var cycle_guid = $(this).val();
@@ -23,39 +84,8 @@ define(function(require) {
 					if (tableWidth > $(".elgg-page-default .elgg-page-body .elgg-inner").width()) {
 						$(".elgg-page-default .elgg-page-body .elgg-inner").css("max-width", $(".crr-overview-table").width() * 1.02);
 					}// 1.02 is to account for margins/paddings
-					$('.crr-approver-button').click(function() {
-						var button = $(this);
-						var request_guid = button.closest('tr').attr('id');
-						var decision = button.val();
-						elgg.get('ajax/view/nihcp_credit_request_review/decide-request', {
-							data: {request_guid: request_guid, decision: decision},
-							success: function (output) {
-								$('.crr-overview-page').html(output);
-								// submitting Final Decision
-								$('#crr-final-decision-submit-button').click(function() {
-
-									var button = $(this);
-									var confirm = window.confirm(elgg.echo('question:areyousure'));
-									if(confirm) {
-										var action = button.attr('value');
-										var request_guid = $('#request_guid').attr('value');
-										var decision = $('#decision').attr('value');
-										var feedback_comments = $('#feedback_comments').val();
-										elgg.action('decide-request', {
-											data: {action: action,
-												request_guid: request_guid,
-												decision: decision,
-												feedback_comments: feedback_comments},
-											success: function () {
-												location.reload();
-											}
-
-										});
-									}
-								});
-							}
-						});
-					});
+					registerCRRApproverButtonHandler();
+					registerCRRStatusSelectHandler();
 				}
 			});
 		});
@@ -100,6 +130,5 @@ define(function(require) {
 			});
 		}
 	});
-
 
 });

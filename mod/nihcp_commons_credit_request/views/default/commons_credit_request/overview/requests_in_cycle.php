@@ -2,6 +2,8 @@
 use Nihcp\Entity\CommonsCreditRequest;
 
 $cycle_guid = elgg_extract('cycle_guid', $vars);
+$session = elgg_get_session();
+$session->set('ccr_prev_selected_cycle', $cycle_guid);
 $requests = CommonsCreditRequest::getByUserAndCycle('!'.CommonsCreditRequest::DRAFT_STATUS, 0, $cycle_guid);
 $full_view = elgg_extract('full_view', $vars, true);
 

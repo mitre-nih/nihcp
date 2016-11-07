@@ -4,4 +4,5 @@ return array(
 	'nihcp_dashboard:widgets:reinit_user_widgets:title' => 'Reinit User Widgets',
 	'nihcp_dashboard:widgets:reinit_user_widgets:description' => 'Reinitializes users\' widgets',
 	'nihcp_dashboard:widgets:reinit_user_widgets:confirm' => 'Reinitialize all users\' widgets?',
+	'nihcp_dashboard:help:first_time_notification' => 'For help using this portal, visit our FAQs or Help Center by clicking on the links in the navigation bar.',
 );

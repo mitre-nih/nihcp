@@ -11,26 +11,29 @@ $content = elgg_view('nihcp_credit_allocation/components/allocations', ['full_vi
 
 $show_actions = false;
 if($request->getOwnerGUID() === elgg_get_logged_in_user_guid()) {
-	$show_actions = true;
-	$allocations = CommonsCreditAllocation::getAllocations($request->guid);
-	foreach ($allocations as $allocation) {
-		if ($allocation->status !== CommonsCreditAllocation::STAGED_STATUS) {
-			$show_actions = false;
-		}
-	}
+	$show_actions = !CommonsCreditAllocation::isAllocated($request->guid);
 }
 
 if($show_actions) {
-	$action_button = elgg_view('input/button', array(
+	$unallocated = CommonsCreditAllocation::getUnallocatedCredit($request->guid);
+	$action_params = array(
 		'value' => 'Allocate',
 		'id' => 'cca-allocate-button',
-		'class' => 'elgg-button-submit mbm',
+		'class' => 'elgg-button-submit',
 		'onclick' => "location.href='" . elgg_get_site_url() . "nihcp_credit_allocation/allocate/$request->guid';"
-	));
-	$content = "<div>$action_button</div>".$content;
+	);
+	if($unallocated == 0 || !CommonsCreditVendor::getActiveUnallocatedVendors($request->guid)) {
+		$action_params = array_merge($action_params, ['class' => 'disabled', 'disabled' => 1]);
+	}
+	$action_button = elgg_view('input/button', $action_params);
+	$content = "<div class='mbm'><label class='mrm'>Unallocated Credit</label><span id='cca-unallocated-amount'>$unallocated</span></div><div class=\"mbm\">$action_button</div>".$content;
 	$content .= "<div class=\"ptm\">";
 	$content .= elgg_view('input/hidden', array('name' => 'request_guid', 'id'=>'request_guid', 'value'=>$request->guid));
-	$content .= elgg_view('input/submit', array('name' => 'action', 'value' => 'Submit', 'id' => 'cca-allocations-submit-button'));
+	$submit_params = array('name' => 'action', 'value' => 'Submit', 'id' => 'cca-allocations-submit-button');
+	if($unallocated > 0) {
+		$submit_params = array_merge($submit_params, ['class' => 'disabled', 'disabled' => 1]);
+	}
+	$content .= elgg_view('input/submit', $submit_params);
 	$content .= "</div>";
 }
 

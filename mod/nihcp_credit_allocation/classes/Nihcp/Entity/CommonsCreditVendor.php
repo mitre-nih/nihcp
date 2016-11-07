@@ -60,4 +60,14 @@ class CommonsCreditVendor extends \ElggObject {
 		elgg_set_ignore_access($ia);
 		return $entities;
 	}
+
+	public static function getActiveUnallocatedVendors($request_guid) {
+		$vendors = self::getActiveVendors();
+		$ia = elgg_set_ignore_access();
+		foreach(CommonsCreditAllocation::getAllocations($request_guid) as $allocation) {
+			$vendors = array_filter($vendors, function($vendor) use ($allocation) {return $vendor->vendor_id !== $allocation->vendor;});
+		}
+		elgg_set_ignore_access($ia);
+		return $vendors;
+	}
 }

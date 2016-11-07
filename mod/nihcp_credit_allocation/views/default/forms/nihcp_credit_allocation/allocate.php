@@ -10,13 +10,7 @@ $vendor = pseudo_atomic_set_ignore_access(function($guid) {return get_entity($gu
 
 echo "<h2 class=\"mbl\">$request->project_title</h2>";
 
-$unallocated = $request->getExpectedCostTotal();
-
-$allocations = CommonsCreditAllocation::getAllocations($request->guid);
-foreach($allocations as $_allocation) {
-	$_allocated = $_allocation->credit_allocated ? $_allocation->credit_allocated : 0;
-	$unallocated -= $_allocated;
-}
+$unallocated = CommonsCreditAllocation::getUnallocatedCredit($request_guid);
 
 echo "<div>";
 echo "<label class=\"mrm\">".elgg_echo("nihcp_credit_allocation:request:unallocated_credit")."</label>";
@@ -35,6 +29,7 @@ if($vendor) {
 	foreach ($vendors as $vendor) {
 		$vendor_options[$vendor->getGUID()] = $vendor->getDisplayName();
 	}
+	$allocations = CommonsCreditAllocation::getAllocations($request_guid);
 	foreach($allocations as $_allocation) {
 		$_vendor = CommonsCreditVendor::getByVendorId($_allocation->vendor);
 		unset($vendor_options[$_vendor->getGUID()]);

@@ -331,3 +331,7 @@ input {
 .feedback {
 	text-align: left!important;
 }
+
+#how_did_you_hear_about_us_other{
+	width: 400px;
+}

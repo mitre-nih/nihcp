@@ -27,7 +27,6 @@ $domain_expert_role = RoleManager::getRoleByName(RoleManager::DOMAIN_EXPERT);
 $domain_experts = $domain_expert_role->getMembers(array("limit"=>0));
 
 $already_assigned_experts = RiskBenefitScore::getAssignedDomainExperts($request_guid);
-error_log("assigned de count: " . count($already_assigned_experts));
 
 $already_assigned_experts_guids = array();
 foreach($already_assigned_experts as $expert) {

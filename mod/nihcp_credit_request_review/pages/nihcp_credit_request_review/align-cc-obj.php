@@ -31,10 +31,11 @@ if (nihcp_triage_coordinator_gatekeeper(false) && $request_entity->isEditable())
     } else {
         $content = elgg_view_entity($alignment_commons_credits_objectives_entity);
     }
+} else if ($request_entity->isComplete()) {
+    $content = elgg_echo("nihcp_credit_request_review:no_review");
 } else {
 
     $content = elgg_echo("nihcp_credit_request_review:no_access");
-
 }
 
 elgg_set_ignore_access($ia);

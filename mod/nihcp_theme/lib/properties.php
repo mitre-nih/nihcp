@@ -1,0 +1,3 @@
+<?php
+
+const HOW_DID_YOU_HEAR_ABOUT_US_OTHER_MAXLENGTH = 50;

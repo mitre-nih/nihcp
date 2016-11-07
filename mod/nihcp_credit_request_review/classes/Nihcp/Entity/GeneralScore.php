@@ -38,6 +38,12 @@ class GeneralScore extends \ElggObject {
         return $result;
     }
 
+    public static function hasAnyReviews($request_guid) {
+        return (self::getGeneralScoreDatasetsFromRequestGuid($request_guid)
+            || self::getGeneralScoreAppsToolsFromRequestGuid($request_guid)
+            || self::getGeneralScoreWorkflowsFromRequestGuid($request_guid));
+    }
+
     public static function isReviewCompleted($request_guid) {
         return (empty(get_entity($request_guid)->datasets) || self::getGeneralScoreDatasetsFromRequestGuid($request_guid))
             && (empty(get_entity($request_guid)->applications_tools) || self::getGeneralScoreAppsToolsFromRequestGuid($request_guid))

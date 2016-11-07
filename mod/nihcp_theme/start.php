@@ -5,10 +5,24 @@
  * @package nihcp_theme
  */
 require_once(dirname(__FILE__) . "/lib/functions.php");
+require_once(dirname(__FILE__) . "/lib/properties.php");
+
+const MIN_PASSWORD_LENGTH = 12;
 
 elgg_register_event_handler('init','system','nihcp_theme_init');
 
 function nihcp_theme_init() {
+
+	elgg_require_js('jquery');
+	elgg_require_js('nihcp_theme');
+
+	$action_path = __DIR__ . '/actions';
+	elgg_unregister_action('register');
+	elgg_register_action('register', $action_path.'/register.php', 'public');
+
+	global $CONFIG;
+	$CONFIG->min_password_length = MIN_PASSWORD_LENGTH;
+
 	elgg_register_plugin_hook_handler('registeruser:validate:password', 'all', 'nihcp_password_verify');
     elgg_register_plugin_hook_handler('registeruser:validate:email', 'all', 'nihcp_email_verify');
 	elgg_register_plugin_hook_handler('comments', 'object', 'nihcp_hide_page_comments');
@@ -30,6 +44,9 @@ function nihcp_theme_init() {
 	elgg_register_plugin_hook_handler('permissions_check', 'object', 'nihcp_pages_write_permission_check');
 	elgg_register_plugin_hook_handler('container_permissions_check', 'object', 'nihcp_pages_container_permission_check');
 
+	// capture extra user registration data
+	elgg_register_plugin_hook_handler('register', 'user', 'nihcp_registration_extra_data');
+
 	elgg_register_plugin_hook_handler('prepare', 'menu:title', 'nihcp_pages_title_menu_setup');
 
 	elgg_register_plugin_hook_handler('prepare', 'menu:site', 'nihcp_theme_site_menu_setup');
@@ -43,6 +60,19 @@ function nihcp_theme_init() {
 
 function forward_to_dashboard($hook, $type, $return = null, $params = null) {
 	forward("dashboard");
+}
+
+// hook for capturing extra user data from the registration form that we added
+function nihcp_registration_extra_data($hook, $type, $return, $params) {
+	$how_did_you_hear_about_us = get_input('how_did_you_hear_about_us');
+	$how_did_you_hear_about_us_other = get_input('how_did_you_hear_about_us_other');
+
+	$user = $params['user'];
+	$user->how_did_you_hear_about_us = $how_did_you_hear_about_us;
+	$user->how_did_you_hear_about_us_other = $how_did_you_hear_about_us_other;
+
+	error_log($user->how_did_you_hear_about_us . $user->how_did_you_hear_about_us_other );
+
 }
 
 /**
@@ -156,30 +186,11 @@ function nihcp_page_menu_setup($hook, $type, $return, $params) {
  * @return
  */
 function nihcp_password_verify($hook, $type, $return_value, $params) {
+
 	$password = $params['password'];
-	// Run password through cracklib-check
-	exec('echo ' . escapeshellarg($password) . ' | cracklib-check 2>/dev/null', $output, $return_var);
-	// Check it ran properly
 
-	if (0 == $return_var) {
-		if (preg_match('/^.*\: ([^:]+)$/', $output[0], $matches)) {
-			// Check response
-
-			if (strtoupper($matches[1]) != 'OK') {
-				$msg = $matches[1];
-				throw new \RegistrationException('Password Unacceptable: ' . $msg);
-			}
-		} else {
-			// Badly formatted response from cracklib-check.
-			throw new Exception("Didn't understand cracklib-check response.");
-		}
-	} else {
-		// Some sort of execution error
-		throw new Exception('Failed to run cracklib-check.');
-	}
-
-	if (!preg_match('#.*^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@\#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?]).*$#', $password)) {
-		throw new \RegistrationException('Your password must be at least 8 characters in length and contain at least one of each of the following: lowercase letter, uppercase letter, number, and special character.');
+	if (!preg_match('#.*^(?=.{'.MIN_PASSWORD_LENGTH.',})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@\#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?]).*$#', $password)) {
+		throw new \RegistrationException(elgg_echo('nihcp_theme:password_requirements', array(MIN_PASSWORD_LENGTH)));
 	}
 
 	return true;

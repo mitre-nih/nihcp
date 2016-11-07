@@ -15,12 +15,15 @@ $request_entity = get_entity($request_guid);
 // TCs should always be able to see this page
 // NAs should only see this page if the review is complete
 // DEs see it if they are assigned this request for review
-if ( nihcp_triage_coordinator_gatekeeper(false)
-    || (nihcp_nih_approver_gatekeeper(false) && $request_entity->isComplete())
+if ( (nihcp_triage_coordinator_gatekeeper(false) && $request_entity->isEditable())
+    || (nihcp_role_gatekeeper(array(RoleManager::NIH_APPROVER, RoleManager::TRIAGE_COORDINATOR), false) && $request_entity->isComplete() && GeneralScore::hasAnyReviews($request_guid))
     || (nihcp_domain_expert_gatekeeper(false) && RiskBenefitScore::isDomainExpertAssignedToRequest(elgg_get_logged_in_user_entity(), $request_guid)) ) {
 
     $content = elgg_view('nihcp_credit_request_review/general-score-overview', array('request_guid' => $request_guid));
+} else if ($request_entity->isComplete()) {
+    $content = elgg_echo("nihcp_credit_request_review:no_review");
 } else {
+
     $content = elgg_echo("nihcp_credit_request_review:no_access");
 }
 

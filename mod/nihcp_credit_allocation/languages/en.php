@@ -31,6 +31,7 @@ return [
 
 	'nihcp_credit_allocation:validate:ingest_failed' => 'Ingest failed. Please check the file and try again after fixing the issues.',
 	'nihcp_credit_allocation:validate:bad_format' => 'Line %s of CSV file has wrong number of fields.',
+	'nihcp_credit_allocation:validate:bad_header' => 'CSV file headings do not match expected values: "Account Holder Name,CCREQ ID,Vendor ID,Cloud Account ID,Remaining Credits,Initial Credits".',
 	'nihcp_credit_allocation:allocations:none' => 'No allocations found',
 	'nihcp_credit_allocation:validate:nan' => 'Line %s of CSV file has non-numeric values for credits',
 	'nihcp_credit_allocation:validate:no_ccreq' => 'CCREQ ID in line %s of CSV file does not exist in the system.',
@@ -39,10 +40,8 @@ return [
 	'nihcp_credit_allocation:validate:remaining_credits_increased' => 'Remaining credits increased from previous value in line %s of CSV file.',
 	'nihcp_credit_allocation:validate:initial_changed' => 'Initial credit amount changed from previous value in line %s of CSV file.',
 	'nihcp_credit_allocation:validate:no_vendor' => 'Unable to find vendor with ID on line %s of CSV file.',
+	'nihcp_credit_allocation:validate:duplicate_account' => 'Line %s of CSV file is a duplicate allocation account to another line in the file.',
 	'nihcp_credit_allocation:submit:areyousure' => 'Are you sure you want to submit your allocations? This is a binding action and cannot be reversed once confirmed.',
-	'nihcp_credit_allocation:notify:subject' => 'NIH Commons Credits Allocations Updated',
-	'nihcp_credit_allocation:notify:body' => '%s,
-Your remaining NIH Commons Credits have been updated to the following:',
 	'nihcp_credit_allocation:action:allocate' => 'Allocate',
 	'nihcp_credit_allocation:action:view_allocation' => 'View Allocation',
 ];
