@@ -51,7 +51,11 @@ class RoleManager {
 				'value' => $role_id,
 			),
 		];
-		$roles = pseudo_atomic_set_ignore_access('elgg_get_entities_from_metadata', $options);
+
+		$ia = elgg_set_ignore_access();
+		$roles = elgg_get_entities_from_metadata($options);
+		elgg_set_ignore_access($ia);
+
 		return $roles ? $roles[0] : false;
 	}
 
