@@ -10,6 +10,7 @@ $entities = elgg_get_entities_from_metadata([
 	'type' => 'object',
 	'subtype' => CommonsCreditAllocationFile::SUBTYPE,
 	'order_by' => 'time_created desc',
+	'limit' => 0
 ]);
 
 

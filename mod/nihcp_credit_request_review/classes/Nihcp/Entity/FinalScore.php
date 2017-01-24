@@ -51,7 +51,8 @@ class FinalScore extends \ElggObject {
             'relationship' => FinalScore::RELATIONSHIP_CCREQ_TO_FINAL_SCORE,
             'relationship_guid' => $request_guid,
             'type' => 'object',
-            'subtype' => FinalScore::SUBTYPE
+            'subtype' => FinalScore::SUBTYPE,
+            'limit' => 0
         ));
 
         foreach ($entities as $entity) {

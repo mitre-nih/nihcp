@@ -54,6 +54,7 @@ class RiskBenefitScore extends \ElggObject {
             'relationship' => self::RELATIONSHIP_CCREQ_TO_DOMAIN_EXPERT,
             'relationship_guid' => $request_guid,
             'type' => 'user',
+            'limit' => 0
         ));
     }
 
@@ -64,6 +65,7 @@ class RiskBenefitScore extends \ElggObject {
             'relationship_guid' => $domain_expert_guid,
             'type' => 'object',
             'subtype' => CommonsCreditRequest::SUBTYPE,
+            'limit' => 0
         ));
     }
 
@@ -73,7 +75,8 @@ class RiskBenefitScore extends \ElggObject {
             'relationship' => self::RELATIONSHIP_CCREQ_TO_RB_SCORE,
             'relationship_guid' => $request_guid,
             'type' => 'object',
-            'subtype' => self::SUBTYPE
+            'subtype' => self::SUBTYPE,
+            'limit' => 0
         ));
         elgg_set_ignore_access($ia);
         return $entities;
@@ -121,7 +124,8 @@ class RiskBenefitScore extends \ElggObject {
             'relationship' => self::RELATIONSHIP_DE_TO_RB_SCORE,
             'relationship_guid' => $domain_expert_guid,
             'type' => 'object',
-            'subtype' => self::SUBTYPE
+            'subtype' => self::SUBTYPE,
+            'limit' => 0
         ));
     }
 
