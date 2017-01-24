@@ -23,7 +23,15 @@ class RiskBenefitScore extends \ElggObject {
     }
 
     public static function isDomainExpertAssignedToRequest($domain_expert_entity, $request_guid) {
-        return in_array($domain_expert_entity, RiskBenefitScore::getAssignedDomainExperts($request_guid));
+
+        $de_entities = RiskBenefitScore::getAssignedDomainExperts($request_guid);
+        $de_guids = array();
+
+        foreach($de_entities as $assigned_de_entity) {
+            $de_guids[] = $assigned_de_entity->getGUID();
+        }
+
+        return in_array($domain_expert_entity->getGUID(), $de_guids);
     }
 
     public static function getRequestForRiskBenefitScore($rb_score_guid) {
