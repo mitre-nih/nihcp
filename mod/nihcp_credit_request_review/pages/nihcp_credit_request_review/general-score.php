@@ -43,7 +43,7 @@ if (nihcp_triage_coordinator_gatekeeper(false) && $request_entity->isEditable())
 // Domain Experts should see reviews for requests they have been assigned
 // Triage Coordinators and NIH Approvers should see reviews for completed reviews
 } else if (!empty($gs_entity)
-    && ( (nihcp_domain_expert_gatekeeper(false) && in_array(elgg_get_logged_in_user_entity(), RiskBenefitScore::getAssignedDomainExperts($request_guid)))
+    && ( (nihcp_domain_expert_gatekeeper(false) && RiskBenefitScore::isDomainExpertAssignedToRequest(elgg_get_logged_in_user_entity(), $request_guid))
         || (nihcp_role_gatekeeper(array(RoleManager::NIH_APPROVER, RoleManager::TRIAGE_COORDINATOR), false) && $request_entity->isComplete()) )
 ) {
 
