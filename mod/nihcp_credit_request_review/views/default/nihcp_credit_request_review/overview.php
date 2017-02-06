@@ -19,6 +19,13 @@ $selected_cycle_guid = $vars['selected_cycle_guid'];
 
 $content .= "<div class=\"pbm\"><label class=\"prm\">".elgg_echo('item:object:commonscreditcycle').":</label>".elgg_view('input/select', array('value' => $selected_cycle_guid, 'options_values' => $cycle_options, 'id' => 'nihcp-ccreq-cycle-select'))."</div>";
 
+$content .=  "<div>";
+$content .= elgg_view('graphics/ajax_loader', array(
+    'class' => 'embed-throbber mtl crrLoader',
+    'id' => 'crrLoader',
+));
+$content .= "</div>";
+
 $content .= "<div id=\"nihcp-crr-overview-requests\"></div>";
 
 $content .= "</div>";

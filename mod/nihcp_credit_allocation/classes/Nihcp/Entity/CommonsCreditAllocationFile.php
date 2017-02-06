@@ -198,7 +198,7 @@ class CommonsCreditAllocationFile extends \ElggObject {
 
 
             // if image, we need to create thumbnails (this should be moved into a function)
-            if ($guid && 'image' == $file->simpletype) {
+            if ($guid && 'image' === $file->simpletype) {
                 $file->icontime = time();
 
                 $thumbnail = get_resized_image_from_existing_file($file->getFilenameOnFilestore(), 60, 60, true);

@@ -1,5 +1,54 @@
 [
     {
+        "name": "bower-asset/autoNumeric",
+        "version": "1.9.43",
+        "version_normalized": "1.9.43.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/BobKnothe/autoNumeric.git",
+            "reference": "c82f0711ad236fdd9133608138de47c1ee489e45"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/BobKnothe/autoNumeric/zipball/c82f0711ad236fdd9133608138de47c1ee489e45",
+            "reference": "c82f0711ad236fdd9133608138de47c1ee489e45",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.7"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "./autoNumeric.js",
+            "bower-asset-ignore": [
+                "**/.*",
+                "node_modules",
+                "bower_components",
+                "test",
+                "tests"
+            ]
+        },
+        "installation-source": "dist",
+        "license": [
+            "http://opensource.org/licenses/mit-license.php"
+        ],
+        "description": "autoNumeric is a jQuery plugin that automatically formats currency (money) and numbers as you type on form inputs. It supports most International numeric formats and currency signs including those used in Europe, North and South America, Asia and India (lakhs**).",
+        "keywords": [
+            "Dollar",
+            "Euro",
+            "Pound",
+            "currency",
+            "form",
+            "format",
+            "input",
+            "jquery",
+            "mask",
+            "money",
+            "number",
+            "numeric"
+        ]
+    },
+    {
         "name": "composer/installers",
         "version": "v1.1.0",
         "version_normalized": "1.1.0.0",
@@ -134,55 +183,6 @@
             "javascript",
             "jquery",
             "library"
-        ]
-    },
-    {
-        "name": "bower-asset/autoNumeric",
-        "version": "1.9.43",
-        "version_normalized": "1.9.43.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/BobKnothe/autoNumeric.git",
-            "reference": "c82f0711ad236fdd9133608138de47c1ee489e45"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/BobKnothe/autoNumeric/zipball/c82f0711ad236fdd9133608138de47c1ee489e45",
-            "reference": "c82f0711ad236fdd9133608138de47c1ee489e45",
-            "shasum": ""
-        },
-        "require": {
-            "bower-asset/jquery": ">=1.7"
-        },
-        "type": "bower-asset-library",
-        "extra": {
-            "bower-asset-main": "./autoNumeric.js",
-            "bower-asset-ignore": [
-                "**/.*",
-                "node_modules",
-                "bower_components",
-                "test",
-                "tests"
-            ]
-        },
-        "installation-source": "dist",
-        "license": [
-            "http://opensource.org/licenses/mit-license.php"
-        ],
-        "description": "autoNumeric is a jQuery plugin that automatically formats currency (money) and numbers as you type on form inputs. It supports most International numeric formats and currency signs including those used in Europe, North and South America, Asia and India (lakhs**).",
-        "keywords": [
-            "Dollar",
-            "Euro",
-            "Pound",
-            "currency",
-            "form",
-            "format",
-            "input",
-            "jquery",
-            "mask",
-            "money",
-            "number",
-            "numeric"
         ]
     }
 ]

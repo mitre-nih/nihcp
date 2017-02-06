@@ -93,7 +93,16 @@ function user_support_page_handler($page) {
 				default:
 					if (!empty($page[1]) && is_numeric($page[1])) {
 						set_input("guid", $page[1]);
-						include(dirname(dirname(__FILE__)) . "/pages/support_ticket/view.php");
+						$entity = get_entity($page[1]);
+						// ignore access restrictions to be able to access support ticket entity
+						if(user_support_staff_gatekeeper(false)) {
+							$ia = elgg_set_ignore_access(true);
+							$entity = get_entity($page[1]);
+							elgg_set_ignore_access($ia); // reset ignoring access to previous value
+						}
+						if (!empty($entity)) {
+							include(dirname(dirname(__FILE__)) . "/pages/support_ticket/view.php");
+						}
 					} else {
 						include(dirname(dirname(__FILE__)) . "/pages/support_ticket/list.php");
 					}

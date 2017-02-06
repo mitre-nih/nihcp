@@ -2,6 +2,8 @@
 
 use \Nihcp\Entity\CommonsCreditCycle;
 
+nihcp_investigator_gatekeeper();
+
 $ia = elgg_set_ignore_access();
 
 $cycles = CommonsCreditCycle::getCycles($omit_future = true);

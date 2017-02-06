@@ -14,6 +14,7 @@ return [
 	'nihcp_commons_credit_request:ccreq:deletefiletooltip' => 'Delete file',
 
 	// NIH Policies
+	'nihcp_commons_credit_request:nih_policies' => 'NIH Policies',
 	'nihcp_commons_credit_request:nih_policies:data_sharing' => 'NIH Data Sharing Policy and Implementation Guidance',
 	'nihcp_commons_credit_request:nih_policies:data_sharing:website' => 'NIH Data Sharing Policy Website (i.e., FAQs, Data Sharing Workbook, related Guide Notices, etc.)',
 	'nihcp_commons_credit_request:nih_policies:grants_policy:availability_information' => 'NIH Grants Policy Statement (Rev. 10/10) – Availability of Information (i.e. FOIA, Privacy Act, Access to Research Data)',
@@ -47,7 +48,9 @@ return [
 	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact:desc' => '(First Middle Last) This field is only required if a program officer is not declared. Please provide the full name of your NIH-sponsored contact that distributed official confirmation of your award ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
 	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_title:desc' => 'This field is only required if a program officer is not declared. Provide the current position title of your alternative grant verification contact ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
 	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_email:desc' => 'This field is only required if a program officer is not declared. Provide active institutional email account of your contact ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
-	'nihcp_commons_credit_request:ccreq:grant_id:desc' => 'Check that the listed Grant ID can be validated in NIH RePORTER. The Grant ID in NIH RePORTER (<a href="https://projectreporter.nih.gov/reporter.cfm">https://projectreporter.nih.gov/reporter.cfm</a>) must populate active identified grant. If the grant is not available in NIH RePORTER, please describe rationale here. In some circumstances, validation of your grant may be required by your project officer ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
+	'nihcp_commons_credit_request:ccreq:grant_id:desc' => 'Check that the listed Grant ID can be validated in NIH RePORTER. The Grant ID in NIH RePORTER (<a href="https://projectreporter.nih.gov/reporter.cfm">https://projectreporter.nih.gov/reporter.cfm</a>) must populate active identified grant.' ,
+    'nihcp_commons_credit_request:ccreq:grant_id:rationale' => 'The grant ID was not found in NIH RePORTER, please describe the rationale here. In some circumstances, validation of your grant may be required by your project officer '. '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
+    'nihcp_commons_credit_request:ccreq:grant_id:invalid' => 'The grant ID was not found in NIH RePORTER, please describe the rationale.',
 
 	'nihcp_commons_credit_request:ccreq:proposed_research' => 'Proposed Research and Impact',
     'nihcp_commons_credit_request:ccreq:proposed_research:desc' => 'Describe and provide rationale for proposed research. Identify research communities impacted and likely to reuse the results of your research. Attach external document (s), if this field space is insufficient. Attach any Data Use Agreements (DUA) here if applicable. (Limit ' . CommonsCreditRequest::PROPOSED_RESEARCH_MAX_LENGTH . ' characters). Attachments should be uploaded as one zipped archive labeled "supporting documents"',
@@ -84,6 +87,34 @@ return [
 	'nihcp_commons_credit_request:ccreq:agreement_terms_and_conditions' => 'I agree to <a target="_blank" href="' . elgg_get_site_url() . 'nihcp_commons_credit_request/terms-and-conditions">Terms and Conditions</a>',
 	'nihcp_commons_credit_request:ccreq:agreement_nih_policies_digital_objects' => 'I agree to abide with NIH policies governing Digital Objects (DO). Please refer to the sidebar for details.',
 	'nihcp_commons_credit_request:ccreq:agreement_biocaddie' => 'I agree to Index Digital Objects in <a target="_blank" href="https://biocaddie.org/">bioCADDIE</a>',
+
+
+	// Delegation
+	'nihcp_commons_credit_request:delegate' => 'Delegation',
+	'nihcp_commons_credit_request:delegate:email' => 'Delegate Email',
+	'nihcp_commons_credit_request:delegate:message' => 'Message',
+	'nihcp_commons_credit_request:delegate:pending' => 'Pending',
+	'nihcp_commons_credit_request:delegate:invalid' => 'Pending', // intentionally the same as pending message for email privacy
+	'nihcp_commons_credit_request:delegate:delegated' => 'Delegated',
+	'nihcp_commons_credit_request:delegate:review' => 'PI Review',
+	'nihcp_commons_credit_request:delegate:declined' => 'Declined',
+	'nihcp_commons_credit_request:delegate:submitted' => 'Submitted',
+	'nihcp_commons_credit_request:delegate:self_delegation_error' => 'You cannot delegate yourself.',
+	'nihcp_commons_credit_request:delegate:instructions' => 'By delegating a CCREQ application, a PI is providing a designated delegate of their choice with “edit ownership” of that application.  The PI will no longer have edit privileges on that CCREQ, including the ability to submit the CCREQ, until the delegate returns ownership to them or they recall the delegation.
+<br>
+<br>
+The designated delegate must be registered with an active account in the Commons Credits Pilot Portal at the time of delegation. The designated delegate will receive an email notifying them of their new access at the time of delegation, and must accept this role to proceed. If the designated delegate does not accept an invitation, the PI can recall the delegation and regain full control.
+<br>
+<br>
+Please note:  with or without delegation, only PIs with active NIH grants at the time of credits distribution (the end of a cycle) can submit CCREQ applications.  Delegation does not change this requirement, nor does it change any deadline for submission.
+<br>
+<br>',
+	'nihcp_commons_credit_request:delegate:request:subject' => "You have been assigned as a NIH Commons Credits Request delegate",
+	'nihcp_commons_credit_request:delegate:revoke:subject' => "Your role as delegate on a NIH Commons Credits Request has been revoked",
+	'nihcp_commons_credit_request:delegate:request:description' => '%s has assigned you as a delegate to this application for this CCREQ for the project titled "%s". Do you accept this delegation?',
+	'nihcp_commons_credit_request:delegate:revoke:description' => '%s has removed you as a delegate to the application for the CCREQ for the project titled "%s"',
+	'nihcp_commons_credit_request:delegate:request:accept' => 'Yes, I accept delegation.',
+	'nihcp_commons_credit_request:delegate:request:decline' => 'No, I decline delegation.',
 
 	// terms and conditions
 	'nihcp_commons_credit_request:ccreq:terms_and_conditions' =>

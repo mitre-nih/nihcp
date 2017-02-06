@@ -8,7 +8,6 @@
 ?>
 /* <style> /**/
 
-
 /***** PAGE HEADER ******/
 
 .elgg-page-topbar{
@@ -79,6 +78,10 @@
 	display: none!important;
 }
 
+.elgg-menu-footer > li, .elgg-menu-footer > li > a {
+	color:#44484e;
+}
+
 /* Page body */
 
 body {
@@ -93,7 +96,7 @@ a {
 }
 
 .elgg-body .elgg-menu, .elgg-body li[class^="elgg-menu-item-"] > a {
-    color:slategray;
+    color:#44484e;
 }
 
 .elgg-body {
@@ -215,7 +218,7 @@ input::-webkit-inner-spin-button {
 .elgg-table th {
 	text-align: left; }
 .elgg-table td {
-	text-align: center;
+	text-align: left;
 	vertical-align: top; }
 
 /* Setting styles for the cloud service comparison table */
@@ -334,4 +337,47 @@ input {
 
 #how_did_you_hear_about_us_other{
 	width: 400px;
+}
+
+button.accordion-btn {
+	font-size: 100%;
+	background-color: #eee;
+	color: #444;
+	cursor: pointer;
+	padding: 18px;
+	width: 100%;
+	text-align: left;
+	border: none;
+	outline: none;
+	transition: 0.4s;
+}
+
+button.accordion-btn:after {
+	content: '\2795';
+	font-size: 13px;
+	color: #777;
+	float: left;
+	margin-right: 10px;
+}
+
+button.accordion-btn.active:after {
+	content: "\2796";
+}
+
+button.accordion-btn.active, button.accordion:hover {
+	background-color: #ddd;
+}
+
+div.accordion-panel {
+	padding: 0 18px;
+	background-color: white;
+	display: none;
+}
+
+div.accordion-panel.show {
+	display: block;
+}
+
+.crr-overview-incomplete-icon {
+	text-align: center;
 }

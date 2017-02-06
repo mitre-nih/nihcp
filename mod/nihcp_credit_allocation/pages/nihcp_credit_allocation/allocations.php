@@ -27,7 +27,7 @@ $request_guid = get_input('request_guid');
 
 if($request_guid) {
 	$ia = elgg_get_ignore_access();
-	if($review_mode) {
+	if($review_mode || CommonsCreditRequest::hasAccess($request_guid)) {
 		$ia = elgg_set_ignore_access();
 	}
 	$request = get_entity($request_guid);
@@ -40,6 +40,7 @@ if($request) {
 		'review_mode' => $review_mode
 	));
 } elseif ($review_mode) {
+
 	$content = elgg_view('nihcp_credit_allocation/overview', array('cycles' => $cycles, 'selected_cycle_guid' => $selected_cycle_guid, 'review_mode' => $review_mode));
 } else {
 	register_error(elgg_echo("nihcp_groups:role:gatekeeper"));

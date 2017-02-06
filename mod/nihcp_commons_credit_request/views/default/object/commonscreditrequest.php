@@ -4,6 +4,12 @@
 	$supplementary_materials_upload_file = get_entity($request->supplementary_materials_upload_guid);
 
 
+echo "<div class='pvs'>";
+    echo "<b>" . "CCREQ ID" . "</b>";
+    echo "<div class='pvl phs'>";
+    echo $request->getRequestId();
+    echo "</div>";
+echo "</div>";
 
 echo "<div class='pvs'>";
 echo "<b>" . elgg_echo("nihcp_commons_credit_request:ccreq:project_title") . "</b>";

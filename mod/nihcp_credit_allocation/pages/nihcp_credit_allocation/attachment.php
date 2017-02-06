@@ -12,6 +12,9 @@ $ia = elgg_get_ignore_access();
 // Credit Administrators
 if(nihcp_credit_admin_gatekeeper(false)) {
 	$ia = elgg_set_ignore_access();
+} else {
+	register_error(elgg_echo("file:downloadfailed"));
+	forward();
 }
 
 include elgg_get_plugins_path().'/file/pages/file/download.php';

@@ -22,6 +22,8 @@ function credit_request_review_init() {
 	elgg_register_action('change-status', "$action_path/nihcp_credit_request_review/change_status.php", 'admin');
 	elgg_register_action('credit_request_cycle/edit', "$action_path/nihcp_credit_request_cycle/save.php");
 	elgg_register_action('credit_request_cycle/delete', "$action_path/nihcp_credit_request_cycle/delete.php");
+	elgg_register_action('nihcp_export_email_addr/export', "$action_path/nihcp_export_email_addr/export.php");
+	elgg_register_action('grant-id-validation',"$action_path/nihcp_credit_request_review/grant_id_validation.php");
 
 	// Extend the main CSS file
 	elgg_extend_view('css/elements/layout', 'css/nihcp_credit_request_review/credits_request_review');
@@ -31,6 +33,7 @@ function credit_request_review_init() {
 
 	// Add a new widget
 	elgg_register_widget_type('nihcp_credit_request_review', elgg_echo("nihcp_credit_request_review"), elgg_echo("nihcp_credit_request_review:widget:description"));
+	elgg_register_widget_type('nihcp_export_email_addr', elgg_echo("nihcp_export_email_addr"), elgg_echo("nihcp_export_email_addr:widget:description"));
 
 	elgg_register_page_handler('nihcp_credit_request_review', 'nihcp_credit_request_review_page_handler');
 
@@ -60,7 +63,7 @@ function nihcp_credit_request_review_page_handler($page) {
 			break;
 		case 'general-score':
 			$class = $page[2];
-			if (!($class == 'datasets' || $class == 'applications_tools' || $class == 'workflows')) {
+			if (!($class === 'datasets' || $class === 'applications_tools' || $class === 'workflows')) {
 				return false;
 			}
 			set_input('review_class', $class);
@@ -87,7 +90,7 @@ function nihcp_credit_request_review_page_handler($page) {
 			break;
 		case 'final-score':
 			$class = $page[2];
-			if (!($class == 'datasets' || $class == 'applications_tools' || $class == 'workflows')) {
+			if (!($class === 'datasets' || $class === 'applications_tools' || $class === 'workflows')) {
 				return false;
 			}
 			set_input('review_class', $class);
@@ -99,6 +102,9 @@ function nihcp_credit_request_review_page_handler($page) {
 		case 'all':
 			include "$crr_dir/overview.php";
 			break;
+        case 'verify':
+            include "$crr_dir/verify.php";
+            break;
 		default:
 			return false;
 	}

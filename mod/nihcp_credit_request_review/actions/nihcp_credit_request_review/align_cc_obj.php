@@ -26,9 +26,6 @@ if (nihcp_triage_coordinator_gatekeeper()) {
                 add_entity_relationship($request_guid, \Nihcp\Entity\AlignmentCommonsCreditsObjectives::RELATIONSHIP_CCREQ_TO_ALIGNMENT_COMMONS_CREDITS_OBJECTIVES, $alignment_commons_credits_objectives->getGUID());
             }
             $alignment_commons_credits_objectives->question1 = htmlspecialchars(get_input('question1', '', false), ENT_QUOTES, 'UTF-8');
-            $alignment_commons_credits_objectives->question2 = htmlspecialchars(get_input('question2', '', false), ENT_QUOTES, 'UTF-8');
-            $alignment_commons_credits_objectives->question3 = htmlspecialchars(get_input('question3', '', false), ENT_QUOTES, 'UTF-8');
-            $alignment_commons_credits_objectives->question4 = htmlspecialchars(get_input('question4', '', false), ENT_QUOTES, 'UTF-8');
 
             $alignment_commons_credits_objectives->save();
             break;

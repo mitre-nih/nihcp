@@ -74,11 +74,13 @@ define(function(require) {
 	$(function() {
 		$('#nihcp-ccreq-cycle-select').change(function() {
 			var cycle_guid = $(this).val();
+			$(".crrLoader").show();
 			elgg.get('ajax/view/nihcp_credit_request_review/overview/requests', {
 				data: {
 					cycle_guid: cycle_guid
 				},
 				success: function(output) {
+					$(".crrLoader").hide();
 					$('#nihcp-crr-overview-requests').html(output);
 					var tableWidth = $(".crr-overview-table").width() * 1.02;
 					if (tableWidth > $(".elgg-page-default .elgg-page-body .elgg-inner").width()) {

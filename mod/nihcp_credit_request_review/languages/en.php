@@ -48,6 +48,13 @@ return [
 	'nihcp_credit_request_review:crr:decision:deny' => 'Denied',
 	'nihcp_credit_request_review:crr:decision:save' => 'Complete Adjudication',
 
+    'nihcp_credit_request_verify' => 'Grant ID Validation',
+    'nihcp_credit_request_review:crr:validate:is_active' => 'Is the Grant ID listed in this CCREQ active?',
+    'nihcp_credit_request_review:crr:validate:is_active_comment' => 'Comment',
+
 	'nihcp_credit_request_review:no_access' => 'Review not available.',
 	'nihcp_credit_request_review:no_review' => 'No review was made.',
+
+	'nihcp_export_email_addr' => 'Export Email Addresses',
+	'nihcp_export_email_addr:widget:description' => 'Widget used to export portal users\' email addresses.',
 ];

@@ -44,4 +44,7 @@ return [
 	'nihcp_credit_allocation:submit:areyousure' => 'Are you sure you want to submit your allocations? This is a binding action and cannot be reversed once confirmed.',
 	'nihcp_credit_allocation:action:allocate' => 'Allocate',
 	'nihcp_credit_allocation:action:view_allocation' => 'View Allocation',
+
+	'nihcp_credit_allocation:widgets:manage_vendors:title' => "Manage Vendors",
+	'nihcp_credit_allocation:widgets:manage_vendors:description' => "Widget for managing cloud service vendors",
 ];

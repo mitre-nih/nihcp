@@ -19,6 +19,11 @@ if (get_subtype_id('object', 'commonscreditstatuschange')) {
 } else {
 	add_subtype('object', 'commonscreditstatuschange', 'Nihcp\Entity\CommonsCreditStatusChange');
 }
+if (get_subtype_id('object', 'commonscreditrequestdelegation')) {
+	update_subtype('object', 'commonscreditrequestdelegation', 'Nihcp\Entity\CommonsCreditRequestDelegation');
+} else {
+	add_subtype('object', 'commonscreditrequestdelegation', 'Nihcp\Entity\CommonsCreditRequestDelegation');
+}
 
 /* Fix for legacy installations: assign CCREQ IDs to submitted CCREQs */
 $entities = elgg_get_entities_from_metadata([

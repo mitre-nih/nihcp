@@ -1,14 +1,18 @@
 <?php
+
+$no_access_text = 'You do not have permission to view this resource';
+
 return array(
 	// override error message text
-	'limited_access' => 'You do not have permission to view this resource',
-	'adminrequired' => 'You do not have permission to view this resource',
-	'membershiprequired' => 'You do not have permission to view this resource',
-	'noaccess' => 'You do not have permission to view this resource',
-	'avatar:noaccess' => 'You do not have permission to view this resource',
-	'groups:noaccess' => 'You do not have permission to view this resource',
-	'profile:noaccess' => 'You do not have permission to view this resource',
-	'user_support:staff_gatekeeper' => 'You do not have permission to view this resource',
+	'limited_access' => $no_access_text,
+	'adminrequired' => $no_access_text,
+	'membershiprequired' => $no_access_text,
+	'noaccess' => $no_access_text,
+	'avatar:noaccess' => $no_access_text,
+	'groups:noaccess' => $no_access_text,
+	'profile:noaccess' => $no_access_text,
+	'user_support:staff_gatekeeper' => $no_access_text,
+	'actiongatekeeper:missingfields' => $no_access_text,
 
 	// browser warning text
 	'browser_support_warning' => 'This website may not function correctly and optimally with Internet Explorer or older versions of browsers. Please use a different browser for the best experience on this site.',
@@ -30,4 +34,6 @@ return array(
 	'nihcp_theme:how_did_you_hear_about_us:option:linkedin' => 'LinkedIn',
 	'nihcp_theme:how_did_you_hear_about_us:option:nih_website' => 'NIH Website',
 	'nihcp_theme:how_did_you_hear_about_us:option:other' => 'Other',
+
+	'nihcp_theme:rob_acknowledgement' => "By logging into the NIH CCP you have acknowledged that you have read and understood the <a href='%s'>Rules of Behavior</a>, <a href='%s'>Privacy Policy</a>, <a href='%s'>Terms of Use</a>, and other pertinent policies and that you have agreed to follow the aforementioned rules and policies.",
 );

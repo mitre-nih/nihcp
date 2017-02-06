@@ -11,6 +11,7 @@ class CommonsCreditVendor extends \ElggObject {
 		parent::initializeAttributes();
 		$class = get_class($this);
 		$this->attributes['subtype'] = $class::SUBTYPE;
+		$this->owner_guid = 0;
 		$this->active = true;
 	}
 
@@ -24,12 +25,13 @@ class CommonsCreditVendor extends \ElggObject {
 
 	public static function getByName($vendor_name) {
 		$ia = elgg_set_ignore_access();
+		$dbprefix = elgg_get_config('dbprefix');
 		$entities = elgg_get_entities_from_metadata([
 			'type' => 'object',
 			'subtype' => CommonsCreditVendor::SUBTYPE,
 			'limit' => 1,
-			'metadata_name' => 'title',
-			'metadata_value' => $vendor_name
+			'joins' => array("INNER JOIN {$dbprefix}objects_entity o ON (e.guid = o.guid)"),
+			'wheres' => array("o.title = '{$vendor_name}'"),
 		]);
 		elgg_set_ignore_access($ia);
 		return $entities && !empty($entities) ? $entities[0] : false;
@@ -46,6 +48,17 @@ class CommonsCreditVendor extends \ElggObject {
 		]);
 		elgg_set_ignore_access($ia);
 		return $entities && !empty($entities) ? $entities[0] : false;
+	}
+
+	public static function getAllVendors() {
+		$ia = elgg_set_ignore_access();
+		$entities = elgg_get_entities_from_metadata([
+			'type' => 'object',
+			'subtype' => CommonsCreditVendor::SUBTYPE,
+			'limit' => 0,
+		]);
+		elgg_set_ignore_access($ia);
+		return $entities;
 	}
 
 	public static function getActiveVendors() {

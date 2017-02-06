@@ -10,10 +10,12 @@ $content = "<tr>
 	}
 	$content .= "
 			<th><b>Status</b></th>
+			<!--<th><b>Active Grant</b></th>-->
 			<th><b>Credit ($)</b></th>";
 	if ($full_view) {
 		$content .= "
-			<th><b>Action</b></th>";
+			<th><b>Action</b></th>
+			<th><b>Delegate</b></th>";
 	}
 $content .= "</tr>";
 

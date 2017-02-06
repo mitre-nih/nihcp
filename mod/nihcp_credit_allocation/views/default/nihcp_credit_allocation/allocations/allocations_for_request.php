@@ -10,11 +10,12 @@ $full_view = elgg_extract('full_view', $vars, true);
 $content = elgg_view('nihcp_credit_allocation/components/allocations', ['full_view' => $full_view, 'review_mode' => $review_mode, 'requests' => [$request]]);
 
 $show_actions = false;
-if($request->getOwnerGUID() === elgg_get_logged_in_user_guid()) {
+if(CommonsCreditRequest::hasAccess($request->getGUID())) {
 	$show_actions = !CommonsCreditAllocation::isAllocated($request->guid);
 }
 
 if($show_actions) {
+	$ia = elgg_set_ignore_access();
 	$unallocated = CommonsCreditAllocation::getUnallocatedCredit($request->guid);
 	$action_params = array(
 		'value' => 'Allocate',
@@ -35,6 +36,7 @@ if($show_actions) {
 	}
 	$content .= elgg_view('input/submit', $submit_params);
 	$content .= "</div>";
+	elgg_set_ignore_access($ia);
 }
 
 echo $content;

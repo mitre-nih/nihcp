@@ -43,7 +43,7 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
 
     $rbscore_empty = true;
     foreach ($benefit_risk_scores as $rb) {
-        if ($rb->status == RiskBenefitScore::COMPLETED_STATUS) {
+        if ($rb->status === RiskBenefitScore::COMPLETED_STATUS) {
             $rbscore_empty = false;
         }
     }
@@ -91,7 +91,7 @@ if ( nihcp_triage_coordinator_gatekeeper(false)
             echo "<h3>" . elgg_echo("nihcp_credit_request_review:crr:benefit_risk_score") . "</h3>";
 
             foreach ($benefit_risk_scores as $br) {
-                if ($br-> status == RiskBenefitScore::COMPLETED_STATUS) {
+                if ($br-> status === RiskBenefitScore::COMPLETED_STATUS) {
                     echo "<div class='pvm'>";
                     echo elgg_view_entity($br);
                     echo "</div>";

@@ -13,11 +13,13 @@ function credit_allocation_init() {
 	elgg_register_action('nihcp_credit_allocation/save', "$action_path/nihcp_credit_allocation/save.php");
 	elgg_register_action('nihcp_credit_allocation/submit_allocations', "$action_path/nihcp_credit_allocation/submit_allocations.php");
 	elgg_register_action('nihcp_credit_allocation/delete', "$action_path/nihcp_credit_allocation/delete.php");
+	elgg_register_action('nihcp_credit_allocation/manage_vendors', "$action_path/nihcp_credit_allocation/manage_vendors.php");
 
 	elgg_register_ajax_view('nihcp_credit_allocation/allocations/allocations_in_cycle');
 
 	// Add a new widget
 	elgg_register_widget_type('nihcp_credit_allocation', elgg_echo("nihcp_credit_allocation"), elgg_echo("nihcp_credit_allocation:widget:description"));
+	elgg_register_widget_type('manage_vendors', elgg_echo("nihcp_credit_allocation:widgets:manage_vendors:title"), elgg_echo("nihcp_credit_allocation:widgets:manage_vendors:description"));
 
 	elgg_register_page_handler('nihcp_credit_allocation', 'nihcp_credit_allocation_page_handler');
 }

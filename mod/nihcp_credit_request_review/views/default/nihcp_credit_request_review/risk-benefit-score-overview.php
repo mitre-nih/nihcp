@@ -1,6 +1,6 @@
 <?php
 
-
+use Nihcp\Entity\CommonsCreditRequest;
 use Nihcp\Entity\RiskBenefitScore;
 use Nihcp\Manager\RoleManager;
 
@@ -19,6 +19,38 @@ $reviews = (nihcp_domain_expert_gatekeeper(false) && !elgg_is_admin_logged_in())
     RiskBenefitScore::getEntitiesForRequestAndDomainExpert($request_guid, elgg_get_logged_in_user_guid()) :
     RiskBenefitScore::getRiskBenefitScoreEntitiesForRequest($request_guid);
 
+// sort by DO class: Datasets, Apps/Tools, Workflows
+// in groups as assigned to DEs
+usort($reviews, function($a, $b) {
+
+
+    if ($a === $b) {
+        return 0;
+    }
+
+    $compare_de = strcasecmp(RiskBenefitScore::getDomainExpertForRiskBenefitScore($a->guid)->getDisplayName(), RiskBenefitScore::getDomainExpertForRiskBenefitScore($b->guid)->getDisplayName());
+
+
+    if ($compare_de === 0) {
+
+        if ($a->class === CommonsCreditRequest::DATASETS) { // always first
+            return -1;
+        } else if ($a->class === CommonsCreditRequest::WORKFLOWS) { // always last
+            return 1;
+        } else { // $a is a App/Tool, so depends on what $b is
+            if ($b->class === CommonsCreditRequest::DATASETS) {
+                return 1;
+            } else if ($b->class === CommonsCreditRequest::WORKFLOWS) { // Workflows
+                return -1;
+            } else { // $b is also app/tool
+                return 0;
+            }
+        }
+    } else {
+        return $compare_de;
+    }
+
+});
 
 $content = "";
 
@@ -40,6 +72,7 @@ if (nihcp_triage_coordinator_gatekeeper(false) && $request->isEditable()) {
 
 $content .= "
 <table class=\"elgg-table\">
+
 <tr>
     <th>Class</th>
     <th>Reviewer</th>

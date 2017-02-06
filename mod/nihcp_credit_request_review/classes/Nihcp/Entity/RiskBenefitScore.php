@@ -84,7 +84,7 @@ class RiskBenefitScore extends \ElggObject {
             'relationship_guid' => $request_guid,
             'type' => 'object',
             'subtype' => self::SUBTYPE,
-            'limit' => 0
+            'limit' => 0,
         ));
         elgg_set_ignore_access($ia);
         return $entities;

@@ -1,8 +1,11 @@
 <?php
 use \Nihcp\Entity\CommonsCreditAllocation;
+use \Nihcp\Entity\CommonsCreditRequest;
+
 
 nihcp_investigator_gatekeeper();
 $request_guid = htmlspecialchars(get_input('request_guid', '', false), ENT_QUOTES, 'UTF-8');
+
 if($request_guid) {
 	// which button was pressed
 	$action = htmlspecialchars(get_input('action', '', false), ENT_QUOTES, 'UTF-8');
@@ -13,12 +16,17 @@ if($request_guid) {
 		if (!$allocation->status || $allocation->status === CommonsCreditAllocation::STAGED_STATUS) {
 			$credit_allocated = htmlspecialchars(get_input('credit_allocated', '', false), ENT_QUOTES, 'UTF-8');
 			if($credit_allocated > 0) {
+				$ia = elgg_get_ignore_access();
+				if (CommonsCreditRequest::hasAccess($request_guid)) {
+					$ia = elgg_set_ignore_access();
+				}
 				if ($allocation_guid = CommonsCreditAllocation::saveAllocationFromForm($allocation)) {
 					$allocation->addToRequest($request_guid);
 					system_message('Success');
 				} else {
 					register_error('Fail');
 				}
+				elgg_set_ignore_access($ia);
 			} else {
 				$allocation->delete();
 				system_message('Removed allocation');

@@ -13,9 +13,13 @@ function commons_credit_request_init() {
 	$action_path = __DIR__ . '/actions';
 	elgg_register_action('request', "$action_path/nihcp_commons_credit_request/request.php");
 	elgg_register_action('confirm', "$action_path/nihcp_commons_credit_request/confirm.php");
+	elgg_register_action('delegate', "$action_path/nihcp_commons_credit_request/delegate.php");
+	elgg_register_action('delegate_request', "$action_path/nihcp_commons_credit_request/delegate_request.php");
+	elgg_register_action('delete_delegate', "$action_path/nihcp_commons_credit_request/delete_delegate.php");
 	elgg_register_action('file/delete', "$action_path/nihcp_commons_credit_request/file/delete.php");
 	elgg_register_action('delete_request', "$action_path/nihcp_commons_credit_request/delete_request.php");
     elgg_register_action('withdraw_request', "$action_path/nihcp_commons_credit_request/withdraw_request.php");
+    elgg_register_action('verify_grant_id',"$action_path/nihcp_commons_credit_request/verify_grant_id.php");
 
 	elgg_register_ajax_view('commons_credit_request/overview/requests_in_cycle');
 
@@ -41,9 +45,10 @@ function commons_credit_request_init() {
 	if(elgg_is_logged_in()) {
 		foreach ($policies as $policy=>$policy_link) {
 			elgg_register_menu_item('extras', array(
-					'name' => $policy,
+					'name' => 'nihcp-policy-'.$policy,
 					'href' => $policy_link,
 					'text' => elgg_echo('nihcp_commons_credit_request:nih_policies:' . $policy),
+					'link_class' => 'nihcp-policy'
 			));
 		}
 
@@ -100,6 +105,15 @@ function commons_credit_request_page_handler($page) {
 			break;
 		case 'attachment':
 			include "$ccreq_dir/attachment.php";
+			break;
+		case 'delegate':
+			if (isset($page[3])) { // this is a link for accepting delegation request
+				set_input('delegation_guid', $page[3]);
+				include "$ccreq_dir/delegate_request.php";
+			} else { // adding/deleting delegates
+				include "$ccreq_dir/delegate.php";
+			}
+			break;
 		case 'all':
 			include "$ccreq_dir/overview.php";
 			break;
@@ -128,4 +142,24 @@ function commons_credit_request_page_handler($page) {
 			return false;
 	}
 	return true;
+}
+
+function grant_id_is_valid($grant_id){
+    $retVal = False;
+    $grant_id = strtoupper(htmlspecialchars($grant_id));
+    $user = elgg_get_logged_in_user_entity();
+    $curDate = date("Y-m-d");
+    try {
+        $stmt = "SELECT count(*) as i from reporter_data where email='" . $user->email . "' and grant_id='" . $grant_id . "' and '" . $curDate . "' between start_date and end_date";
+        $rslt = get_data($stmt);
+
+        if (intval($rslt[0]->i) > 0) {
+            $retVal = True;
+        }
+    }catch(Exception $e){
+        error_log($e->getMessage());
+        $retVal = "error";
+    }
+
+    return $retVal;
 }

@@ -7,4 +7,4 @@ if (!empty($filter)) {
 	}
 }
 
-echo elgg_view("input/text", array("value" => get_input("faq_query"), "name" => "faq_query", "placeholder" => elgg_echo("search")));
+echo elgg_view("input/text", array("value" => get_input("faq_query"), "name" => "faq_query", "placeholder" => elgg_echo("search"), "alt" => "Search"));

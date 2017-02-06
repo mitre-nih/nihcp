@@ -67,6 +67,7 @@ function nihcp_role_gatekeeper($role_names, $forward = true, $user_guid = 0, $st
 				continue;
 			}
 
+			// isMember
 			$users = $role_group ? $role_group->getMembers(['limit' => 0]) : null;
 
 			if (!empty($users)) {

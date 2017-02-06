@@ -4,14 +4,15 @@ use Nihcp\Manager\RoleManager;
 
 $review_mode = elgg_extract('review_mode', $vars, false);
 
+$requests = elgg_extract('requests', $vars, true);
+$full_view = elgg_extract('full_view', $vars, true);
+
 $ia = elgg_get_ignore_access();
 
-if($review_mode) {
+if($review_mode || CommonsCreditRequest::hasAccess($requests[0]->guid)) {
 	$ia = elgg_set_ignore_access();
 }
 
-$requests = elgg_extract('requests', $vars, true);
-$full_view = elgg_extract('full_view', $vars, true);
 
 $show_action = ((count($requests) > 1 ? true : !CommonsCreditAllocation::isAllocated($requests[0]->guid)) && !$review_mode) || elgg_is_admin_logged_in();
 
@@ -95,7 +96,7 @@ if($requests) {
 					$last_updated = $dt->format('Y-m-d H:i:s');
 					$row .= "<td>$last_updated</td>";
 
-					if(($allocation->status == CommonsCreditAllocation::STAGED_STATUS && !$review_mode) || elgg_is_admin_logged_in()) {
+					if(($allocation->status === CommonsCreditAllocation::STAGED_STATUS && !$review_mode) || elgg_is_admin_logged_in()) {
 						$delete_button = elgg_view('input/button', array(
 							'value' => 'Delete',
 							'data-request-guid' => $request_guid,

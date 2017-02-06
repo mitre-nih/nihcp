@@ -4,7 +4,14 @@ namespace Nihcp\Entity;
 $request_guid = get_input("request_guid");
 $vendor_guid = get_input("vendor_guid");
 
+$ia = elgg_get_ignore_access();
+
+if (CommonsCreditRequest::hasAccess($request_guid)) {
+	$ia = elgg_set_ignore_access();
+}
+
 $current_request = get_entity($request_guid);
+
 if(!$current_request instanceof CommonsCreditRequest || $current_request->status !== CommonsCreditRequest::APPROVED_STATUS || CommonsCreditAllocation::isAllocated($request_guid)) {
 	register_error(elgg_echo('error:404:content'));
 	forward('/nihcp_commons_credit_request/overview');
@@ -21,3 +28,5 @@ $params = array(
 $body = elgg_view_layout('content', $params);
 
 echo elgg_view_page("nihcp_credit_allocation", $body);
+
+elgg_set_ignore_access($ia);

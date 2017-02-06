@@ -13,7 +13,7 @@ $cca_file->created_by = elgg_get_logged_in_user_guid();
 // assign values to object
 foreach ($cca_file::getFields() as $field => $options) {
     // Skip the created_on & created_by & upload fields as they're handled elsewhere
-    if ('created_by' == $field || 'created_on' == $field || 'upload' == $field) {
+    if ('created_by' === $field || 'created_on' === $field || 'upload' === $field) {
         continue;
     }
 

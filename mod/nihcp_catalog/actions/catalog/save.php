@@ -23,7 +23,7 @@ if ($entity->canEdit(elgg_get_logged_in_user_guid())) {
     // assign values to object
     foreach ($entity::getFields() as $field => $options) {
         // Skip the created_on & created_by & upload fields as they're handled elsewhere
-        if ('created_by' == $field || 'created_on' == $field || 'upload' == $field) {
+        if ('created_by' === $field || 'created_on' === $field || 'upload' === $field) {
             continue;
         }
 

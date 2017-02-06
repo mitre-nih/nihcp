@@ -7,19 +7,19 @@ class WidgetManager {
 	public static function getConfig() {
 		$config = [
 			//Investigator
-			0 => ['nihcp_catalog', 'nihcp_commons_credit_request', 'nihcp_credit_awards'],
+			0 => ['nihcp_catalog', 'nihcp_commons_credit_request', 'nihcp_credit_awards', 'blog'],
 			//NIH Approver
-			1 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log', 'nihcp_credit_allocation'],
+			1 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log', 'nihcp_credit_allocation', 'blog'],
 			//Domain Expert
-			2 => ['nihcp_catalog', 'nihcp_credit_request_review'],
+			2 => ['nihcp_catalog', 'nihcp_credit_request_review', 'blog'],
 			//Triage Coordinator
-			3 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log', 'nihcp_credit_allocation'],
+			3 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log', 'nihcp_credit_allocation', 'nihcp_export_email_addr', 'blog'],
 			//Vendor Administrator
-			4 => ['nihcp_catalog'],
+			4 => ['nihcp_catalog', 'manage_vendors', 'blog'],
 			//Helpdesk Administrator
-			5 => ['support_staff'],
+			5 => ['support_staff', 'blog'],
 			//Credit Administrator
-			6 => ['nihcp_credit_allocation']
+			6 => ['nihcp_credit_allocation', 'blog']
 		];
 		return $config;
 	}

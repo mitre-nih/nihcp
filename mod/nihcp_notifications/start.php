@@ -18,6 +18,11 @@ function nihcp_notifications_init() {
 	elgg_register_plugin_hook_handler('prepare', 'notification:decide:object:'.\Nihcp\Entity\CommonsCreditRequest::SUBTYPE, 'request_decided_prepare_notification');
 
 	elgg_register_plugin_hook_handler('prepare', 'notification:allocations_updated:object:'.\Nihcp\Entity\CommonsCreditRequest::SUBTYPE, 'allocations_updated_prepare_notifications');
+
+    //generate daily CCREQ stats for email
+    elgg_register_plugin_hook_handler('cron', 'daily', 'ccreq_stats_cron');
+    //generate daily helpdesk stats for email
+    elgg_register_plugin_hook_handler('cron', 'daily', 'helpdesk_stats_cron');
 }
 
 function handle_submit_request_notifications($event, $object_type, $object) {
@@ -235,4 +240,188 @@ function allocations_updated_prepare_notifications($hook, $type, $notification, 
 	elgg_set_ignore_access($ia);
 
 	return $notification;
+}
+
+
+function ccreq_stats_cron($hook, $entity_type, $returnvalue, $params){
+    $status = "";
+
+    $new = get_new_submissions_count();
+    $nr = get_not_reviewed_in_last_week_count();
+    $tnr = get_total_not_reviewed_count();
+
+    $subj = elgg_echo('nihcp_notifications:notify:ccreq_stats_subj');
+    $new24 = elgg_echo('nihcp_notifications:notify:ccreq_stats_daily',[$new]);
+    $noReview = elgg_echo('nihcp_notifications:notify:ccreq_stats_weekly',[$nr]);
+    $totalNoReview = elgg_echo('nihcp_notifications:notify:ccreq_stats_overall',[$tnr]);
+    $msg = $new24 . "\n" . $noReview . "\n" . $totalNoReview;
+
+    $options = array(
+        "type" => "group",
+        "limit" => 1,
+        "attribute_name_value_pairs" => [
+            ["name"=>"name","value"=>\Nihcp\Manager\RoleManager::TRIAGE_COORDINATOR],
+        ],
+        //"name" => \Nihcp\Manager\RoleManager::HELP_ADMIN,
+
+    );
+    $ia = elgg_set_ignore_access();
+    $group = elgg_get_entities_from_attributes($options)[0];
+    $users = $group->getMembers(array("limit"=>0));
+    foreach($users as $user){
+        notify_user($user->getGuid(),elgg_get_site_entity()->getGUID(),$subj,$msg);
+    }
+    elgg_set_ignore_access($ia);
+
+    return $returnvalue . $status;
+}
+
+//todo: make this a static function in the ccreq object? (needs some thought as to the best location)
+function get_new_submissions_count(){
+    $retVal = 0;
+    $time = time()-(60*60*24); //any created in the last 24 hours
+    $request = \Nihcp\Entity\CommonsCreditRequest::getByCycle();
+
+    //I tried doing a custom elgg_get_entities_by_metadata call with the time_created comparison as a name-value pair
+    //but it wasn't working for whatever reason (likely my error in calling it).  Rather than spend more time debugging
+    //it I'll just 'brute force' it.  Running once a day shouldn't be a big deal.
+    $ia = elgg_set_ignore_access();
+    foreach($request as $r){
+        if( $r->time_created > $time){
+            $retVal += 1;
+        }
+    }
+    elgg_set_ignore_access($ia);
+    return $retVal;
+}
+
+//todo: make this a static function in the ccreq object? (needs some thought as to the best location)
+function get_not_reviewed_in_last_week_count(){
+    $retVal = 0;
+    $request = \Nihcp\Entity\CommonsCreditRequest::getByCycle();
+    $time = time()-(60*60*24*7); //any created in the last 24 hours
+    $ia = elgg_set_ignore_access();
+    foreach($request as $r){
+        if($r->status == \Nihcp\Entity\CommonsCreditRequest::SUBMITTED_STATUS) {
+            if ($r->time_created > $time) {
+                $retVal += 1;
+            }
+        }
+    }
+    elgg_set_ignore_access($ia);
+
+    return $retVal;
+}
+
+//todo: make this a static function in the ccreq object? (needs some thought as to the best location)
+function get_total_not_reviewed_count(){
+    $ia = elgg_set_ignore_access();
+    $requests = elgg_get_entities_from_metadata([
+        'type' => 'object',
+        'subtype' => \Nihcp\Entity\CommonsCreditRequest::SUBTYPE,
+        'limit' => 0,
+        'count' => true,
+        'metadata_name_value_pairs' => [
+            ['name' => 'status', 'value' => \Nihcp\Entity\CommonsCreditRequest::SUBMITTED_STATUS, 'operand' => "="]
+        ],
+    ]);
+    elgg_set_ignore_access($ia);
+    return $requests;
+}
+
+//todo: think about putting this in user_support?
+function helpdesk_stats_cron($hook, $entity_type, $returnvalue, $params){
+    $c = get_open_tickets_in_last_day_count();
+    $c2 = get_open_tickets_in_last_week_count();
+    $c3 = get_total_open_tickets_count();
+
+    $subj = elgg_echo('nihcp_notifications:notify:helpdesk_stats_subj');
+    $new24 = elgg_echo('nihcp_notifications:notify:helpdesk_stats_daily',[$c]);
+    $new7 = elgg_echo('nihcp_notifications:notify:helpdesk_stats_weekly',[$c2]);
+    $totalOpen = elgg_echo('nihcp_notifications:notify:helpdesk_stats_overall',[$c3]);
+    $msg = $new24 . "\n" . $new7 . "\n" . $totalOpen;
+    //get helpdesk
+    $options = array(
+        "type" => "group",
+        "limit" => 1,
+        "attribute_name_value_pairs" => [
+            ["name"=>"name","value"=>\Nihcp\Manager\RoleManager::HELP_ADMIN],
+        ],
+    );
+    $ia = elgg_set_ignore_access();
+    $group = elgg_get_entities_from_attributes($options)[0];
+    $users = $group->getMembers(array("limit"=>0));
+    foreach($users as $user){
+        notify_user($user->getGuid(),elgg_get_site_entity()->getGUID(),$subj,$msg);
+    }
+    elgg_set_ignore_access($ia);
+
+
+    return $returnvalue;
+}
+
+function get_open_tickets_in_last_day_count(){
+    $retVal = 0;
+    $time = time()-(60*60*24); //any created in the last 24 hours
+    $options = array(
+        "type" => "object",
+        "subtype" => UserSupportTicket::SUBTYPE,
+        "full_view" => false,
+        "metadata_name_value_pairs" => [
+            ["name"=>"status","value" => UserSupportTicket::OPEN,"operand"=>"="],
+        ],
+        "limit" =>0,
+    );
+    $ia = elgg_set_ignore_access();
+    $results = elgg_get_entities_from_metadata($options);
+    foreach($results as $r){
+        if ($r->time_created > $time) {
+            $retVal += 1;
+        }
+    }
+    elgg_set_ignore_access($ia);
+
+    return $retVal;
+}
+
+function get_open_tickets_in_last_week_count(){
+    $retVal = 0;
+    $time = time()-(60*60*24*7); //any created in the last 7 days
+    $mOptions = array(
+        "type" => "object",
+        "subtype" => UserSupportTicket::SUBTYPE,
+        "full_view" => false,
+        "metadata_name_value_pairs" => [
+            ["name"=>"status","value" => UserSupportTicket::OPEN,"operand"=>"="],
+        ],
+        "limit" =>0,
+    );
+
+    $ia = elgg_set_ignore_access();
+    $results = elgg_get_entities_from_metadata($mOptions);
+    foreach($results as $r){
+        if ($r->time_created > $time) {
+            $retVal += 1;
+        }
+    }
+    elgg_set_ignore_access($ia);
+
+    return $retVal;
+}
+
+function get_total_open_tickets_count(){
+    $options = array(
+        "type" => "object",
+        "subtype" => UserSupportTicket::SUBTYPE,
+        "full_view" => false,
+        "metadata_name_value_pairs" => [
+            ["name"=>"status","value" => UserSupportTicket::OPEN,"operand"=>"="],
+        ],
+        "limit" =>0,
+        "count" => true,
+    );
+    $ia = elgg_set_ignore_access();
+    $results = elgg_get_entities_from_metadata($options);
+    elgg_set_ignore_access($ia);
+    return $results;
 }

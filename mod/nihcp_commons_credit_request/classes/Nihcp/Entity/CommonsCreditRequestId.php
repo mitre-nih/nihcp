@@ -23,7 +23,8 @@ class CommonsCreditRequestId extends \ElggObject {
 	}
 
 	private static function getYear($request_guid) {
-		$d = \DateTime::createFromFormat(CommonsCreditRequest::DATE_FORMAT, get_entity($request_guid)->submission_date);
+		$cycle = get_entity($request_guid)->getCycle();
+		$d = \DateTime::createFromFormat(CommonsCreditCycle::DATE_FORMAT, $cycle->start);
 		return $d->format('Y');
 	}
 

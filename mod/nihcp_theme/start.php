@@ -71,8 +71,6 @@ function nihcp_registration_extra_data($hook, $type, $return, $params) {
 	$user->how_did_you_hear_about_us = $how_did_you_hear_about_us;
 	$user->how_did_you_hear_about_us_other = $how_did_you_hear_about_us_other;
 
-	error_log($user->how_did_you_hear_about_us . $user->how_did_you_hear_about_us_other );
-
 }
 
 /**
@@ -130,7 +128,7 @@ function nihcp_pages_title_menu_setup($hook, $type, $value, $params) {
  */
 function nihcp_theme_site_menu_setup($hook, $type, $return, $params) {
 
-	$allowed_item_names = ['dashboard', 'pages', 'faq', 'help_center'];
+	$allowed_item_names = ['dashboard', 'pages', 'faq', 'help_center', 'blog'];
 	if(elgg_is_admin_logged_in()) {
 		array_push($allowed_item_names, 'groups');
 	}

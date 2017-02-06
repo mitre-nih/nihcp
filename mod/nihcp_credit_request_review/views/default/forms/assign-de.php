@@ -26,6 +26,14 @@ if (!empty($request_guid)) {
 $domain_expert_role = RoleManager::getRoleByName(RoleManager::DOMAIN_EXPERT);
 $domain_experts = $domain_expert_role->getMembers(array("limit"=>0));
 
+
+usort($domain_experts, function($a, $b) {
+    if ($a === $b) {
+        return 0;
+    }
+    return strcasecmp($a->getDisplayName(), $b->getDisplayName());
+});
+
 $already_assigned_experts = RiskBenefitScore::getAssignedDomainExperts($request_guid);
 
 $already_assigned_experts_guids = array();
@@ -39,6 +47,7 @@ $content = "
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
+            <th># of D.O.s</th>
             <th>Assign</th>
         </tr>
     ";
@@ -50,6 +59,7 @@ foreach ($domain_experts as $de) {
     $content .= "<td>" . $de->getGUID() . "</td>";
     $content .= "<td>" . $de->getDisplayName() . "</td>";
     $content .= "<td>" . $de->email. "</td>";
+    $content .= "<td>" . count(RiskBenefitScore::getRiskBenefitScoreEntitiesForDomainExpert($de->getGUID())) . "</td>";
 
     if (RiskBenefitScore::isAllAssignedCompleted($request_guid, $de->getGUID())) {
         $content .= "<td>Completed</td>";

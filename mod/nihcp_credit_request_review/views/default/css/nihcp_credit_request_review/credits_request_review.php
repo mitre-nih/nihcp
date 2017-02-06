@@ -32,3 +32,7 @@
         font-size: 300%;
         padding-top: 8%;
     }
+
+    .align-left {
+        text-align: left;
+    }

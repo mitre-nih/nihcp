@@ -2,6 +2,8 @@
 use Nihcp\Manager\RoleManager;
 use Nihcp\Entity\RiskBenefitScore;
 
+nihcp_role_gatekeeper(array(RoleManager::INVESTIGATOR, RoleManager::NIH_APPROVER, RoleManager::TRIAGE_COORDINATOR, RoleManager::DOMAIN_EXPERT));
+
 $request_guid = get_input('request_guid');
 $file_guid = get_input('file_guid');
 

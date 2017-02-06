@@ -1,6 +1,7 @@
 <?php
 
 use \Nihcp\Entity\CommonsCreditRequest;
+use \Nihcp\Entity\CommonsCreditRequestDelegation;
 
 elgg_make_sticky_form('request');
 
@@ -8,11 +9,17 @@ elgg_make_sticky_form('request');
 $action = get_input('action', '', false);
 $guid = get_input('request_guid', '', false);
 
+
+
 switch ($action) {
     case 'Next':
 		if($guid) {
+
+			$ia = elgg_set_ignore_access();
 			$request = get_entity($guid);
-			if(!$request instanceof CommonsCreditRequest) {
+			elgg_set_ignore_access($ia);
+
+			if(!($request instanceof CommonsCreditRequest) || !$request->isDraftEditable()) {
 				//error, redirect
 				register_error(elgg_echo('nihcp_commons_credit_request:save:failed'));
 				forward('nihcp_commons_credit_request/overview');
@@ -27,8 +34,12 @@ switch ($action) {
         break;
     case 'Save':
 		if($guid) {
+
+			$ia = elgg_set_ignore_access();
 			$request = get_entity($guid);
-			if(!$request instanceof CommonsCreditRequest) {
+			elgg_set_ignore_access($ia);
+
+			if(!($request instanceof CommonsCreditRequest) || !$request->isDraftEditable()) {
 				//error, redirect
 				register_error(elgg_echo('nihcp_commons_credit_request:save:failed'));
 				forward('nihcp_commons_credit_request/overview');

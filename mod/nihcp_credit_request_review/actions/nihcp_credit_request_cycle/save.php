@@ -4,7 +4,7 @@ use \Nihcp\Entity\CommonsCreditCycle;
 nihcp_triage_coordinator_gatekeeper();
 // which button was pressed
 $action = htmlspecialchars(get_input('action', '', false), ENT_QUOTES, 'UTF-8');
-if($action == "Save") {
+if($action === "Save") {
 	$guid = htmlspecialchars(get_input('cycle_guid', '', false), ENT_QUOTES, 'UTF-8');
 	if ($guid) {
 		$ia = elgg_set_ignore_access();

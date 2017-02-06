@@ -53,12 +53,76 @@ class CommonsCreditRequest extends \ElggObject {
 		return elgg_get_site_url() . "nihcp_commons_credit_request/request/{$this->guid}";
 	}
 
-    public function isEditable() {
-        return $this->status != self::COMPLETED_STATUS
-            && $this->status != self::APPROVED_STATUS
-            && $this->status != self::DENIED_STATUS;
+    // checks to see if the given user has access to this ccreq
+    // either as the owner of it or as the delegate
+    public static function hasAccess($ccreq_guid, $user_guid = 0) {
+        $ia = elgg_set_ignore_access();
+        $ccreq = get_entity($ccreq_guid);
+        $has_access= $ccreq->isOwner($user_guid) || $ccreq->isDelegate($user_guid);
+        elgg_set_ignore_access($ia);
+
+        return $has_access;
     }
 
+    // takes into consideration both ccreq status and delegation status
+    // this function is to determine whether draft is editable by the given user
+    public function isDraftEditable($user_guid = 0) {
+
+        if (empty($user_guid)) {
+            $user_guid = elgg_get_logged_in_user_guid();
+        }
+
+        $is_editable_draft_status = $this->status != self::COMPLETED_STATUS
+            && $this->status != self::APPROVED_STATUS
+            && $this->status != self::DENIED_STATUS
+            && $this->status != self::WITHDRAWN_STATUS;
+
+
+        $delegation = CommonsCreditRequestDelegation::getDelegationForCCREQ($this->getGUID());
+        $delegate = CommonsCreditRequestDelegation::getDelegateForCCREQ($this->getGUID());
+
+        if (empty($delegation) || empty($delegate)) { // no delegate, so delegation doesnt affect editing status
+            $is_editable_delegation_status = true;
+
+        // here, there should be a delegate
+        // if the delegation status is "delegated", then only the delegate can edit
+        // if the delegation status is "review", then only the PI can edit
+        } else {
+            $delegation_status = $delegation->getStatus();
+
+            $is_editable_delegation_status = ($delegation_status === CommonsCreditRequestDelegation::DELEGATION_DELEGATED_STATUS && $this->isDelegate($user_guid))
+                                            || ($delegation_status === CommonsCreditRequestDelegation::DELEGATION_REVIEW_STATUS && $this->isOwner($user_guid));
+        }
+
+        return $is_editable_draft_status && $is_editable_delegation_status;
+    }
+
+    public function isDelegate($user_guid = 0) {
+        if (empty($user_guid)) {
+            $user_guid = elgg_get_logged_in_user_guid();
+        }
+
+        $delegate = CommonsCreditRequestDelegation::getDelegateForCCREQ($this->getGUID());
+
+        return !empty($delegate) && $delegate->getGUID() === $user_guid;
+    }
+
+    public function isOwner($user_guid) {
+        if (empty($user_guid)) {
+            $user_guid = elgg_get_logged_in_user_guid();
+        }
+        return $this->owner_guid === $user_guid;
+    }
+
+
+    // This function is for determining whether the REVIEW for this CCREQ is editable still.
+    public function isEditable() {
+        return $this->status != self::COMPLETED_STATUS
+        && $this->status != self::APPROVED_STATUS
+        && $this->status != self::DENIED_STATUS;
+    }
+
+    // This function is for determining whether the REVIEW for this CCREQ is complete.
     public function isComplete() {
         return !$this->isEditable();
     }
@@ -93,6 +157,7 @@ class CommonsCreditRequest extends \ElggObject {
         $new_request->alt_grant_verification_contact_title = htmlspecialchars(get_input('alt_grant_verification_contact_title', '', false), ENT_QUOTES, 'UTF-8');
         $new_request->alt_grant_verification_contact_email = htmlspecialchars(get_input('alt_grant_verification_contact_email', '', false), ENT_QUOTES, 'UTF-8');
         $new_request->grant_id = htmlspecialchars(get_input('grant_id', '', false), ENT_QUOTES, 'UTF-8');
+        $new_request->grant_id_verification = grant_id_is_valid(get_input('grant_id'));
 
         $new_request->proposed_research = htmlspecialchars(get_input('proposed_research', '', false), ENT_QUOTES, 'UTF-8');
         $new_request->productivity_gain = htmlspecialchars(get_input('productivity_gain', '', false), ENT_QUOTES, 'UTF-8');
@@ -282,7 +347,7 @@ class CommonsCreditRequest extends \ElggObject {
 	}
 
     public static function compareROI($ccreq1, $ccreq2) {
-        if ($ccreq1 == $ccreq2) {
+        if ($ccreq1 === $ccreq2) {
             return 0;
         } else {
             return FinalScore::calculateROI($ccreq2->guid) - FinalScore::calculateROI($ccreq1->guid);
@@ -291,10 +356,18 @@ class CommonsCreditRequest extends \ElggObject {
     }
 
     public static function compareCost($ccreq1, $ccreq2) {
-        if ($ccreq1 == $ccreq2) {
+        if ($ccreq1 === $ccreq2) {
             return 0;
         } else {
             return $ccreq1->getExpectedCostTotal() - $ccreq2->getExpectedCostTotal();
+        }
+    }
+
+    public static function compareCCREQID($ccreq1, $ccreq2) {
+        if ($ccreq1 === $ccreq2) {
+            return 0;
+        } else {
+            return strcmp($ccreq1->getRequestId(), $ccreq2->getRequestId());
         }
     }
 
@@ -334,13 +407,13 @@ class CommonsCreditRequest extends \ElggObject {
 
         foreach($requests as $r) {
             $status = $r->status;
-            if (!self::isValidStatus($status) || $status == self::WITHDRAWN_STATUS) {
+            if (!self::isValidStatus($status) || $status === self::WITHDRAWN_STATUS) {
                 $withdrawn[] = $r;
-            } else if ($status == self::DENIED_STATUS) {
+            } else if ($status === self::DENIED_STATUS) {
                 $denied[] = $r;
-            } else if ($status == self::APPROVED_STATUS) {
+            } else if ($status === self::APPROVED_STATUS) {
                 $approved[] = $r;
-            } else if ($status == self::SUBMITTED_STATUS) {
+            } else if ($status === self::SUBMITTED_STATUS) {
                 $submitted[] = $r;
             } else { // completed, i.e. ready for review
                 $completed[] = $r;
@@ -350,13 +423,18 @@ class CommonsCreditRequest extends \ElggObject {
         return array_merge($completed, $submitted, $approved, $denied, $withdrawn);
     }
 
-    // sorts given set of requests
+    public static function sort($requests) {
+        usort($requests, ['self', 'compareCCREQID']);
+        return $requests;
+    }
+
+    // sorts given set of requests for viewing by NIH Approvers
     // sort criteria:
     // 1. approved/denied/withdrawn
     // 2. recommended/downselected
     // 3. ROI
     // 4. credit amount (ascending)
-    public static function sort($requests, $user_guid = 0) {
+    public static function sortForNIHApprover($requests, $user_guid = 0) {
 
         usort($requests, ['self', 'compareCost']);
         usort($requests, ['self', 'compareROI']);
@@ -386,7 +464,7 @@ class CommonsCreditRequest extends \ElggObject {
 				$operand = '!=';
 			}
 		}
-		$requests = elgg_get_entities_from_metadata([
+		$owned_requests = elgg_get_entities_from_metadata([
 			'type' => 'object',
 			'subtype' => self::SUBTYPE,
 			'owner_guid' => $user_guid,
@@ -395,6 +473,22 @@ class CommonsCreditRequest extends \ElggObject {
 				['name' => 'status', 'value' => $status, 'operand' => $operand]
 			] : null,
 		]);
+
+        $ia = elgg_set_ignore_access();
+        $delegated_requests = elgg_get_entities_from_relationship(array(
+            'type' => 'object',
+            'subtype' => self::SUBTYPE,
+            'relationship' => CommonsCreditRequestDelegation::RELATIONSHIP_CCREQ_TO_DELEGATE,
+            'relationship_guid' => $user_guid,
+            'inverse_relationship' => true,
+            'limit' => 0,
+            'metadata_name_value_pairs' => strtolower($status) !== 'all' && self::isValidStatus($status) ? [
+                ['name' => 'status', 'value' => $status, 'operand' => $operand]
+            ] : null,
+        ));
+        elgg_set_ignore_access($ia);
+
+        $requests = array_merge($owned_requests, $delegated_requests);
 		return $requests;
 	}
 

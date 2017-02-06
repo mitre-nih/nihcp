@@ -95,13 +95,19 @@ foreach($required_fields as $field) {
         <span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_id");?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_id:desc"); ?>
+     <span class="rationale"><?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_id:rationale"); ?></span>
     <br />
     <textarea name='grant_id' id='grant_id' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $grant_id;?></textarea>
-
+    <span name="grant_id_verify" id="grant_id_verify" class="elgg-button elgg-button-submit" value="Verify">Verify</span>
+    <span><?php echo elgg_view('graphics/ajax_loader', array(
+            'class' => 'embed-throbber mtl',
+            'id' => 'verify_loading',
+        )); ?></span>
+    <span name="verification_status" id="verification_status" class="verification_status"><span class="checkmark"></span></span>
 </div>
-<div>
+<div class="required-field">
     <label for='nih_program_officer_name'>
-        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_name");?>
+        <span class="hiviz required-icon"></span><?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_name");?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_name:desc"); ?>
     <br />
@@ -109,9 +115,9 @@ foreach($required_fields as $field) {
 
 </div>
 
-<div>
+<div class="required-field">
     <label for='nih_program_officer_email'>
-        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_email");?>
+        <span class="hiviz required-icon"></span><?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_email");?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_email:desc"); ?>
     <br />

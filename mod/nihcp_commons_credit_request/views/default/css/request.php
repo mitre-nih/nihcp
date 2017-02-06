@@ -2,6 +2,10 @@
 ?>
 /* <style> /**/
 
+.ccreq-delegate-button a {
+    color: white;
+}
+
 .controlled-access-text {
     color: blue;
 }
@@ -105,3 +109,11 @@ span.BalloonTextChar
     margin:1.0in 1.0in 1.0in 1.0in;}
 div.WordSection1
 {page:WordSection1;}
+
+.rationale{
+    display: none;
+}
+
+.verified_status{
+    display: none;
+}

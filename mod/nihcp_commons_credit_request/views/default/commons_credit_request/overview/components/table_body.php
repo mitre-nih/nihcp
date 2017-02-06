@@ -1,5 +1,7 @@
 <?php
 use \Nihcp\Entity\CommonsCreditRequest;
+use \Nihcp\Entity\CommonsCreditRequestDelegation;
+use \Nihcp\Entity\AlignmentCommonsCreditsObjectives;
 
 $requests = elgg_extract('requests', $vars);
 $full_view = $vars['full_view'];
@@ -7,7 +9,18 @@ $full_view = $vars['full_view'];
 $content = '';
 if(!empty($requests)) {
 	foreach ($requests as $request) {
+		$ia = elgg_set_ignore_access();
 		$action_button = null;
+		$delegate = CommonsCreditRequestDelegation::getDelegationForCCREQ($request->getGUID());
+		// set text of delegate button
+		$delegate_button_text = empty($delegate) ? "Add" : elgg_echo("nihcp_commons_credit_request:delegate:".$delegate->getStatus());
+		$delegate_link = elgg_get_site_url() . "nihcp_commons_credit_request/delegate/" . $request->getGUID();
+		$delegate_button = elgg_view('input/button', array(
+			'value' => $delegate_button_text,
+			'class' => 'elgg-button-cancel ccreq-delegate-button',
+			'onclick' => "location.href=\"$delegate_link\""
+		));
+
 		// default delete button for drafts
 		if ($request->status === CommonsCreditRequest::DRAFT_STATUS) {
 			$action_button = elgg_view('input/button', array(
@@ -16,7 +29,10 @@ if(!empty($requests)) {
 			));
 		}
 		// change button to withdraw button if already submitted
-		if ($request->status === CommonsCreditRequest::SUBMITTED_STATUS) {
+		// disallow withdrawal if review has passed the Alignment with Commons Credits Objectives
+		$acco = get_entity(AlignmentCommonsCreditsObjectives::getFromRequestGuid($request->getGUID()));
+		if ($request->status === CommonsCreditRequest::SUBMITTED_STATUS
+				&& empty($acco)) {
 			$action_button = elgg_view('input/button', array(
 				'value' => 'Withdraw',
 				'class' => 'elgg-button-cancel ccreq-withdraw-button'
@@ -32,7 +48,7 @@ if(!empty($requests)) {
 					'class' => 'elgg-button-submit ccreq-allocate-button',
 					'onclick' => "location.href='" .
 						elgg_get_site_url() .
-						"nihcp_credit_allocation/allocations/$request->guid';"
+						"nihcp_credit_allocation/allocations/$request->guid'"
 				));
 			}
 		}
@@ -61,15 +77,26 @@ if(!empty($requests)) {
 		}
 		$row .= "<td>$credit_amount</td>";
 		if ($full_view) {
-			$row .= "
-				<td>
-					$action_button
-				</td>";
+			if ($request->owner_guid == elgg_get_logged_in_user_guid()) {
+				$row .= "<td>$action_button</td>";
+
+				$row .= "<td>$delegate_button</td>";
+			} else {// user is a delegate
+				if ($request->status === CommonsCreditRequest::APPROVED_STATUS) { //allow allocation button
+					$row .= "<td>$action_button</td>";
+				} else {
+					$row .= "<td></td>";
+				}
+
+				$row .= "<td></td>";
+			}
+
 		}
 		$row .= "
 			</tr>
 		";
 		$content .= $row;
+		elgg_set_ignore_access($ia);
 	}
 }
 echo $content;

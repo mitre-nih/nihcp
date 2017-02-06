@@ -9,8 +9,13 @@ $session = elgg_get_session();
 $session->set('crr_prev_selected_cycle', $cycle_guid);
 $ia = elgg_set_ignore_access();
 $cycle = get_entity($cycle_guid);
-$requests = CommonsCreditRequest::sort($cycle->getRequests());
 
+// sort the ccreqs in different ways depending on the role of the user
+if (nihcp_nih_approver_gatekeeper(false) && !elgg_is_admin_logged_in()) {
+	$requests = CommonsCreditRequest::sortForNIHApprover($cycle->getRequests());
+} else {
+	$requests = CommonsCreditRequest::sort($cycle->getRequests());
+}
 $isDomainExpert = nihcp_domain_expert_gatekeeper(false) && !elgg_is_admin_logged_in();
 
 if ($isDomainExpert) {
@@ -29,6 +34,8 @@ $full_view = elgg_extract('full_view', $vars, true);
 
 $content = '';
 
+$incomplete_icon = "<div class='crr-overview-incomplete-icon' title=\"Item is incomplete\">&#x26AA;</div>";
+
 // TCs, DEs, and NAs all have different sets of columns of this table
 if($requests) {
 	$content .= "<table class=\"elgg-table crr-overview-table\">";
@@ -42,6 +49,7 @@ if($requests) {
 		$content .= "<th><b>Submission Date</b></th>";
 	}
 	$content .= "<th><b>Status</b></th>";
+	$content .= "<th><b>Active Grant</b></th>";
 	if ($full_view) {
 		$content .= "<th><b>Alignment</b></th>";
 		$content .= "<th><b>General Score*</b></th>";
@@ -98,9 +106,27 @@ if($requests) {
 				$row .= $request->status;
 			}
 			$row .= "</td>";
+						//grant ID verification
+            $row .="<td class='ccreq-verification'>";
+            if($request->grant_id_verification == 1){
+                $row .= "RePORTER Verified";
+                $row .= "</td>";
+            }else{
+                $t_url = elgg_get_site_url() . "nihcp_credit_request_review/verify/$request->guid";
+                $status = $request->is_active;
+                if($status == "yes"){
+                    $row .= "<a href=\"$t_url\">Valid</a></td>";
+                }else if($status == "no"){
+                    $row .= "<a href=\"$t_url\">Invalid</a></td>";
+                }else{
+                    $row .= "<a href=\"$t_url\">RePORTER Unverified</a></td>";
+                }
+                //$row .= "RePORTER Unverified";
+            }
+            //end grant ID verification
 			if ($full_view) {
 
-				if ($request->status == 'Withdrawn') { // no review needs to take place
+				if ($request->status === 'Withdrawn') { // no review needs to take place
 					if (!$isDomainExpert) {
 						$row .= "<td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td>";
 					} else {
@@ -111,7 +137,7 @@ if($requests) {
 					$align_cc_obj_guid = AlignmentCommonsCreditsObjectives::getFromRequestGuid($request->getGUID());
 
 					if (empty($align_cc_obj_guid) || $is_nih_approver_and_review_not_complete) {
-						$align_cc_obj_link = "<div class='crr-overview-incomplete-icon'>&#x26AA;</div>";
+						$align_cc_obj_link = $incomplete_icon;
 					} else {
 
 						$align_cc_obj_link = get_entity($align_cc_obj_guid)->pass() ? "Pass" : "Fail";
@@ -136,7 +162,7 @@ if($requests) {
 
 							$general_score_link = GeneralScore::getTableCellView($request->getGUID());
 						} else {
-							$general_score_link = "<div class='crr-overview-incomplete-icon'>&#x26AA;</div>";
+							$general_score_link = $incomplete_icon;
 						}
 						$general_score_url = elgg_get_site_url() . "nihcp_credit_request_review/general-score-overview/" . $request->getGUID();
 						$td = "<td><a href='" . $general_score_url . "'>" . $general_score_link . "</a></td>";
@@ -157,7 +183,7 @@ if($requests) {
 							&& !$is_nih_approver_and_review_not_complete) {
 							$risk_benefit_score_link = "Completed";
 						} else {
-							$risk_benefit_score_link = "<div class='crr-overview-incomplete-icon'>&#x26AA;</div>";
+							$risk_benefit_score_link = $incomplete_icon;
 						}
 						$td = "<td><a href='" . $risk_benefit_score_url . "'>" . $risk_benefit_score_link . "</a></td>";
 
@@ -179,7 +205,7 @@ if($requests) {
 							if (FinalScore::isFinalScoreCompleted($request->getGUID()) && !$is_nih_approver_and_review_not_complete) {
 								$final_score_link = round(FinalScore::calculateROI($request->getGUID()));
 							} else {
-								$final_score_link = "<div class='crr-overview-incomplete-icon'>&#x26AA;</div>";
+								$final_score_link = $incomplete_icon;
 							}
 
 							$final_score_url = elgg_get_site_url() . "nihcp_credit_request_review/final-score-overview/" . $request->getGUID();
@@ -207,7 +233,7 @@ if($requests) {
 					<td><a href='" .
 								$final_recommendation_form_url .
 								"'>" .
-								"<div class='crr-overview-incomplete-icon'>&#x26AA;</div>" .
+								$incomplete_icon .
 								"</a></td>";
 						}
 					}
@@ -218,7 +244,7 @@ if($requests) {
 					<td>$credit_amount</td>";
 
 			if ($full_view && !$isDomainExpert) {
-				if ($request->status == 'Withdrawn') {
+				if ($request->status === 'Withdrawn') {
 					$row .= "<td>N/A</td>";
 				} else if ($request->isComplete()) {
 					$row .= "

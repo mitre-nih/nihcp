@@ -3,6 +3,9 @@
  * A user dashboard
  */
 
+
+use \Nihcp\Manager\WidgetManager;
+
 elgg_unregister_event_handler('init', 'system', 'dashboard_init');
 elgg_register_event_handler('init', 'system', 'nihcp_dashboard_init');
 elgg_register_event_handler('ready', 'system', 'nihcp_system_init', 10000);
@@ -10,6 +13,7 @@ elgg_register_event_handler('ready', 'system', 'nihcp_system_init', 10000);
 function nihcp_system_init() {
 	elgg_unregister_event_handler('join', 'group', '_elgg_create_default_widgets');
 	elgg_register_event_handler('join', 'group', 'nihcp_create_default_widgets');
+	elgg_register_event_handler('leave', 'group', 'nihcp_update_role_widgets');
 }
 
 function nihcp_dashboard_init() {
@@ -37,6 +41,38 @@ function nihcp_dashboard_init() {
 	elgg_register_event_handler('login:after', 'user', 'nihcp_dashboard_helpdesk_reminder');
 
 	elgg_register_widget_type('reinit_user_widgets', elgg_echo("nihcp_dashboard:widgets:reinit_user_widgets:title"), elgg_echo("nihcp_dashboard:widgets:reinit_user_widgets:description"), array("admin"));
+}
+
+
+// Updates which dashboard widgets a user is supposed to have after they are removed from a role group.
+function nihcp_update_role_widgets($event, $type, $params) {
+
+	elgg_admin_gatekeeper();
+
+	$user = $params['user'];
+	$group_left = $params['group'];
+
+	$widgets = elgg_get_entities(array(
+		'type' => 'object',
+		'subtype' => 'widget',
+		'owner_guids' => array($user->getGUID()))
+	);
+
+	foreach ($widgets as $widget) {
+		if ($widget->getContext() !== 'admin') {
+			$widget->delete();
+		}
+	}
+
+	WidgetManager::createWidgets();
+
+	$roles = $user->getGroups(array());
+
+	foreach ($roles as $role) {
+		if ($role->getDisplayName() !== $group_left->getDisplayName()) {
+			WidgetManager::createWidgetsForUserInGroup($user, $role);
+		}
+	}
 }
 
 function nihcp_dashboard_helpdesk_reminder($event, $type, $user) {
@@ -128,7 +164,7 @@ function nihcp_create_default_widgets($event, $type, $params) {
 	$entity = $params['user'];
 	$group = $params['group'];
 
-	\Nihcp\Manager\WidgetManager::createWidgetsForUserInGroup($entity, $group);
+	WidgetManager::createWidgetsForUserInGroup($entity, $group);
 }
 
 function nihcp_widget_menu_setup($hook, $type, $return, $params) {

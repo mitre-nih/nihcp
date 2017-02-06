@@ -20,6 +20,8 @@ function nihcp_groups_init() {
 	elgg_register_plugin_hook_handler('register', 'user', 'nihcp_groups_autoadd_investigator');
 
 	elgg_register_event_handler('join', 'group', 'triage_coordinator_join_sub');
+
+
 }
 
 // automatically join new users to the Investigator group
@@ -31,6 +33,7 @@ function nihcp_groups_autoadd_investigator($hook, $type, $return, $params) {
 
 	system_message(elgg_echo('nihcp_groups:register:email_verification'));
 }
+
 
 /**
  * Add links/info to entity menu particular to group entities
@@ -72,7 +75,7 @@ function nihcp_groups_entity_menu_setup($hook, $type, $return, $params) {
 	$return[] = ElggMenuItem::factory($options);
 
 	// number of members
-	$num_members = $entity->getMembers(array('count' => true));
+	$num_members = $entity->getMembers(array('limit' => 0, 'count' => true));
 	$members_string = elgg_echo('groups:member');
 	$options = array(
 		'name' => 'members',
@@ -87,7 +90,7 @@ function nihcp_groups_entity_menu_setup($hook, $type, $return, $params) {
 
 function triage_coordinator_join_sub($event, $type, $params) {
 	$group = $params['group'];
-	if(!$group->getDisplayName() === \Nihcp\Manager\RoleManager::TRIAGE_COORDINATOR) {
+	if(!$group->getDisplayName() === RoleManager::TRIAGE_COORDINATOR) {
 		return true;
 	}
 	$user = $params['user'];

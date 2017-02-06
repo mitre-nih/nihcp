@@ -14,8 +14,8 @@ if (!$request_guid || !$vendor_guid) {
 }
 
 
-// restrict access to only submitting investigator, credit admins, NIH approvers, triage coordinators
-if (get_entity($request_guid) || nihcp_role_gatekeeper(array(RoleManager::NIH_APPROVER, RoleManager::TRIAGE_COORDINATOR, RoleManager::CREDIT_ADMIN), false)) {
+// restrict access to only submitting investigator, delegate, credit admins, NIH approvers, triage coordinators
+if (CommonsCreditRequest::hasAccess($request_guid) || nihcp_role_gatekeeper(array(RoleManager::NIH_APPROVER, RoleManager::TRIAGE_COORDINATOR, RoleManager::CREDIT_ADMIN), false)) {
 
 
     $content = elgg_view('nihcp_credit_allocation/balance_history', array("request_guid" => $request_guid, "vendor_guid" => $vendor_guid));

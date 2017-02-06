@@ -23,4 +23,13 @@ define(function(require) {
             $('#how_did_you_hear_about_us_other').removeAttr("required");
         }
     });
+
+	$('.elgg-sidebar > :not(.elgg-admin-sidebar-menu) li[class^="elgg-menu-item-nihcp-policy-"]').wrapAll("<div class='accordion-panel' />");
+	$('.elgg-sidebar > :not(.elgg-admin-sidebar-menu) li[class^="elgg-menu-item-nihcp-policy-"]').addClass('mbm');
+	$('div.accordion-panel').before("<button class='accordion-btn'>"+elgg.echo("nihcp_commons_credit_request:nih_policies")+"</button>");
+
+	$('button.accordion-btn').click(function() {
+		$(this).toggleClass('active');
+		$('div.accordion-panel').toggleClass('show');
+	});
 });
