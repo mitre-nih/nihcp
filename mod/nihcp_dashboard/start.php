@@ -111,7 +111,7 @@ function nihcp_dashboard_page_handler() {
 	$widgets = elgg_view_layout('widgets', $params);
 
 	$body = elgg_view_layout('one_column', array(
-		'title' => false,
+		'title' => $title,
 		'content' => $widgets
 	));
 

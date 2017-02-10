@@ -287,8 +287,10 @@ function get_new_submissions_count(){
     //it I'll just 'brute force' it.  Running once a day shouldn't be a big deal.
     $ia = elgg_set_ignore_access();
     foreach($request as $r){
-        if( $r->time_created > $time){
-            $retVal += 1;
+        if($r->status == \Nihcp\Entity\CommonsCreditRequest::SUBMITTED_STATUS) {
+            if ($r->time_created > $time) {
+                $retVal += 1;
+            }
         }
     }
     elgg_set_ignore_access($ia);

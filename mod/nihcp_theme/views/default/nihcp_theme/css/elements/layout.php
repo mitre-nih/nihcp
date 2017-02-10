@@ -14,6 +14,12 @@
     background-color:#20558a
 }
 
+.skip-to-content{
+    color:white;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .elgg-page-header {
     background-color: #fff;
 }

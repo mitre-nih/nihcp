@@ -56,6 +56,10 @@ function nihcp_theme_init() {
 	elgg_extend_view('page/elements/header_logo', 'nihcp_theme/page/elements/header_logo');
 
 	elgg_unextend_view('page/elements/sidebar', 'search/header');
+
+	if (!elgg_is_admin_logged_in()) {
+		elgg_unregister_plugin_hook_handler('usersettings:save', 'user', '_elgg_set_user_email');
+	}
 }
 
 function forward_to_dashboard($hook, $type, $return = null, $params = null) {

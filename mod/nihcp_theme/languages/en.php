@@ -36,4 +36,6 @@ return array(
 	'nihcp_theme:how_did_you_hear_about_us:option:other' => 'Other',
 
 	'nihcp_theme:rob_acknowledgement' => "By logging into the NIH CCP you have acknowledged that you have read and understood the <a href='%s'>Rules of Behavior</a>, <a href='%s'>Privacy Policy</a>, <a href='%s'>Terms of Use</a>, and other pertinent policies and that you have agreed to follow the aforementioned rules and policies.",
+
+    'pages:all' => "Knowledgebase",
 );
