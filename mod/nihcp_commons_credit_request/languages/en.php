@@ -100,15 +100,104 @@ return [
 	'nihcp_commons_credit_request:delegate:declined' => 'Declined',
 	'nihcp_commons_credit_request:delegate:submitted' => 'Submitted',
 	'nihcp_commons_credit_request:delegate:self_delegation_error' => 'You cannot delegate yourself.',
-	'nihcp_commons_credit_request:delegate:instructions' => 'By delegating a CCREQ application, a PI is providing a designated delegate of their choice with “edit ownership” of that application.  The PI will no longer have edit privileges on that CCREQ, including the ability to submit the CCREQ, until the delegate returns ownership to them or they recall the delegation.
+	'nihcp_commons_credit_request:delegate:instructions' => '<b>Post submission notification to PI about RPPR</b>
 <br>
 <br>
-The designated delegate must be registered with an active account in the Commons Credits Pilot Portal at the time of delegation. The designated delegate will receive an email notifying them of their new access at the time of delegation, and must accept this role to proceed. If the designated delegate does not accept an invitation, the PI can recall the delegation and regain full control.
+Per NIH requirements, Credits Recipients are required to self-report and disclose their participation in the Commons Credits Pilot as part of their Research Performance Progress Report (RPPR).  This process is required even though Commons Credits are not grants.
 <br>
 <br>
-Please note:  with or without delegation, only PIs with active NIH grants at the time of credits distribution (the end of a cycle) can submit CCREQ applications.  Delegation does not change this requirement, nor does it change any deadline for submission.
+This mandatory disclosure includes both the magnitude provided and uses of these Credits.  Such detailed reporting helps to ensure that Commons Credits are not being used to support activities already being supported by existing grants, but rather are allowing investigators to pursue complementary or supplementary activities and increase the scope of their research program(s).  The review of RPPRs by NIH staff is a key element in NIH’s monitoring of grant awards, especially in monitoring accomplishments and compliance with terms of award.
+<br>
+<br>
+Please be aware that funds provided as part of the Commons Credits Pilot will be reported to the appropriate NIH Program Officer, as identified through the grant entered into the Credits Request form as part of the application process, by the MITRE team.  This serves to help ensure the accuracy of RPPR forms submitted by Pilot participants.
+<br>
+<br>
+More information about the RPPR can be found at: <a href="https://grants.nih.gov/grants/rppr/index.htm">https://grants.nih.gov/grants/rppr/index.htm</a>
+<br>
+<br>
+<br>
+<b>Notification to PI about post-submission delegation</b>
+<br>
+<br>
+Please note that the Commons Credits Portal supports shared ownership of certain functions by the Credit Request submitter, including the ability to monitor the Credits balance and to allocate Credits to conformant vendors at the end of a Credits Request Cycle.  The PI who submitted the Credits Request may choose to use this function, or may choose not to.
+<br>
+<br>
+Specifically, PIs who have submitted Commons Credits Requests can share the balance monitoring and even the Credits Allocation functions with designees, as was possible in the Credits Request development process.
+<br>
+<br>
+Please also note that the PI remains solely formally accountable for all aspects of the Pilot process for their Credits Requests, including responsibility for cost over-runs and meeting Pilot timelines (e.g., for allocating Credits).
+<br>
+<br>
+<br>
+<b>Notification to designee about post-submission delegation</b>
+<br>
+<br>
+You have been delegated shared ownership of certain functions by the Credit Request submitter, including the ability to monitor the Credits balance and to allocate Credits to conformant vendors at the end of a Credits Request Cycle.
+<br>
+<br>
+Please also note that the PI remains solely formally accountable for all aspects of the Pilot process for their Credits Requests, including responsibility for cost over-runs and meeting Pilot timelines (e.g., for allocating Credits).  Nonetheless, you agree to the following when you accept the delegation:
+<br>
+<br>
+1. To Index Digital Objects in <a href="https://biocaddie.org/">bioCADDIE</a>
+<br>
+<br>
+2. To <a href="' . elgg_get_site_url() . 'nihcp_commons_credit_request/terms-and-conditions">Terms and Conditions </a>
+<br>
+<br>
+3. To abide with NIH policies governing Digital Objects (DO). Please refer to the sidebar for details.
+<br>
+<br>
+<br>
+',
+
+	'nihcp_commons_credit_request:delegate:instructions:email' => 'Post submission notification to PI about RPPR
+<br>
+<br>
+Per NIH requirements, Credits Recipients are required to self-report and disclose their participation in the Commons Credits Pilot as part of their Research Performance Progress Report (RPPR).  This process is required even though Commons Credits are not grants.
+<br>
+<br>
+This mandatory disclosure includes both the magnitude provided and uses of these Credits.  Such detailed reporting helps to ensure that Commons Credits are not being used to support activities already being supported by existing grants, but rather are allowing investigators to pursue complementary or supplementary activities and increase the scope of their research program(s).  The review of RPPRs by NIH staff is a key element in NIH’s monitoring of grant awards, especially in monitoring accomplishments and compliance with terms of award.
+<br>
+<br>
+Please be aware that funds provided as part of the Commons Credits Pilot will be reported to the appropriate NIH Program Officer, as identified through the grant entered into the Credits Request form as part of the application process, by the MITRE team.  This serves to help ensure the accuracy of RPPR forms submitted by Pilot participants.
+<br>
+<br>
+More information about the RPPR can be found at: https://grants.nih.gov/grants/rppr/index.htm
+<br>
+<br>
+<br>
+Notification to PI about post-submission delegation
+<br>
+<br>
+Please note that the Commons Credits Portal supports shared ownership of certain functions by the Credit Request submitter, including the ability to monitor the Credits balance and to allocate Credits to conformant vendors at the end of a Credits Request Cycle.  The PI who submitted the Credits Request may choose to use this function, or may choose not to.
+<br>
+<br>
+Specifically, PIs who have submitted Commons Credits Requests can share the balance monitoring and even the Credits Allocation functions with designees, as was possible in the Credits Request development process.
+<br>
+<br>
+Please also note that the PI remains solely formally accountable for all aspects of the Pilot process for their Credits Requests, including responsibility for cost over-runs and meeting Pilot timelines (e.g., for allocating Credits).
+<br>
+<br>
+<br>
+Notification to designee about post-submission delegation
+<br>
+<br>
+You have been delegated shared ownership of certain functions by the Credit Request submitter, including the ability to monitor the Credits balance and to allocate Credits to conformant vendors at the end of a Credits Request Cycle.
+<br>
+<br>
+Please also note that the PI remains solely formally accountable for all aspects of the Pilot process for their Credits Requests, including responsibility for cost over-runs and meeting Pilot timelines (e.g., for allocating Credits).  Nonetheless, you agree to the following when you accept the delegation:
+<br>
+<br>
+1. To Index Digital Objects in bioCADDIE https://biocaddie.org/
+<br>
+<br>
+2. To Terms and Conditions ' . elgg_get_site_url() . '/nihcp_commons_credit_request/terms-and-conditions
+<br>
+3. To abide with NIH policies governing Digital Objects (DO). You must login to the portal and visit the link below to access the policies on the sidebar for details.
+<br>
 <br>
 <br>',
+
 	'nihcp_commons_credit_request:delegate:request:subject' => "You have been assigned as a NIH Commons Credits Request delegate",
 	'nihcp_commons_credit_request:delegate:revoke:subject' => "Your role as delegate on a NIH Commons Credits Request has been revoked",
 	'nihcp_commons_credit_request:delegate:request:description' => '%s has assigned you as a delegate to this application for this CCREQ for the project titled "%s". Do you accept this delegation?',

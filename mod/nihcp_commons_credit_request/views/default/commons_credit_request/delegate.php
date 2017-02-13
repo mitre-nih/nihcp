@@ -14,7 +14,7 @@ echo "<h4>Project Title: $ccreq->project_title</h4>";
 echo "</div>";
 
 echo "<div id='delegate-instructions'>";
-echo "<i>" . elgg_echo('nihcp_commons_credit_request:delegate:instructions'). "</i>";
+echo elgg_echo('nihcp_commons_credit_request:delegate:instructions');
 echo "</div>";
 
 echo "<div id='delegate-table'>";

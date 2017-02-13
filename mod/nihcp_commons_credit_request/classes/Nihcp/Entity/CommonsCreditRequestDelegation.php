@@ -86,7 +86,7 @@ class CommonsCreditRequestDelegation extends \ElggObject {
         }
 
 		$message .= "Delegation Guidelines\r\n"
-            . elgg_echo('nihcp_commons_credit_request:delegate:instructions')."\r\n"
+            . elgg_echo('nihcp_commons_credit_request:delegate:instructions:email')."\r\n"
             . $delegation_request_url;
 		notify_user($to, $from, $subject, $message, $methods_override=["email"]);
     }
