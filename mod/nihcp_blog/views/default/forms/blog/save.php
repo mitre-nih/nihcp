@@ -135,7 +135,7 @@ $draft_warning
 	$excerpt_input
 </div>
 
-<div>
+<div aria-live='polite'>
 	<label for="blog_description">$body_label</label>
 	$body_input
 </div>

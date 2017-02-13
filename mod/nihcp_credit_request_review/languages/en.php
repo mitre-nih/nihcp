@@ -57,4 +57,6 @@ return [
 
 	'nihcp_export_email_addr' => 'Export Email Addresses',
 	'nihcp_export_email_addr:widget:description' => 'Widget used to export portal users\' email addresses.',
+
+    'nihcp_credit_request_review:crr:table_summary' => 'This table allows you to review the credit requests.',
 ];

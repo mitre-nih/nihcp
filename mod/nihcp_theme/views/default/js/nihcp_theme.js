@@ -32,4 +32,20 @@ define(function(require) {
 		$(this).toggleClass('active');
 		$('div.accordion-panel').toggleClass('show');
 	});
+
+    $('.elgg-menu-item-account').focusin(function() {
+        $('.elgg-menu-topbar-alt > .elgg-menu-item-account > ul').css("display", "block");
+    });
+
+    $('.elgg-menu-item-account').focusout(function() {
+        var $elem = $(this);
+
+        // let the browser set focus on the newly clicked elem before check
+        setTimeout(function () {
+            if (!$elem.find(':focus').length) {
+                ;$('.elgg-menu-topbar-alt > .elgg-menu-item-account > ul').css("display", "none");
+            }
+        }, 0)
+    });
+
 });

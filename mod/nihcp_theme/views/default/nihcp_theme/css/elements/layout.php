@@ -14,6 +14,8 @@
     background-color:#20558a
 }
 
+
+
 .skip-to-content{
     color:white;
     cursor: pointer;
@@ -386,4 +388,17 @@ div.accordion-panel.show {
 
 .crr-overview-incomplete-icon {
 	text-align: center;
+}
+
+.elgg-menu > .elgg-menu-item-account > a:after {
+	content: "\25bc";
+	margin-left: 6px;
+}
+
+.nihcp-manage-vendor-header-id {
+	width:37%;
+}
+
+.nihcp-manage-vendor-header-name {
+	width:37%;
 }

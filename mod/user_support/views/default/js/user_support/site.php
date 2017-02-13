@@ -5,23 +5,41 @@ elgg.provide("elgg.user_support");
 
 elgg.user_support.search = function(event) {
 	if (event.which == $.ui.keyCode.ENTER) {
-		
-		elgg.ajax("user_support/search/?q=" + $(this).val(), function(data) {
+		$('#user_support_help_search_result_wrapper').hide();
+		var toSearch = $("#user-support-help-center-search").val();
+		//elgg.ajax("user_support/search/?q=" + $(this).val(), function(data) {
+        elgg.ajax("user_support/search/?q=" + toSearch, function(data) {
 			$('#user_support_help_search_result_wrapper').html(data).show();
 			elgg.user_support.lightbox_resize();
 		});
 	}
 };
 
+elgg.user_support.buttonSearch = function(event){
+    //probably a more robust way of doing this
+    $('#user_support_help_search_result_wrapper').hide();
+    var toSearch = $("#user-support-help-center-search").val();
+    //elgg.ajax("user_support/search/?q=" + $(this).val(), function(data) {
+    elgg.ajax("user_support/search/?q=" + toSearch, function(data) {
+        $('#user_support_help_search_result_wrapper').html(data).show();
+        elgg.user_support.lightbox_resize();
+    });
+}
+
 elgg.user_support.ask_question = function(event) {
 	event.preventDefault();
-
+	
+	$('#user_support_ticket_edit_form_wrapper').toggle();
+	$('#user_support_help_center_help').toggle();
 
 	elgg.user_support.lightbox_resize();
 }
 
 elgg.user_support.add_help = function (event) {
 	event.preventDefault();
+	
+	$('#user_support_help_edit_form_wrapper').toggle();
+	$('#user_support_help_center_help').toggle();
 
 	elgg.user_support.lightbox_resize();
 };
@@ -33,6 +51,8 @@ elgg.user_support.lightbox_resize = function() {
 elgg.user_support.init = function() {
 	
 	$(document).on("keypress", "#user-support-help-center-search", elgg.user_support.search);
+    $(document).on("click", "#user-support-help-center-search-button", elgg.user_support.buttonSearch);
+	$(document).on("keypress", "#user-support-help-center-search-button", elgg.user_support.search);
 	$(document).on("click", "#user-support-help-center-ask", elgg.user_support.ask_question);
 
 	$(document).on("click", "#user-support-help-center-add-help", elgg.user_support.add_help);

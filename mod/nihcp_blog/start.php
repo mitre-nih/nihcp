@@ -26,17 +26,3 @@ function nihcp_blog_owner_block_menu($hook, $type, $return, $params) {
 
     return $return;
 }
-
-// Filters on just blog objects created.
-function nihcp_blog_created($event, $type, $object) {
-    if ($object->getSubtype() === 'blog') {
-        // TODO do something
-    }
-}
-
-// Filters on just blog objects created.
-function nihcp_blog_updated($event, $type, $object) {
-    if ($object->getSubtype() === 'blog') {
-        // TODO do something
-    }
-}

@@ -9,8 +9,9 @@ $add_vendor .= elgg_view("input/submit", array("name" => "action", "type" => "su
 
 echo elgg_view_module("inline", "Add Vendor", $add_vendor);
 
-$existing_vendors = "<table class=\"elgg-table\">";
-$existing_vendors .= "<tr><th>Name</th><th>ID</th><th>Active</th></tr>";
+$existing_vendors = "<div>* Active</div>";
+$existing_vendors .= "<table class=\"elgg-table\">";
+$existing_vendors .= "<tr><th class='nihcp-manage-vendor-header-name'>Name</th><th class='nihcp-manage-vendor-header-id'>ID</th><th>*</th></tr>";
 $ia = elgg_set_ignore_access();
 foreach($vendors as $vendor) {
 	$chkbx_params = array("name" => $vendor->vendor_id);

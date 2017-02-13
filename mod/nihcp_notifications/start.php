@@ -304,7 +304,7 @@ function get_not_reviewed_in_last_week_count(){
     $time = time()-(60*60*24*7); //any created in the last 24 hours
     $ia = elgg_set_ignore_access();
     foreach($request as $r){
-        if($r->status == \Nihcp\Entity\CommonsCreditRequest::SUBMITTED_STATUS) {
+        if($r->status === \Nihcp\Entity\CommonsCreditRequest::SUBMITTED_STATUS) {
             if ($r->time_created > $time) {
                 $retVal += 1;
             }

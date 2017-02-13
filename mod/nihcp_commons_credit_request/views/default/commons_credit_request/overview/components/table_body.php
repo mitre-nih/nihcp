@@ -77,7 +77,7 @@ if(!empty($requests)) {
 		}
 		$row .= "<td>$credit_amount</td>";
 		if ($full_view) {
-			if ($request->owner_guid == elgg_get_logged_in_user_guid()) {
+			if ($request->owner_guid === elgg_get_logged_in_user_guid()) {
 				$row .= "<td>$action_button</td>";
 
 				$row .= "<td>$delegate_button</td>";
