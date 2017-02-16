@@ -103,44 +103,47 @@ define(function(require) {
         }
     });
 
-    $('#grant_id_verify').click(function(){
-        console.log("verifying");
-        $("#verify_loading").show();
-        //ajax request, if fail show the rationale field
-        elgg.action('verify_grant_id',{
-            data:{
-                grant_id:$("#grant_id").val(),
-            } ,
-            success:function(response){
-                $("#verify_loading").hide();
-                //console.log("success!");
-                if( response.output == 1){
-                    //
-                    $('.rationale').hide(); //may or may not be hidden
-                    //$('.checkmark').show();
-                    $("#verification_status").html("<span style='color: green;font-size:x-large;'>\u2713</span>");
-                    $("#verification_status").show();
-                }else if( response.output == 0){
-                    $('.rationale').show();
-                    //$('.checkmark').show();
-                    $("#verification_status").html("<span style='color: red;font-size:x-large;'>\u2717</span>");
-                    $("#verification_status").show();
-                }else if( response.output == "error"){
+    $('#grant_id_verify').on('keypress click', function(e){
+        if (e.which === 13 || e.type === 'click') {
+            console.log("verifying");
+            $("#verify_loading").show();
+            //ajax request, if fail show the rationale field
+            elgg.action('verify_grant_id', {
+                data: {
+                    grant_id: $("#grant_id").val(),
+                },
+                success: function (response) {
                     $("#verify_loading").hide();
-                    $('.rationale').show();
-                    $("#verification_status").html("<span style='color: red;font-size:x-large;'>\u2717</span>");
-                    console.log("Verification service returned an error.");
-                    elgg.register_error(elgg.echo('Grant id verification returned an error, please enter a rationale to continue.'));
-                }
+                    //console.log("success!");
+                    if (response.output == 1) {
+                        //
+                        $('.rationale').hide(); //may or may not be hidden
+                        //$('.checkmark').show();
+                        $("#verification_status").html("<span style='color: green;font-size:x-large;'>\u2713</span>");
+                        $("#verification_status").show();
+                    } else if (response.output == 0) {
+                        $('.rationale').show();
+                        //$('.checkmark').show();
+                        $("#verification_status").html("<span style='color: red;font-size:x-large;'>\u2717</span>");
+                        $("#verification_status").show();
+                    } else if (response.output == "error") {
+                        $("#verify_loading").hide();
+                        $('.rationale').show();
+                        $("#verification_status").html("<span style='color: red;font-size:x-large;'>\u2717</span>");
+                        console.log("Verification service returned an error.");
+                        elgg.register_error(elgg.echo('Grant id verification returned an error, please enter a rationale to continue.'));
+                    }
 
-            },
-            error:function(xhr,status){
-                $("#verify_loading").hide();
-                console.log("failed!");
-                console.log(xhr);
-                elgg.register_error(elgg.echo('grant id verification failed, please try again'));
-            }
-        });
+                },
+                error: function (xhr, status) {
+                    $("#verify_loading").hide();
+                    console.log("failed!");
+                    console.log(xhr);
+                    elgg.register_error(elgg.echo('grant id verification failed, please try again'));
+                }
+            });
+        }
+
 
     });
 

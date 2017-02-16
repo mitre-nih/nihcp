@@ -85,7 +85,7 @@ foreach($required_fields as $field) {
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:project_title:desc"); ?>
     <br />
-    <textarea name='project_title' id='project_title' required='true' maxlength='<?php echo CommonsCreditRequest::PROJECT_TITLE_MAX_LENGTH ?>'><?php echo $project_title;?></textarea>
+    <textarea alt='required field' name='project_title' id='project_title' required='true' maxlength='<?php echo CommonsCreditRequest::PROJECT_TITLE_MAX_LENGTH ?>'><?php echo $project_title;?></textarea>
 
 </div>
 
@@ -97,8 +97,8 @@ foreach($required_fields as $field) {
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_id:desc"); ?>
      <span class="rationale"><?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_id:rationale"); ?></span>
     <br />
-    <textarea name='grant_id' id='grant_id' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $grant_id;?></textarea>
-    <span name="grant_id_verify" id="grant_id_verify" class="elgg-button elgg-button-submit" value="Verify">Verify</span>
+    <textarea alt='required field' name='grant_id' id='grant_id' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $grant_id;?></textarea>
+    <span name="grant_id_verify" id="grant_id_verify" class="elgg-button elgg-button-submit" value="Verify" tabindex="0">Verify</span>
     <span><?php echo elgg_view('graphics/ajax_loader', array(
             'class' => 'embed-throbber mtl',
             'id' => 'verify_loading',
@@ -111,7 +111,7 @@ foreach($required_fields as $field) {
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_name:desc"); ?>
     <br />
-    <textarea name='nih_program_officer_name' id='nih_program_officer_name' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $nih_program_officer_name;?></textarea>
+    <textarea alt='required field' name='nih_program_officer_name' id='nih_program_officer_name' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $nih_program_officer_name;?></textarea>
 
 </div>
 
@@ -121,7 +121,7 @@ foreach($required_fields as $field) {
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_email:desc"); ?>
     <br />
-    <textarea name='nih_program_officer_email' id='nih_program_officer_email' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $nih_program_officer_email;?></textarea>
+    <textarea alt='required field' name='nih_program_officer_email' id='nih_program_officer_email' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $nih_program_officer_email;?></textarea>
 
 </div>
 
@@ -163,7 +163,7 @@ foreach($required_fields as $field) {
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:proposed_research:desc");?>
     <br />
-    <textarea name='proposed_research' id='proposed_research' maxlength='<?php echo CommonsCreditRequest::PROPOSED_RESEARCH_MAX_LENGTH ?>'><?php echo $proposed_research;?></textarea>
+    <textarea alt='required field' name='proposed_research' id='proposed_research' maxlength='<?php echo CommonsCreditRequest::PROPOSED_RESEARCH_MAX_LENGTH ?>'><?php echo $proposed_research;?></textarea>
 </div>
 
 
@@ -398,7 +398,8 @@ foreach($required_fields as $field) {
     <?php echo elgg_view('input/text', array(
         'name' => 'server_compute_expected_cost',
         'value' => empty($server_compute_expected_cost) ? 0 : $server_compute_expected_cost,
-		'class' => 'ccreq-cost')); ?>
+		'class' => 'ccreq-cost',
+        'alt' => 'required field, numeric only')); ?>
 </div>
 
 <div class="required-field">
@@ -410,7 +411,8 @@ foreach($required_fields as $field) {
     <?php echo elgg_view('input/text', array(
         'name' => 'storage_expected_cost',
         'value' => empty($storage_expected_cost) ? 0 : $storage_expected_cost,
-		'class' => 'ccreq-cost')); ?>
+		'class' => 'ccreq-cost',
+        'alt' => 'required field, numeric only')); ?>
 </div>
 
 <div class="required-field">
@@ -422,7 +424,8 @@ foreach($required_fields as $field) {
     <?php echo elgg_view('input/text', array(
         'name' => 'network_services_expected_cost',
         'value' => empty($network_services_expected_cost) ? 0 : $network_services_expected_cost,
-		'class' => 'ccreq-cost')); ?>
+		'class' => 'ccreq-cost',
+        'alt' => 'required field, numeric only')); ?>
 </div>
 
 <div class="required-field">
@@ -434,7 +437,8 @@ foreach($required_fields as $field) {
     <?php echo elgg_view('input/text', array(
         'name' => 'web_servers_expected_cost',
         'value' => empty($web_servers_expected_cost) ? 0 : $web_servers_expected_cost,
-		'class' => 'ccreq-cost')); ?>
+		'class' => 'ccreq-cost',
+        'alt' => 'required field, numeric only')); ?>
 </div>
 
 
@@ -447,7 +451,8 @@ foreach($required_fields as $field) {
     <?php echo elgg_view('input/text', array(
         'name' => 'databases_expected_cost',
         'value' => empty($databases_expected_cost) ? 0 : $databases_expected_cost,
-		'class' => 'ccreq-cost')); ?>
+		'class' => 'ccreq-cost',
+        'alt' => 'required field, numeric only')); ?>
 </div>
 
 <div class="required-field">
@@ -459,7 +464,8 @@ foreach($required_fields as $field) {
     <?php echo elgg_view('input/text', array(
         'name' => 'other_expected_cost',
         'value' => empty($other_expected_cost) ? 0 : $other_expected_cost,
-		'class' => 'ccreq-cost')); ?>
+		'class' => 'ccreq-cost',
+        'alt' => 'required field, numeric only')); ?>
 </div>
 
 <div>

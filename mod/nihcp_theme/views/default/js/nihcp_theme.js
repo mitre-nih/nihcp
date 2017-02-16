@@ -48,4 +48,10 @@ define(function(require) {
         }, 0)
     });
 
+    $('.skip-to-content').click(function(){
+        $('.elgg-page-body')[0].setAttribute('tabindex','-1');
+        $('.elgg-page-body')[0].focus();
+    });
+
+
 });
