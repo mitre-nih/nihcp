@@ -52,6 +52,12 @@ define(function(require) {
         $('.elgg-page-body')[0].setAttribute('tabindex','-1');
         $('.elgg-page-body')[0].focus();
     });
+    $('.skip-to-content').keypress(function(event){
+        if(event.keyCode == 13){
+            $('.elgg-page-body')[0].setAttribute('tabindex','-1');
+            $('.elgg-page-body')[0].focus();
+        }
+    });
 
 
 });
