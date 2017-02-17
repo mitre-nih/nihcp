@@ -100,7 +100,17 @@ return [
 	'nihcp_commons_credit_request:delegate:declined' => 'Declined',
 	'nihcp_commons_credit_request:delegate:submitted' => 'Submitted',
 	'nihcp_commons_credit_request:delegate:self_delegation_error' => 'You cannot delegate yourself.',
-	'nihcp_commons_credit_request:delegate:instructions' => '<b>Post submission notification to PI about RPPR</b>
+	'nihcp_commons_credit_request:delegate:instructions' =>
+'By delegating a CCREQ application, a PI is providing a designated delegate of their choice with “edit ownership” of that application.  The PI will no longer have edit privileges on that CCREQ, including the ability to submit the CCREQ, until the delegate returns ownership to them or they recall the delegation.
+<br>
+<br>
+The designated delegate must be registered with an active account in the Commons Credits Pilot Portal at the time of delegation. The designated delegate will receive an email notifying them of their new access at the time of delegation, and must accept this role to proceed. If the designated delegate does not accept an invitation, the PI can recall the delegation and regain full control.
+<br>
+<br>
+Please note:  with or without delegation, only PIs with active NIH grants at the time of credits distribution (the end of a cycle) can submit CCREQ applications.  Delegation does not change this requirement, nor does it change any deadline for submission.
+<br>
+<br>
+<b>Post submission notification to PI about RPPR</b>
 <br>
 <br>
 Per NIH requirements, Credits Recipients are required to self-report and disclose their participation in the Commons Credits Pilot as part of their Research Performance Progress Report (RPPR).  This process is required even though Commons Credits are not grants.
@@ -150,7 +160,17 @@ Please also note that the PI remains solely formally accountable for all aspects
 <br>
 ',
 
-	'nihcp_commons_credit_request:delegate:instructions:email' => 'Post submission notification to PI about RPPR
+	'nihcp_commons_credit_request:delegate:instructions:email' =>
+'By delegating a CCREQ application, a PI is providing a designated delegate of their choice with “edit ownership” of that application.  The PI will no longer have edit privileges on that CCREQ, including the ability to submit the CCREQ, until the delegate returns ownership to them or they recall the delegation.
+<br>
+<br>
+The designated delegate must be registered with an active account in the Commons Credits Pilot Portal at the time of delegation. The designated delegate will receive an email notifying them of their new access at the time of delegation, and must accept this role to proceed. If the designated delegate does not accept an invitation, the PI can recall the delegation and regain full control.
+<br>
+<br>
+Please note:  with or without delegation, only PIs with active NIH grants at the time of credits distribution (the end of a cycle) can submit CCREQ applications.  Delegation does not change this requirement, nor does it change any deadline for submission.
+<br>
+<br>
+Post submission notification to PI about RPPR
 <br>
 <br>
 Per NIH requirements, Credits Recipients are required to self-report and disclose their participation in the Commons Credits Pilot as part of their Research Performance Progress Report (RPPR).  This process is required even though Commons Credits are not grants.

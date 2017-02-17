@@ -112,7 +112,7 @@ if($requests) {
             $row .= "</td>";
             //grant ID verification
             $row .="<td class='ccreq-verification'>";
-            if($request->grant_id_verification === 1){
+            if($request->grant_id_verification === "1"){
                 $row .= "RePORTER Verified";
                 $row .= "</td>";
             }else{

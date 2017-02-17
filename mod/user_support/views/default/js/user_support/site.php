@@ -29,8 +29,7 @@ elgg.user_support.buttonSearch = function(event){
 elgg.user_support.ask_question = function(event) {
 	event.preventDefault();
 	
-	$('#user_support_ticket_edit_form_wrapper').toggle();
-	$('#user_support_help_center_help').toggle();
+
 
 	elgg.user_support.lightbox_resize();
 }
@@ -38,8 +37,7 @@ elgg.user_support.ask_question = function(event) {
 elgg.user_support.add_help = function (event) {
 	event.preventDefault();
 	
-	$('#user_support_help_edit_form_wrapper').toggle();
-	$('#user_support_help_center_help').toggle();
+
 
 	elgg.user_support.lightbox_resize();
 };

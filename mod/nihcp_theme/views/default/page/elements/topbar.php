@@ -3,7 +3,7 @@
  * Elgg topbar
  * The standard elgg top toolbar
  */
-echo "<span class='skip-to-content' >Skip to main content</span>";
+echo "<span class='skip-to-content' tabindex='0'>Skip to main content</span>";
 
 //echo "<a href='#elgg-page-body'>Skip to content.</a>";
 // Elgg logo

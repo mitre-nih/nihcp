@@ -108,7 +108,7 @@ To view the Ticket click on this link:
 	'user_support:button:hover' => "Click to open the Help Center",
 	
 	'user_support:help_center:title' => "Help Center",
-	'user_support:help_center:ask' => "Ask a question",
+	'user_support:help_center:ask' => "Create a Support Ticket",
 	'user_support:help_center:help' => "Create help",
 	'user_support:help_center:help:title' => "Contextual help",
 	'user_support:help_center:faq:title' => "FAQ",

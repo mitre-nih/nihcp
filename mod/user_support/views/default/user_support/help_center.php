@@ -21,6 +21,12 @@ echo "<div>";
 
 if ($user = elgg_get_logged_in_user_entity()) {
 	echo elgg_view("output/url", array(
+		"text" => elgg_echo("user_support:help_center:ask"),
+		"href" => "#",
+		"id" => "user-support-help-center-ask",
+		"class" => "elgg-button elgg-button-action mrs"
+	));
+	echo elgg_view("output/url", array(
 		"text" => elgg_echo("user_support:menu:support_tickets:mine"),
 		"href" => "user_support/support_ticket/owner/" . $user->username,
 		"class" => "elgg-button elgg-button-action mrs"
