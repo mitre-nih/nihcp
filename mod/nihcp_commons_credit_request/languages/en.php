@@ -101,7 +101,11 @@ return [
 	'nihcp_commons_credit_request:delegate:submitted' => 'Submitted',
 	'nihcp_commons_credit_request:delegate:self_delegation_error' => 'You cannot delegate yourself.',
 	'nihcp_commons_credit_request:delegate:instructions' =>
-'By delegating a CCREQ application, a PI is providing a designated delegate of their choice with “edit ownership” of that application.  The PI will no longer have edit privileges on that CCREQ, including the ability to submit the CCREQ, until the delegate returns ownership to them or they recall the delegation.
+'
+<b>Notification to PI about pre-submission delegation</b>
+<br>
+<br>
+By delegating a CCREQ application, a PI is providing a designated delegate of their choice with “edit ownership” of that application.  The PI will no longer have edit privileges on that CCREQ, including the ability to submit the CCREQ, until the delegate returns ownership to them or they recall the delegation.
 <br>
 <br>
 The designated delegate must be registered with an active account in the Commons Credits Pilot Portal at the time of delegation. The designated delegate will receive an email notifying them of their new access at the time of delegation, and must accept this role to proceed. If the designated delegate does not accept an invitation, the PI can recall the delegation and regain full control.
@@ -161,7 +165,10 @@ Please also note that the PI remains solely formally accountable for all aspects
 ',
 
 	'nihcp_commons_credit_request:delegate:instructions:email' =>
-'By delegating a CCREQ application, a PI is providing a designated delegate of their choice with “edit ownership” of that application.  The PI will no longer have edit privileges on that CCREQ, including the ability to submit the CCREQ, until the delegate returns ownership to them or they recall the delegation.
+'Notification to PI about pre-submission delegation
+<br>
+<br>
+By delegating a CCREQ application, a PI is providing a designated delegate of their choice with “edit ownership” of that application.  The PI will no longer have edit privileges on that CCREQ, including the ability to submit the CCREQ, until the delegate returns ownership to them or they recall the delegation.
 <br>
 <br>
 The designated delegate must be registered with an active account in the Commons Credits Pilot Portal at the time of delegation. The designated delegate will receive an email notifying them of their new access at the time of delegation, and must accept this role to proceed. If the designated delegate does not accept an invitation, the PI can recall the delegation and regain full control.
