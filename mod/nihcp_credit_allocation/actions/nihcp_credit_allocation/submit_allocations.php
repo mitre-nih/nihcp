@@ -36,6 +36,9 @@ if($request_guid) {
 		$allocation->status = CommonsCreditAllocation::SUBMITTED_STATUS;
 	}
 
+	// this event will send an array of CommonsCreditAllocation entities associated with this particular ccreq
+	elgg_trigger_event('submit', 'object:'.CommonsCreditAllocation::SUBTYPE, $allocations);
+
 	elgg_set_ignore_access($ia);
 	return true;
 }

@@ -174,6 +174,50 @@ define(function(require) {
 							});
 						}
 					});
+
+                    $.tablesorter.addParser({
+                        // set a unique id
+                        id: 'ccreq-id',
+                        is: function(s) {
+                            // return false so this parser is not auto detected
+                            return false;
+                        },
+                        format: function(s) {
+                            // format your data for normalization
+                            var len = s.length;
+                            return s.substring(len-5);
+                        },
+                        // set type, either numeric or text
+                        type: 'numeric'
+                    });
+                    $.tablesorter.addParser({
+                        // set a unique id
+                        id: 'action',
+                        is: function(s) {
+                            // return false so this parser is not auto detected
+                            return false;
+                        },
+                        format: function(s) {
+                            // format your data for normalization
+                            var retVal = s;
+                            if(arguments[2].childNodes.length > 0){
+                                retVal = arguments[2].firstChild.value;
+                            }
+                            return retVal;
+                        },
+                        // set type, either numeric or text
+                        type: 'text'
+                    });
+					$('.ccreq-overview-table').tablesorter({
+                        headers: {
+                            1: {
+                                sorter:'ccreq-id'
+                            },
+                            5:{
+                                sorter: 'action'
+                            }
+                        }
+                    });
 				}
 			});
 		});

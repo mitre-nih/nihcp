@@ -88,6 +88,46 @@ define(function(require) {
 					}// 1.02 is to account for margins/paddings
 					registerCRRApproverButtonHandler();
 					registerCRRStatusSelectHandler();
+
+                    $.tablesorter.addParser({
+                        // set a unique id
+                        id: 'ccreq-id',
+                        is: function(s) {
+                            // return false so this parser is not auto detected
+                            return false;
+                        },
+                        format: function(s) {
+                            // format your data for normalization
+							var len = s.length;
+                            return s.substring(len-5);
+                        },
+                        // set type, either numeric or text
+                        type: 'numeric'
+                    });
+                    $.tablesorter.addParser({
+                        // set a unique id
+                        id: 'completed',
+                        is: function(s) {
+                            // return false so this parser is not auto detected
+                            return false;
+                        },
+                        format: function(s) {
+                            // format your data for normalization
+                            return arguments[2].firstChild.getAttribute("class");
+                        },
+                        // set type, either numeric or text
+                        type: 'text'
+                    });
+					$('.crr-overview-table').tablesorter({
+                        headers: {
+                            1: {
+                                sorter:'ccreq-id'
+                            },
+							12: {
+                            	sorter: 'completed'
+							}
+                        }
+                    });
 				}
 			});
 		});

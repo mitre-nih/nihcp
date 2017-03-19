@@ -1,6 +1,7 @@
 <?php
 
 elgg_require_js('jquery');
+elgg_require_js('tablesorter');
 elgg_require_js('crr');
 
 $full_view = elgg_extract('full_view', $vars, true); // for viewing widget view or full page view

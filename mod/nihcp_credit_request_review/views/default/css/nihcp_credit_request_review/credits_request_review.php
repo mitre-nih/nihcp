@@ -36,3 +36,7 @@
     .align-left {
         text-align: left;
     }
+
+    .crr-overview-table th{
+        cursor: pointer;
+    }

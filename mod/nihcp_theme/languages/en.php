@@ -39,5 +39,9 @@ return array(
 
     'pages:all' => "Knowledgebase",
 
-	'search' => 'Search (press Enter key)'
+	'search' => 'Search (press Enter key)',
+
+	'nihcp_email_revalidation:validated' => 'Your email has been updated successfully.',
+	'nihcp_email_revalidation:email:subject' => 'Email Change Validation',
+	'nihcp_email_revalidation:email:body' => 'You or someone has requested to change your email address on the NIH Commons Credits Pilot Portal. If you did not perform this action, you may ignore this message. Otherwise, please click the following email change revalidation link: %s'
 );

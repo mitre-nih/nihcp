@@ -4,7 +4,7 @@ use Nihcp\Manager\RoleManager;
 
 nihcp_role_gatekeeper([RoleManager::TRIAGE_COORDINATOR, RoleManager::NIH_APPROVER, RoleManager::DOMAIN_EXPERT]);
 
-$cycle_guid = elgg_extract('cycle_guid', $vars);
+$cycle_guid = sanitize_string(elgg_extract('cycle_guid', $vars));
 $session = elgg_get_session();
 $session->set('crr_prev_selected_cycle', $cycle_guid);
 $ia = elgg_set_ignore_access();
@@ -43,7 +43,7 @@ $incomplete_icon = "<div class='crr-overview-incomplete-icon' title=\"Item is in
 // TCs, DEs, and NAs all have different sets of columns of this table
 if($requests) {
     $content .= "<table summary=\"".elgg_echo("nihcp_credit_request_review:crr:table_summary")."\" class=\"elgg-table crr-overview-table\">";
-    $content .=     "<tr>";
+    $content .=     "<thead><tr>";
     $content .= "<th scope='col' class='project-name'><b>Project Name</b></th>";
     if ($full_view) {
         $content .= "<th scope='col'><b>CCREQ ID</b></th>";
@@ -73,7 +73,7 @@ if($requests) {
         $content .= "<th scope='col'><b>Final Decision</b></th>";
     }
 
-    $content .= "</tr>";
+    $content .= "</tr></thead><tbody>";
 
 
 
@@ -298,7 +298,7 @@ if($requests) {
     }
 
 
-    $content .= "</table>";
+    $content .= "</tbody></table>";
 
     // legend for table
     $content .= "<div class='ptl'>*General Score: Once completed, each cell shows the result of the mean general score multiplied by the number of digital objects for each of the classes of digital objects: (D)atasets, (A)pplications/(T)ools, and (W)orkflows.</div>";
@@ -307,13 +307,14 @@ if($requests) {
 }
 elgg_set_ignore_access($ia);
 
-$count = $cycle->getRequests(0,0,true);
-$params = array(
+//$count = $cycle->getRequests(0,0,true);
+/*$params = array(
     'base_url' => 'ajax/view/nihcp_credit_request_review/overview/requests',
     'offset' => $offset, //set at the top
     'count' => $count, //set at the top
     'limit' => $limit,
-);
-$pagination = elgg_view('navigation/pagination',$params);
+);*/
+//$pagination = elgg_view('navigation/pagination',$params);
+//echo $pagination . $content;
 
-echo $pagination . $content;
+echo $content;

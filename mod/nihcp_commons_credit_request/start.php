@@ -7,6 +7,10 @@ function commons_credit_request_init() {
 			"src" => elgg_get_site_url() . "mod/nihcp_commons_credit_request/vendor/bower-asset/autoNumeric/autoNumeric.js"
 	]);
 
+	elgg_define_js('tablesorter',[
+	        "src" => elgg_get_site_url() . "mod/nihcp_commons_credit_request/vendor/christianbach/tablesorter/jquery.tablesorter.js"
+    ]);
+
 	elgg_register_page_handler('nihcp_commons_credit_request', 'commons_credit_request_page_handler');
 	
 	// Register a script to handle (usually) a POST request (an action)

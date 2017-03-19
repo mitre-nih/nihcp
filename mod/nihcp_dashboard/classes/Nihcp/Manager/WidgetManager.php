@@ -13,7 +13,7 @@ class WidgetManager {
 			//Domain Expert
 			2 => ['nihcp_catalog', 'nihcp_credit_request_review', 'blog'],
 			//Triage Coordinator
-			3 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log', 'nihcp_credit_allocation', 'nihcp_export_email_addr', 'blog'],
+			3 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log', 'nihcp_credit_allocation', 'nihcp_export_email_addr', 'nihcp_report_export', 'blog'],
 			//Vendor Administrator
 			4 => ['nihcp_catalog', 'manage_vendors', 'blog'],
 			//Helpdesk Administrator

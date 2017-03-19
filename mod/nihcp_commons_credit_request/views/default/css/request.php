@@ -117,3 +117,7 @@ div.WordSection1
 .verified_status{
     display: none;
 }
+
+.ccreq-overview-table th{
+    cursor: pointer;
+}

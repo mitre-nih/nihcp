@@ -2,7 +2,6 @@
 
 $entity = elgg_extract("entity", $vars);
 $full_view = elgg_extract("full_view", $vars);
-
 // entity menu
 $entity_menu = "";
 if (!elgg_in_context("widgets")) {
@@ -16,6 +15,11 @@ if (!elgg_in_context("widgets")) {
 
 $loggedin_user = elgg_get_logged_in_user_entity();
 $owner = $entity->getOwnerEntity();
+
+if (!nihcp_help_admin_gatekeeper(false) && elgg_get_logged_in_user_guid() != $owner->guid) {
+	register_error(elgg_echo("nihcp_groups:role:gatekeeper"));
+	forward(REFERER);
+}
 
 if (!$full_view) {
 	// title

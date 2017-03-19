@@ -6,8 +6,10 @@
  */
 require_once(dirname(__FILE__) . "/lib/functions.php");
 require_once(dirname(__FILE__) . "/lib/properties.php");
+require_once(elgg_get_plugins_path() . "nihcp_notifications/lib/functions.php");
 
 const MIN_PASSWORD_LENGTH = 12;
+const EMAIL_REVALIDATION_CODE_LENGTH = 12;
 
 elgg_register_event_handler('init','system','nihcp_theme_init');
 
@@ -30,6 +32,8 @@ function nihcp_theme_init() {
 	elgg_register_page_handler('', 'forward_to_dashboard');
 	elgg_unregister_page_handler('file');
 	elgg_register_page_handler('file', 'nihcp_file_page_handler');
+
+	elgg_register_page_handler('email-revalidation', 'nihcp_email_revalidation_page_handler');
 
 	elgg_unregister_plugin_hook_handler('prepare', 'menu:site', '_elgg_site_menu_setup');
 	elgg_register_plugin_hook_handler('prepare', 'menu:page', 'nihcp_page_menu_setup');
@@ -57,9 +61,8 @@ function nihcp_theme_init() {
 
 	elgg_unextend_view('page/elements/sidebar', 'search/header');
 
-	if (!elgg_is_admin_logged_in()) {
-		elgg_unregister_plugin_hook_handler('usersettings:save', 'user', '_elgg_set_user_email');
-	}
+	elgg_unregister_plugin_hook_handler('usersettings:save', 'user', '_elgg_set_user_email');
+	elgg_register_plugin_hook_handler('usersettings:save', 'user', 'nihcp_set_user_email');
 }
 
 function forward_to_dashboard($hook, $type, $return = null, $params = null) {
@@ -74,6 +77,79 @@ function nihcp_registration_extra_data($hook, $type, $return, $params) {
 	$user = $params['user'];
 	$user->how_did_you_hear_about_us = $how_did_you_hear_about_us;
 	$user->how_did_you_hear_about_us_other = $how_did_you_hear_about_us_other;
+
+}
+
+function nihcp_set_user_email() {
+	$email = get_input('email');
+	$user_guid = get_input('guid');
+
+	if ($user_guid) {
+		$user = get_user($user_guid);
+	} else {
+		$user = elgg_get_logged_in_user_entity();
+	}
+
+	if (!is_email_address($email)) {
+		register_error(elgg_echo('email:save:fail'));
+		return false;
+	}
+
+	if ($user) {
+		if (strcmp($email, $user->email) != 0) {
+			if (!get_user_by_email($email)) {
+				if ($user->email != $email) {
+
+					// if it is an admin, just let the change happen
+					// if not, put the use through the email revalidation process
+					if (elgg_is_admin_logged_in()) {
+						$user->email = $email;
+						// clear the unvalidated email and code fields
+						$user->unvalidated_email = null;
+						$user->email_validation_code = null;
+						if (!$user->save()) {
+							register_error(elgg_echo('email:save:fail'));
+						}
+					} else { // perform the email revalidation
+						nihcp_email_revalidation($user, $email);
+					}
+
+
+				}
+			} else {
+				register_error(elgg_echo('registration:dupeemail'));
+			}
+		} else {
+			// no change
+			return null;
+		}
+	} else {
+		register_error(elgg_echo('email:save:fail'));
+	}
+	return false;
+}
+
+function nihcp_email_revalidation($user, $email) {
+	// create secure random string as validation code
+	$crypto = new ElggCrypto();
+	$code = $crypto->getRandomString(EMAIL_REVALIDATION_CODE_LENGTH);
+
+	// craft url with code as query string
+	$url = elgg_get_site_url() . "email-revalidation?code=" . $code;
+
+	// store new email and code on the $user object
+	$user->unvalidated_email = $email;
+	$user->email_revalidation_code = $code;
+
+	if (!$user->save()) {
+		register_error(elgg_echo('email:save:fail'));
+	}
+
+	// end revalidation url to new email
+	nihcp_notifications_send_email($email, elgg_echo('nihcp_email_revalidation:email:subject'), elgg_echo('nihcp_email_revalidation:email:body', array($url)));
+
+	// send notification email to old email
+	elgg_trigger_event('nihcp_email_change_attempt', 'object', $user);
 
 }
 
@@ -351,5 +427,13 @@ function nihcp_file_page_handler($page) {
 		default:
 			return false;
 	}
+	return true;
+}
+
+function nihcp_email_revalidation_page_handler($page)
+{
+	$dir = elgg_get_plugins_path() . 'nihcp_theme/pages/nihcp_email_revalidation';
+
+	include "$dir/nihcp_email_revalidation.php";
 	return true;
 }

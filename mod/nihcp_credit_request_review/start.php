@@ -23,6 +23,7 @@ function credit_request_review_init() {
 	elgg_register_action('credit_request_cycle/edit', "$action_path/nihcp_credit_request_cycle/save.php");
 	elgg_register_action('credit_request_cycle/delete', "$action_path/nihcp_credit_request_cycle/delete.php");
 	elgg_register_action('nihcp_export_email_addr/export', "$action_path/nihcp_export_email_addr/export.php");
+	elgg_register_action('nihcp_report_export/export', "$action_path/nihcp_report_export/export.php");
 	elgg_register_action('grant-id-validation',"$action_path/nihcp_credit_request_review/grant_id_validation.php");
 
 	// Extend the main CSS file
@@ -34,6 +35,7 @@ function credit_request_review_init() {
 	// Add a new widget
 	elgg_register_widget_type('nihcp_credit_request_review', elgg_echo("nihcp_credit_request_review"), elgg_echo("nihcp_credit_request_review:widget:description"));
 	elgg_register_widget_type('nihcp_export_email_addr', elgg_echo("nihcp_export_email_addr"), elgg_echo("nihcp_export_email_addr:widget:description"));
+	elgg_register_widget_type('nihcp_report_export', elgg_echo("nihcp_report_export"), elgg_echo("nihcp_report_export:widget:description"));
 
 	elgg_register_page_handler('nihcp_credit_request_review', 'nihcp_credit_request_review_page_handler');
 

@@ -57,6 +57,9 @@ function nihcp_credit_allocation_page_handler($page) {
 		case 'balance_history':
 			include "$cca_dir/balance_history.php";
 			break;
+		case 'vendors':
+			include "$cca_dir/vendors.php";
+			break;
 		default:
 			return false;
 	}

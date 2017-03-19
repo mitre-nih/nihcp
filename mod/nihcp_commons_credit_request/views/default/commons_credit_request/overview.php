@@ -1,4 +1,5 @@
 <?php
+elgg_require_js('tablesorter');
 elgg_require_js('request');
 
 $full_view = elgg_extract('full_view', $vars, true);

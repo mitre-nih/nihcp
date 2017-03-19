@@ -5,6 +5,9 @@
 
 $body = elgg_extract('body', $vars, '');
 
+$image = null;
+$alt_image = null;
+
 if (elgg_is_admin_logged_in()) {
 	$image = elgg_extract('image', $vars, '');
 	$alt_image = elgg_extract('image_alt', $vars, '');

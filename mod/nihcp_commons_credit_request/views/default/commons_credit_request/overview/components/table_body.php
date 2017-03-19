@@ -8,6 +8,7 @@ $full_view = $vars['full_view'];
 
 $content = '';
 if(!empty($requests)) {
+    $content .= "<tbody>";
 	foreach ($requests as $request) {
 		$ia = elgg_set_ignore_access();
 		$action_button = null;
@@ -97,6 +98,7 @@ if(!empty($requests)) {
 		";
 		$content .= $row;
 		elgg_set_ignore_access($ia);
-	}
-}
+	}//foreach request
+    $content .= "</tbody>";
+}//if request
 echo $content;

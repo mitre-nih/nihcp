@@ -1,7 +1,7 @@
 <?php
 $full_view = elgg_extract('full_view', $vars);
 
-$content = "<tr>
+$content = "<thead><tr>
 			<th scope='col'><b>Project Name</b></th>";
 	if ($full_view) {
 		$content .= "
@@ -17,6 +17,6 @@ $content = "<tr>
 			<th scope='col'><b>Action</b></th>
 			<th scope='col'><b>Delegate</b></th>";
 	}
-$content .= "</tr>";
+$content .= "</tr></thead>";
 
 echo $content;
