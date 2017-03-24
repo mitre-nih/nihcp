@@ -221,6 +221,20 @@ define(function(require) {
 				}
 			});
 		});
+        $('#nihcp-ccreq-search-submit').click(function() {
+            var search_term = $("#nihcp-ccreq-search-input").val();
+            $(".crrLoader").show();
+            elgg.get('ajax/view/commons_credit_request/overview/requests_in_cycle', {
+                data: {
+                    search_term: search_term,
+                    full_view: $(this).closest('.elgg-widget-content').length !== 0 ? 'widget' : true
+                },
+                success: function(output) {
+                    $(".crrLoader").hide();
+                    $('#nihcp-ccr-overview-requests-in-cycle').html(output);
+                }
+            });//elgg.get
+        });//search-input change
 		$('#nihcp-ccreq-cycle-select').trigger('change');
 	});
 });

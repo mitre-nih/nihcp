@@ -20,14 +20,21 @@ class CreditRequestStats{
         //$new = $this->get_new_submissions_count();
         //$nr = $this->get_not_reviewed_in_last_week_count();
         //$tnr = $this->get_total_not_reviewed_count();
-        $drafts = $this->get_total_drafsts();
+        $draftCount = $this->get_total_drafsts();
+        $drafts = $this->get_drafts();
 
         $subj = elgg_echo('nihcp_notifications:notify:ccreq_stats_subj');
         //$new24 = elgg_echo('nihcp_notifications:notify:ccreq_stats_daily', [$new]);
         //$noReview = elgg_echo('nihcp_notifications:notify:ccreq_stats_weekly', [$nr]);
         //$totalNoReview = elgg_echo('nihcp_notifications:notify:ccreq_stats_overall', [$tnr]);
         //$msg = $new24 . "\n" . $noReview . "\n" . $totalNoReview;
-        $msg = elgg_echo('nihcp_notifications:notify:ccreq_stats_draft',[$drafts]);
+        $msg = elgg_echo('nihcp_notifications:notify:ccreq_stats_draft',[$draftCount]);
+        $msg .= "\n";
+        $ia = elgg_set_ignore_access();
+        foreach($drafts as $draft){
+            $msg .= $draft->project_title . "\n";
+        }
+        elgg_set_ignore_access($ia);
 
         $options = array(
             "type" => "group",
@@ -115,6 +122,19 @@ class CreditRequestStats{
         return $requests;
     }
 
+    public function get_drafts(){
+        $ia = elgg_set_ignore_access();
+        $requests = elgg_get_entities_from_metadata([
+            'type' => 'object',
+            'subtype' => CommonsCreditRequest::SUBTYPE,
+            'limit' => 0,
+            'metadata_name_value_pairs' => [
+                ['name' => 'status', 'value' => CommonsCreditRequest::DRAFT_STATUS, 'operand' => "="]
+            ],
+        ]);
+        elgg_set_ignore_access($ia);
+        return $requests;
+    }
 }//class: Credit Request Stats
 
 ?>

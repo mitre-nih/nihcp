@@ -41,11 +41,13 @@ function nihcp_notifications_init() {
 
 function handle_submit_request_notifications($event, $object_type, $object) {
 
+	$ia = elgg_set_ignore_access();
 
 	$subject = elgg_echo('nihcp_notifications:notify:submit_request:subject');
-	$body = elgg_echo('nihcp_notifications:notify:submit_request:body');
+	$body = "\tTitle: {$object->project_title}\n\tCCREQ ID: {$object->getRequestId()}\n\n";
+	$body .= elgg_echo('nihcp_notifications:notify:submit_request:body');
 
-	$ia = elgg_set_ignore_access();
+
 
 	$recipients = array();
 	$recipients[] = $object->getOwnerEntity()->email;
@@ -80,7 +82,7 @@ function handle_submit_allocation_notifications($event, $object_type, $object) {
 	$body = elgg_echo('nihcp_notifications:notify:submit_allocations:body');
 	$body .= " \r\n\r\n";
 
-	$body .= "\t{$ccreq_entity->getRequestId()}:\n";
+	$body .= "\tTitle: {$ccreq_entity->project_title}\n\tCCREQ ID: {$ccreq_entity->getRequestId()}\n";
 
 	foreach ($object as $allocation) {
 		$vendor_name = CommonsCreditVendor::getByVendorId($allocation->vendor)->getDisplayName();
@@ -214,7 +216,7 @@ function handle_allocations_updated($event, $object_type, $object) {
 
 	$new_allocations = CommonsCreditAllocation::getAllocations($object->getGUID());
 	if (!empty($new_allocations)) {
-		$body .= "\t{$object->getRequestId()}:\n";
+		$body .= "\tTitle: {$object->project_title}\n\tCCREQ ID: {$object->getRequestId()}\n";
 	}
 
 	foreach ($new_allocations as $allocation) {

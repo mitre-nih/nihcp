@@ -85,8 +85,17 @@ class CommonsCreditCycle extends \ElggObject {
 				['name' => 'finish', 'value' => $this->finish, 'operand' => '>='],
 			]
 		]);
+		$occurs_inside_cycles = elgg_get_entities_from_metadata([
+			'type' => 'object',
+			'subtype' => CommonsCreditCycle::SUBTYPE,
+			'limit' => 2,
+			'metadata_name_value_pairs' => [
+				['name' => 'start', 'value' => $this->start, 'operand' => '>='],
+				['name' => 'finish', 'value' => $this->finish, 'operand' => '<='],
+			]
+		]);
 		elgg_set_ignore_access($ia);
-		$occurs_during_cycles = array_unique(array_merge($starts_during_cycles, $ends_during_cycles));
+		$occurs_during_cycles = array_unique(array_merge($starts_during_cycles, $ends_during_cycles, $occurs_inside_cycles));
 		return empty($occurs_during_cycles) ? false : !(sizeof($occurs_during_cycles) === 1 && $occurs_during_cycles[0]->guid === $this->guid);
 	}
 

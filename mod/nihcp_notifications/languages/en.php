@@ -55,7 +55,7 @@ CAMH FFRDC, operated by the MITRE Corporation",
     'nihcp_notifications:notify:ccreq_stats_daily' => 'There have been %d CCREQ(s) submitted in the past 24 hours.',
     'nihcp_notifications:notify:ccreq_stats_weekly' =>  'There have been %d CCREQ(s) submitted in the last week that have not been reviewed.',
     'nihcp_notifications:notify:ccreq_stats_overall' => 'There are %d total CCREQ(s) that have not been reviewed.',
-    'nihcp_notifications:notify:ccreq_stats_draft' => 'There are %d CCREQ drafts.',
+    'nihcp_notifications:notify:ccreq_stats_draft' => "There are %d CCREQ drafts: \r\n",
 
     'nihcp_notifications:notify:helpdesk_stats_subj' => 'Daily Helpdesk Statistics',
     'nihcp_notifications:notify:helpdesk_stats_daily' => '%d helpdesk ticket(s) have been submitted in the last day and remain open.',

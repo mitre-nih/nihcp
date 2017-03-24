@@ -25,13 +25,16 @@ if(($current_request instanceof CommonsCreditRequest) && $current_request->isDra
 					$delegation->setStatus(CommonsCreditRequestDelegation::DELEGATION_SUBMITTED_STATUS);
 				}
 				elgg_set_ignore_access($ia);
+
+				if(!CommonsCreditRequestId::assignToRequest($guid)) {
+					register_error(elgg_echo("nihcp_commons_credit_request:id:assign_fail"));
+				}
+
 				elgg_trigger_event('submit', 'object:'.CommonsCreditRequest::SUBTYPE, $current_request);
 			} else {
 				register_error(elgg_echo("nihcp_commons_credit_request:cycle:noactive"));
 			}
-			if(!CommonsCreditRequestId::assignToRequest($guid)) {
-				register_error(elgg_echo("nihcp_commons_credit_request:id:assign_fail"));
-			}
+
 			break;
 		case 'Submit for PI Review': // should only get here if there was delegation
 			$ia = elgg_set_ignore_access();

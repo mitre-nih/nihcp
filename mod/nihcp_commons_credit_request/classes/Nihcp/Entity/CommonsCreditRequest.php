@@ -2,6 +2,8 @@
 
 namespace Nihcp\Entity;
 
+use Nihcp\Manager\RoleManager;
+
 class CommonsCreditRequest extends \ElggObject {
 
 	const SUBTYPE = 'commonscreditrequest';
@@ -575,4 +577,28 @@ class CommonsCreditRequest extends \ElggObject {
 		add_entity_relationship($this->getGUID(), CommonsCreditStatusChange::RELATIONSHIP_CCREQ_TO_STATUS_CHANGE, $sc_guid);
 		return $sc_guid;
 	}
+
+	public static function searchByTitle($title){
+
+	    $options = array(
+            'type' => 'object',
+            'subtype' => CommonsCreditRequest::SUBTYPE,
+            'limit' => 0,
+            'metadata_name_value_pairs' => [
+                ['name' => 'project_title', 'value' => '%'.$title.'%', 'operand' => 'LIKE'],
+            ],
+        );
+
+	    $result = false;
+	    //TC and Approvers can see anything
+        if(nihcp_role_gatekeeper(array(RoleManager::NIH_APPROVER,RoleManager::TRIAGE_COORDINATOR),false)){
+	        $ia = elgg_set_ignore_access();
+	        $result = elgg_get_entities_from_metadata($options);
+	        elgg_set_ignore_access($ia);
+        }elseif( nihcp_role_gatekeeper(RoleManager::INVESTIGATOR) ){
+            $result = elgg_get_entities_from_metadata($options);
+        }
+
+	    return $result;
+    }
 }
