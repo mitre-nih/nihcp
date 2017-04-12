@@ -47,5 +47,9 @@ return array(
 
 	'nihcp_email_revalidation:validated' => 'Your email has been updated successfully.',
 	'nihcp_email_revalidation:email:subject' => 'Email Change Validation',
-	'nihcp_email_revalidation:email:body' => 'You or someone has requested to change your email address on the NIH Commons Credits Pilot Portal. If you did not perform this action, you may ignore this message. Otherwise, please click the following email change revalidation link: %s'
+	'nihcp_email_revalidation:email:body' => 'You or someone has requested to change your email address on the NIH Commons Credits Pilot Portal. If you did not perform this action, you may ignore this message. Otherwise, please click the following email change revalidation link: %s',
+
+	'session_expired' => "Your session has expired. Please <a href='javascript:location.reload(true)'>reload</a> the page to log in.",
+	'session_changed_user' => "You have been logged in as another user. You should <a href='javascript:location.reload(true)'>reload</a> the page.",
+
 );

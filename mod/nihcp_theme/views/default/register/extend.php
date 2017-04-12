@@ -1,5 +1,6 @@
 <?php
 
+
 elgg_require_js('jquery');
 
 echo "<div>";
@@ -13,7 +14,7 @@ echo "<div>" ;
 echo "<label>" . elgg_echo('nihcp_theme:how_did_you_hear_about_us') . "</label>";
 echo "<div>" ;
 
-$options = ['word_of_mouth', 'email', 'webinar_seminar', 'twitter', 'facebook', 'conference', 'linkedin', 'nih_website', 'other'];
+$options = get_how_did_you_hear_options();
 $option_values = array();
 foreach ($options as $option) {
     $option_values[$option] = elgg_echo("nihcp_theme:how_did_you_hear_about_us:option:$option");
