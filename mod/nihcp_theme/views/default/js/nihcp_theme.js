@@ -59,16 +59,5 @@ define(function(require) {
         }
     });
 
-    //report exports
-    // disable cycle select dropdown if the "How did you hear..." option is selected
-    $('#nihcp-ccreq-report-select').change(function() {
-        if ($('#nihcp-ccreq-report-select').val() === "How Did You Learn About The Portal") {
-            $('#nihcp-ccreq-cycle-select').val(0);
-            $('#nihcp-ccreq-cycle-select').prop( "disabled", true );
-            $('.nihcp-ccreq-report').append("<div id='not-cycle-specific'>This report is not cycle specific.</div>");
-        } else {
-            $('#nihcp-ccreq-cycle-select').prop( "disabled", false );
-            $('#not-cycle-specific').remove();
-        }
-    });
+
 });
