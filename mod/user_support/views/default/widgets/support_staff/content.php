@@ -17,7 +17,27 @@ $options = array(
 	"order_by" => "e.time_updated desc"
 );
 
-if ($content = elgg_list_entities_from_metadata($options)) {
+// get counts of open and closed help desk tickets
+$open_tickets_count = count(elgg_get_entities_from_metadata(array(
+	"type" => "object",
+	"subtype" => UserSupportTicket::SUBTYPE,
+	"metadata_name_value_pairs" => array("status" => UserSupportTicket::OPEN),
+	"limit" => 0,
+)));
+
+$closed_tickets_count = count(elgg_get_entities_from_metadata(array(
+	"type" => "object",
+	"subtype" => UserSupportTicket::SUBTYPE,
+	"metadata_name_value_pairs" => array("status" => UserSupportTicket::CLOSED),
+	"limit" => 0,
+)));
+
+$content = "<div class='pbl'>";
+$content .= "<div><b>Open:</b> $open_tickets_count</div>";
+$content .= "<div><b>Closed:</b> $closed_tickets_count</div>";
+$content .= "</div>";
+
+if ($content .= elgg_list_entities_from_metadata($options)) {
 	$content .= "<div class='elgg-widget-more clearfix'>";
 	$content .= elgg_view("output/url", array("text" => elgg_echo("user_support:read_more"), "href" => "user_support/support_ticket", "class" => "float-alt"));
 	$content .= "</div>";

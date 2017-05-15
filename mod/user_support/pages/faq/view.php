@@ -10,7 +10,7 @@ elgg_entity_gatekeeper($guid, "object", UserSupportFAQ::SUBTYPE);
 
 $entity = get_entity($guid);
 $container = $entity->getContainerEntity();
-
+elgg_trigger_event('pagehit','object',$entity);
 // build page elements
 $title_text = $entity->title;
 

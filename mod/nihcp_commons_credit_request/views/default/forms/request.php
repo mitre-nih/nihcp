@@ -98,7 +98,7 @@ foreach($required_fields as $field) {
      <span class="rationale"><?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_id:rationale"); ?></span>
     <br />
     <textarea alt='required field' name='grant_id' id='grant_id' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $grant_id;?></textarea>
-    <span name="grant_id_verify" id="grant_id_verify" class="elgg-button elgg-button-submit" value="Verify" tabindex="0">Verify</span>
+    <span name="grant_id_verify" id="grant_id_verify" class="elgg-button elgg-button-submit" value="Verify" tabindex="0" role="button">Verify</span>
     <span><?php echo elgg_view('graphics/ajax_loader', array(
             'class' => 'embed-throbber mtl',
             'id' => 'verify_loading',
@@ -188,13 +188,14 @@ foreach($required_fields as $field) {
 
 
 <div>
-    <label>
+    <label for="productivity_gain">
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:productivity_gain"); ?>
     </label>
 
 
     <br />
     <?php echo elgg_view('input/select', array(
+        'id' => 'productivity_gain',
         'name' => 'productivity_gain',
 		'value' => $productivity_gain,
         'options_values' => array (
@@ -205,7 +206,7 @@ foreach($required_fields as $field) {
     ))?>
 </div>
 <div>
-    <label>
+    <label for='productivity_gain_explanation'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:answer_yes"); ?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:productivity_gain:desc"); ?>
@@ -214,13 +215,14 @@ foreach($required_fields as $field) {
 </div>
 
 <div>
-    <label>
+    <label for='unique_resource_access'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:unique_resource_access"); ?>
     </label>
 
 
     <br />
     <?php echo elgg_view('input/select', array(
+        'id' => 'unique_resource_access',
         'name' => 'unique_resource_access',
 		'value' => $unique_resource_access,
         'options_values' => array (
@@ -231,7 +233,7 @@ foreach($required_fields as $field) {
     ))?>
 </div>
 <div>
-    <label>
+    <label for='unique_resource_access_explanation'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:answer_yes"); ?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:unique_resource_access:desc"); ?>
@@ -240,12 +242,13 @@ foreach($required_fields as $field) {
 </div>
 
 <div>
-    <label>
+    <label for='past_experience'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:past_experience"); ?>
     </label>
 
     <br />
     <?php echo elgg_view('input/select', array(
+        'id' => 'past_experience',
         'name' => 'past_experience',
 		'value' => $past_experience,
         'options_values' => array (
@@ -256,7 +259,7 @@ foreach($required_fields as $field) {
     ))?>
 </div>
 <div>
-    <label>
+    <label for='past_experience_explanation'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:answer_yes"); ?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:past_experience:desc"); ?>
@@ -266,15 +269,15 @@ foreach($required_fields as $field) {
 
 <div>
 
-    <label>
-        <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:digital_objects:desc"); ?>
-    </label>
+    <div>
+        <b><?php echo elgg_echo("nihcp_commons_credit_request:ccreq:digital_objects:desc"); ?></b>
+    </div>
 
 
 </div>
 
 <div>
-    <label>
+    <label for='datasets'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:datasets"); ?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:datasets:desc"); ?>
@@ -301,7 +304,7 @@ foreach($required_fields as $field) {
 </div>
 
 <div>
-    <label>
+    <label for='applications_tools'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:applications_tools"); ?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:applications_tools:desc"); ?>
@@ -327,7 +330,7 @@ foreach($required_fields as $field) {
 </div>
 
 <div>
-    <label>
+    <label for='workflows'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:workflows"); ?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:workflows:desc"); ?>
@@ -353,7 +356,7 @@ foreach($required_fields as $field) {
 </div>
 
 <div>
-    <label>
+    <label for='digital_object_retention_plan'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:digital_object_retention_plan"); ?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:digital_object_retention_plan:desc"); ?>
@@ -362,9 +365,9 @@ foreach($required_fields as $field) {
 </div>
 
 <div>
-    <label>
-        <span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:cloud_service_request"); ?>
-    </label>
+    <div>
+        <b><span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:cloud_service_request"); ?></b>
+    </div>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:cloud_service_request:desc"); ?>
     <br />
 </div>
@@ -390,12 +393,13 @@ foreach($required_fields as $field) {
 
 
 <div class="required-field">
-    <label>
+    <label for='server_compute_expected_cost'>
 		<span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:server_compute"); ?>
     </label>
 
     <br />
     <?php echo elgg_view('input/text', array(
+        'id' => 'server_compute_expected_cost',
         'name' => 'server_compute_expected_cost',
         'value' => empty($server_compute_expected_cost) ? 0 : $server_compute_expected_cost,
 		'class' => 'ccreq-cost',
@@ -403,12 +407,13 @@ foreach($required_fields as $field) {
 </div>
 
 <div class="required-field">
-    <label>
+    <label for='storage_expected_cost'>
 		<span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:storage"); ?>
     </label>
 
     <br />
     <?php echo elgg_view('input/text', array(
+        'id' => 'storage_expected_cost',
         'name' => 'storage_expected_cost',
         'value' => empty($storage_expected_cost) ? 0 : $storage_expected_cost,
 		'class' => 'ccreq-cost',
@@ -416,12 +421,13 @@ foreach($required_fields as $field) {
 </div>
 
 <div class="required-field">
-    <label>
+    <label for='network_services_expected_cost'>
 		<span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:network_services"); ?>
     </label>
 
     <br />
     <?php echo elgg_view('input/text', array(
+        'id' => 'network_services_expected_cost',
         'name' => 'network_services_expected_cost',
         'value' => empty($network_services_expected_cost) ? 0 : $network_services_expected_cost,
 		'class' => 'ccreq-cost',
@@ -429,12 +435,13 @@ foreach($required_fields as $field) {
 </div>
 
 <div class="required-field">
-    <label>
+    <label for='web_servers_expected_cost'>
 		<span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:webservers"); ?>
     </label>
 
     <br />
     <?php echo elgg_view('input/text', array(
+        'id' => 'web_servers_expected_cost',
         'name' => 'web_servers_expected_cost',
         'value' => empty($web_servers_expected_cost) ? 0 : $web_servers_expected_cost,
 		'class' => 'ccreq-cost',
@@ -443,12 +450,13 @@ foreach($required_fields as $field) {
 
 
 <div class="required-field">
-    <label>
+    <label for='databases_expected_cost'>
 		<span class="hiviz required-icon"></span> <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:databases"); ?>
     </label>
 
     <br />
     <?php echo elgg_view('input/text', array(
+        'id' => 'databases_expected_cost',
         'name' => 'databases_expected_cost',
         'value' => empty($databases_expected_cost) ? 0 : $databases_expected_cost,
 		'class' => 'ccreq-cost',
@@ -456,12 +464,13 @@ foreach($required_fields as $field) {
 </div>
 
 <div class="required-field">
-    <label>
+    <label for='other_expected_cost'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:other"); ?>
     </label>
 
     <br />
     <?php echo elgg_view('input/text', array(
+        'id' => 'other_expected_cost',        
         'name' => 'other_expected_cost',
         'value' => empty($other_expected_cost) ? 0 : $other_expected_cost,
 		'class' => 'ccreq-cost',
@@ -469,7 +478,7 @@ foreach($required_fields as $field) {
 </div>
 
 <div>
-    <label>
+    <label for='other_expected_cost_explanation'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:other_explanation"); ?>
     </label>
     <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:other_explanation:desc"); ?>
@@ -480,7 +489,7 @@ foreach($required_fields as $field) {
 </div>
 
 <div>
-    <label>
+    <label for='ccreq-total-cost'>
         <?php echo elgg_echo("nihcp_commons_credit_request:ccreq:total_cost"); ?>
     </label>
     <div id="ccreq-total-cost"></div>

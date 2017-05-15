@@ -14,6 +14,7 @@ function nihcp_blog_init() {
 
     $search_input = "<div class = 'mrl'>";
     $search_input .= elgg_view('input/text', array(
+        "title" => "user-forum-search",
         "id" => "user-forum-search",
         "name" => "user-forum-search",
         "alt" => "User Forum Search",

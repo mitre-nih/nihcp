@@ -19,7 +19,7 @@ $request_guid = get_input('request_guid');
 
 //if user is triage coordinator
 
-if(nihcp_role_gatekeeper(RoleManager::NIH_APPROVER,False)){
+if(nihcp_role_gatekeeper(RoleManager::NIH_APPROVER,False) && !elgg_is_admin_logged_in()){
     $content = elgg_view('nihcp_credit_request_review/grant-id-validation',array('request_guid'=>$request_guid));
 }else {
     $content = elgg_view_form('grant-id-validation', array('request_guid' => $request_guid));

@@ -21,4 +21,10 @@ return [
 	'nihcp_portal_usage' => 'Portal Usage',
 	'nihcp_portal_usage:widget:description' => 'Tracks usage of Commons Portal.',
 	'nihcp_portal_usage:menu' => 'Portal Usage',
+
+    'nihcp_portal_usage:page_counter' => 'Page Hit Counter',
+    'nihcp_portal_usage:page_counter:widget:title:label' => 'Title',
+    'nihcp_portal_usage:page_counter:widget:counter:label' => 'Hits',
+    'nihcp_portal_usage:page_counter:widget:description' => 'Show hits per page',
+    'nihcp_portal_usage:page_counter:widget:export_label' => 'Export to CSV',
 ];

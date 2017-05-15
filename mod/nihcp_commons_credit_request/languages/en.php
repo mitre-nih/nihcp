@@ -49,7 +49,8 @@ return [
 	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_title:desc' => 'This field is only required if a program officer is not declared. Provide the current position title of your alternative grant verification contact ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
 	'nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_email:desc' => 'This field is only required if a program officer is not declared. Provide active institutional email account of your contact ' . '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
 	'nihcp_commons_credit_request:ccreq:grant_id:desc' => 'Check that the listed Grant ID can be validated in NIH RePORTER. The Grant ID in NIH RePORTER (<a href="https://projectreporter.nih.gov/reporter.cfm">https://projectreporter.nih.gov/reporter.cfm</a>) must populate active identified grant.' ,
-    'nihcp_commons_credit_request:ccreq:grant_id:rationale' => 'The grant ID was not found in NIH RePORTER, please describe the rationale here. In some circumstances, validation of your grant may be required by your project officer '. '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
+	'nihcp_commons_credit_request:ccreq:grant_id:desc:plaintext' => 'Check that the listed Grant ID can be validated in NIH RePORTER. The Grant ID in NIH RePORTER (https://projectreporter.nih.gov/reporter.cfm) must populate active identified grant.' ,
+	'nihcp_commons_credit_request:ccreq:grant_id:rationale' => 'The grant ID was not found in NIH RePORTER, please describe the rationale here. In some circumstances, validation of your grant may be required by your project officer '. '(Limit ' . CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH . ' characters)',
     'nihcp_commons_credit_request:ccreq:grant_id:invalid' => 'The grant ID was not found in NIH RePORTER, please describe the rationale.',
 
 	'nihcp_commons_credit_request:ccreq:proposed_research' => 'Proposed Research and Impact',
@@ -70,7 +71,8 @@ return [
     'nihcp_commons_credit_request:ccreq:digital_object_retention_plan' => 'Long-term digital objects retention plan',
     'nihcp_commons_credit_request:ccreq:digital_object_retention_plan:desc' => 'If digital objects are expected to be created in this plan, indicate plans for persistence ' . '(Limit ' . CommonsCreditRequest::DIGITAL_OBJECT_RETENTION_PLAN_MAX_LENGTH . ' characters)',
     'nihcp_commons_credit_request:ccreq:cloud_service_request' => 'Cloud Service Request',
-    'nihcp_commons_credit_request:ccreq:cloud_service_request:desc' => 'Indicate the quantity and price for each service indicated below. You must append vendor calculator snapshots, documentation, or a filled <a href="' . elgg_get_site_url() . 'nihcp_commons_credit_request/service-request-worksheet">Service Worksheet</a> to substantiate credit requests. However, you are not limited to select vendor(s) used in making these resource estimates. Attachments for service estimation should be uploaded as one zipped archive labelled "service estimates"',
+	'nihcp_commons_credit_request:ccreq:cloud_service_request:desc' => 'Indicate the quantity and price for each service indicated below. You must append vendor calculator snapshots, documentation, or a filled <a href="' . elgg_get_site_url() . 'nihcp_commons_credit_request/service-request-worksheet">Service Worksheet</a> to substantiate credit requests. However, you are not limited to select vendor(s) used in making these resource estimates. Attachments for service estimation should be uploaded as one zipped archive labelled "service estimates"',
+	'nihcp_commons_credit_request:ccreq:cloud_service_request:desc:plaintext' => 'Indicate the quantity and price for each service indicated below. You must append vendor calculator snapshots, documentation, or a filled Service Worksheet (' . elgg_get_site_url() . 'nihcp_commons_credit_request/service-request-worksheet) to substantiate credit requests. However, you are not limited to select vendor(s) used in making these resource estimates. Attachments for service estimation should be uploaded as one zipped archive labelled "service estimates"',
     'nihcp_commons_credit_request:ccreq:server_compute' => 'Server + Compute ($)',
     'nihcp_commons_credit_request:ccreq:storage' => 'Storage ($)',
     'nihcp_commons_credit_request:ccreq:network_services' => 'Network Services ($)',
@@ -614,6 +616,8 @@ MITRE. &nbsp;&nbsp;This decision cannot be contested.</span></p>
 	'nihcp_commons_credit_request:cycle:save:success' => 'Saved cycle',
 	'nihcp_commons_credit_request:cycle:noaccess' => 'You do not have permission to access this cycle',
 	'nihcp_commons_credit_request:cycle:noactive' => 'No current available cycle. Please try again later.',
+    'nihcp_commons_credit_request:search_result_label:search_term' => 'Showing search results for: ',
+    'nihcp_commons_credit_request:search_result_label:cycle' => 'Showing results for selected cycle.',
 
 	'nihcp_commons_credit_request:id:assign_fail' => 'Unable to assign a CCREQ ID. Please contact the Support Staff for further assistance.',
     'nihcp_commons_credit_request:table:summary' => 'This table shows the requests for credit.',

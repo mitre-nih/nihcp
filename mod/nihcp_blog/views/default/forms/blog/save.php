@@ -107,6 +107,7 @@ $tags_input = elgg_view('input/tags', array(
 // automatically set access to default of logged in users
 $access_label = elgg_echo('access');
 $access_input = elgg_view('input/access', array(
+    'aria-label' => 'access_id',
     'name' => 'access_id',
     'id' => 'blog_access_id',
     'value' => ACCESS_LOGGED_IN,

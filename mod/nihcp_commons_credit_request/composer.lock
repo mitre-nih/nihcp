@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "14ac52cd627969a602125b09ef6653bd",
-    "content-hash": "25843dbcd7fca8e8cc0d9ce070c0c42f",
+    "content-hash": "57982b9bf051280ff5c50cd0f7ea996a",
     "packages": [
         {
             "name": "bower-asset/autoNumeric",
@@ -56,16 +55,16 @@
         },
         {
             "name": "bower-asset/jquery",
-            "version": "3.0.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jquery/jquery-dist.git",
-                "reference": "0078f86be166a8747819d5d1516776a662cb69df"
+                "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/0078f86be166a8747819d5d1516776a662cb69df",
-                "reference": "0078f86be166a8747819d5d1516776a662cb69df",
+                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/77d2a51d0520d2ee44173afdf4e40a9201f5964e",
+                "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e",
                 "shasum": ""
             },
             "type": "bower-asset-library",
@@ -86,17 +85,87 @@
             ]
         },
         {
-            "name": "composer/installers",
-            "version": "v1.1.0",
+            "name": "bower-asset/jquery.tablesorter",
+            "version": "v2.28.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/composer/installers.git",
-                "reference": "a3595c5272a6f247228abb20076ed27321e4aae9"
+                "url": "https://github.com/Mottie/tablesorter.git",
+                "reference": "48a327d6f671f934dca9902ecaa1594bc1528937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/a3595c5272a6f247228abb20076ed27321e4aae9",
-                "reference": "a3595c5272a6f247228abb20076ed27321e4aae9",
+                "url": "https://api.github.com/repos/Mottie/tablesorter/zipball/48a327d6f671f934dca9902ecaa1594bc1528937",
+                "reference": "48a327d6f671f934dca9902ecaa1594bc1528937",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.2.6"
+            },
+            "require-dev": {
+                "bower-asset/grunt": ">=1.0.1,<2.0.0",
+                "bower-asset/grunt-cli": ">=1.2.0,<2.0.0",
+                "bower-asset/grunt-contrib-clean": ">=1.0.0,<2.0.0",
+                "bower-asset/grunt-contrib-concat": ">=1.0.1,<2.0.0",
+                "bower-asset/grunt-contrib-copy": ">=1.0.0,<2.0.0",
+                "bower-asset/grunt-contrib-cssmin": ">=1.0.1,<2.0.0",
+                "bower-asset/grunt-contrib-jshint": ">=1.0.0,<2.0.0",
+                "bower-asset/grunt-contrib-qunit": ">=1.2.0,<2.0.0",
+                "bower-asset/grunt-contrib-uglify": ">=1.0.1,<2.0.0",
+                "bower-asset/grunt-contrib-watch": ">=1.0.0,<2.0.0",
+                "bower-asset/grunt-htmlhint": ">=0.9.13,<0.10.0",
+                "bower-asset/grunt-jscs": ">=3.0.0,<4.0.0",
+                "bower-asset/grunt-string-replace": ">=1.2.1,<2.0.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "dist/js/jquery.tablesorter.combined.js",
+                    "dist/css/theme.blue.css"
+                ],
+                "bower-asset-ignore": [
+                    "/node_modules",
+                    "/bower_components",
+                    "/.git",
+                    "/addons",
+                    "/beta-testing",
+                    "/css",
+                    "/docs",
+                    "/js",
+                    "/testing",
+                    "/Gruntfile.js",
+                    "/package.json",
+                    "/*.txt",
+                    "/*.md",
+                    "/*.html",
+                    "/tablesorter.jquery.json"
+                ]
+            },
+            "license": [
+                "MIT",
+                "GPL-2.0+"
+            ],
+            "description": "tablesorter (FORK) is a jQuery plugin to sort HTML tables with many options.",
+            "keywords": [
+                "alphanumeric",
+                "jquery-plugin",
+                "natural",
+                "sort",
+                "sorting",
+                "table"
+            ]
+        },
+        {
+            "name": "composer/installers",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/installers.git",
+                "reference": "79ad876c7498c0bbfe7eed065b8651c93bfd6045"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/installers/zipball/79ad876c7498c0bbfe7eed065b8651c93bfd6045",
+                "reference": "79ad876c7498c0bbfe7eed065b8651c93bfd6045",
                 "shasum": ""
             },
             "require": {
@@ -138,11 +207,16 @@
             "keywords": [
                 "Craft",
                 "Dolibarr",
+                "Eliasis",
                 "Hurad",
                 "ImageCMS",
+                "Kanboard",
                 "MODX Evo",
                 "Mautic",
+                "Maya",
                 "OXID",
+                "Plentymarkets",
+                "Porto",
                 "RadPHP",
                 "SMF",
                 "Thelia",
@@ -150,9 +224,11 @@
                 "agl",
                 "aimeos",
                 "annotatecms",
+                "attogram",
                 "bitrix",
                 "cakephp",
                 "chef",
+                "cockpit",
                 "codeigniter",
                 "concrete5",
                 "croogo",
@@ -163,9 +239,11 @@
                 "fuelphp",
                 "grav",
                 "installer",
+                "itop",
                 "joomla",
                 "kohana",
                 "laravel",
+                "lavalite",
                 "lithium",
                 "magento",
                 "mako",
@@ -176,16 +254,19 @@
                 "piwik",
                 "ppi",
                 "puppet",
+                "reindex",
                 "roundcube",
                 "shopware",
                 "silverstripe",
+                "sydes",
                 "symfony",
                 "typo3",
                 "wordpress",
+                "yawik",
                 "zend",
                 "zikula"
             ],
-            "time": "2016-07-05 06:18:20"
+            "time": "2017-04-24T06:37:16+00:00"
         }
     ],
     "packages-dev": [],

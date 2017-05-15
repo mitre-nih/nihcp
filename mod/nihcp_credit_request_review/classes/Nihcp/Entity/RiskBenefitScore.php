@@ -94,6 +94,8 @@ class RiskBenefitScore extends \ElggObject {
         return !empty(self::getRiskBenefitScoreEntitiesForRequest($request_guid));
     }
 
+    // Checks to see if all the benefit/risk score review for a given ccreq and domain expert have been completed.
+    // if no domain expert user is specified, this will check against the logged-in user
     public static function isAllAssignedCompleted($request_guid, $de_guid = 0) {
 		if(!$de_guid) {
 			$de_guid = elgg_get_logged_in_user_guid();

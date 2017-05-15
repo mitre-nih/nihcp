@@ -18,9 +18,10 @@ $name = elgg_extract('name', $values, get_input('n'));
 
 ?>
 	<div class="mtm">
-		<label><?php echo elgg_echo('name'); ?></label><br />
+		<label for="name"><?php echo elgg_echo('name'); ?></label><br />
 		<?php
 		echo elgg_view('input/text', array(
+			'id' => 'name',
 			'name' => 'name',
 			'value' => $name,
 			'autofocus' => true,
@@ -28,27 +29,30 @@ $name = elgg_extract('name', $values, get_input('n'));
 		?>
 	</div>
 	<div>
-		<label><?php echo elgg_echo('email'); ?></label><br />
+		<label for="email"><?php echo elgg_echo('email'); ?></label><br />
 		<?php
 		echo elgg_view('input/text', array(
+			'id' => 'email',
 			'name' => 'email',
 			'value' => $email,
 		));
 		?>
 	</div>
 	<div>
-		<label><?php echo elgg_echo('password'); ?></label><br />
+		<label for="password"><?php echo elgg_echo('password'); ?></label><br />
 		<?php
 		echo elgg_view('input/password', array(
+			'id' => 'password',
 			'name' => 'password',
 			'value' => $password,
 		));
 		?>
 	</div>
 	<div>
-		<label><?php echo elgg_echo('passwordagain'); ?></label><br />
+		<label for="passwordagain"><?php echo elgg_echo('passwordagain'); ?></label><br />
 		<?php
 		echo elgg_view('input/password', array(
+			'id' => 'passwordagain',
 			'name' => 'password2',
 			'value' => $password2,
 		));

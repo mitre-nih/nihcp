@@ -43,7 +43,6 @@ echo "</div>";
 <?php
 echo "<div>";
 echo elgg_view('input/hidden', array('name' => 'request_guid', 'id'=>'request_guid', 'value'=>$request_guid));
-echo elgg_view('input/hidden', array('name' => 'rb_guid', 'id'=>'rb_guid', 'value'=>$rb_guid));
 echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Save'));
 echo elgg_view('input/submit', array('name' => 'action', 'value' => 'Discard Changes'));
 echo "</div>";

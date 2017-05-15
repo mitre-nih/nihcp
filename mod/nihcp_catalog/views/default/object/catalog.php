@@ -18,7 +18,8 @@ $entity_link = elgg_view('output/url', [
 
 if(elgg_extract('attachment_view', $vars)) {
 	$file_contents = get_entity($entity->file_guid)->grabFile();
-	$sanitized = preg_replace(['@^(?:<!--)?\K([^.][\w:]+\s*?{(?:.|\s)*?})@m', '[\\?]'], ['', ' '], utf8_decode($file_contents));
+	// Addition: removing any <link> and <script>
+	$sanitized = preg_replace(['@^(?:<!--)?\K([^.][\w:]+\s*?{(?:.|\s)*?})@m', '[\\?]', '/<link(.*)\/>/', '/<script(.*)\/script>/'], ['', ' ', '', ''], utf8_decode($file_contents));
 	echo "<div class=\"catalog-body\">$sanitized</div>";
 } elseif (elgg_extract('full_view', $vars)) {
 

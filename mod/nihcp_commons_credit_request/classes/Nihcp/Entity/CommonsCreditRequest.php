@@ -585,7 +585,7 @@ class CommonsCreditRequest extends \ElggObject {
             'subtype' => CommonsCreditRequest::SUBTYPE,
             'limit' => 0,
             'metadata_name_value_pairs' => [
-                ['name' => 'project_title', 'value' => '%'.$title.'%', 'operand' => 'LIKE'],
+                ['name' => 'project_title', 'value' => '%'.$title.'%', 'operand' => 'LIKE', 'case_sensitive'=>false],
             ],
         );
 
@@ -595,8 +595,26 @@ class CommonsCreditRequest extends \ElggObject {
 	        $ia = elgg_set_ignore_access();
 	        $result = elgg_get_entities_from_metadata($options);
 	        elgg_set_ignore_access($ia);
-        }elseif( nihcp_role_gatekeeper(RoleManager::INVESTIGATOR) ){
+        }elseif( nihcp_role_gatekeeper(array(RoleManager::INVESTIGATOR,RoleManager::DOMAIN_EXPERT) )){
+            //we do NOT ignore access for investigator ccreqs, only for delegates (below)
             $result = elgg_get_entities_from_metadata($options);
+            //we ignore access for the delegate search, because of our custom permission model
+            $ia = elgg_set_ignore_access();
+            $delOptions = array(
+                'type' => 'object',
+                'subtype' => CommonsCreditRequest::SUBTYPE,
+                'limit' => 0,
+                'relationship' => CommonsCreditRequestDelegation::RELATIONSHIP_CCREQ_TO_DELEGATE,
+                "relationship_guid" => elgg_get_logged_in_user_guid(),
+                "inverse_relationship" => true,
+                'metadata_name_value_pairs' => [
+                    ['name' => 'project_title', 'value' => '%'.$title.'%', 'operand' => 'LIKE', 'case_sensitive'=>false],
+                ],
+            );
+            $delResults = elgg_get_entities_from_relationship($delOptions);
+
+            elgg_set_ignore_access($ia);
+            $result = array_merge($result,$delResults);
         }
 
 	    return $result;

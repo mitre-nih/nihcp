@@ -18,6 +18,12 @@ function nihcp_theme_init() {
 	elgg_require_js('jquery');
 	elgg_require_js('nihcp_theme');
 
+	elgg_load_js('elgg.walled_garden');
+
+	//elgg_unregister_js('elgg.friendspicker');
+	elgg_register_js('elgg.friendspicker', elgg_get_site_url() . 'mod/nihcp_theme/views/default/js/ui.friends_picker.js');
+
+
 	$action_path = __DIR__ . '/actions';
 	elgg_unregister_action('register');
 	elgg_register_action('register', $action_path.'/register.php', 'public');
@@ -34,6 +40,25 @@ function nihcp_theme_init() {
 	elgg_register_page_handler('file', 'nihcp_file_page_handler');
 
 	elgg_register_page_handler('email-revalidation', 'nihcp_email_revalidation_page_handler');
+
+	// Handle /login, /register, and /forgotpassword
+	elgg_unregister_page_handler('login');
+	elgg_register_page_handler('login', 'nihcp_login_page_handler');
+	elgg_unregister_page_handler('register');
+	elgg_register_page_handler('register', 'nihcp_register_page_handler');
+	elgg_unregister_page_handler('forgotpassword');
+	elgg_register_page_handler('forgotpassword', 'nihcp_forgotpassword_page_handler');
+
+	// Handle register widget - add aria-labels for widget menu
+	elgg_unregister_plugin_hook_handler('register', 'menu:widget', '_elgg_widget_menu_setup');
+	elgg_register_plugin_hook_handler('register', 'menu:widget', 'nihcp_widget_menu_setup_register');
+
+	// Handle register entity - add aria-label for delete
+	elgg_register_plugin_hook_handler('register', 'menu:entity', '_elgg_entity_menu_setup');
+	elgg_register_plugin_hook_handler('register', 'menu:entity', 'nihcp_entity_menu_setup');
+
+	// Remove rss link in navigation side bar
+	elgg_unregister_plugin_hook_handler('output:before', 'layout', 'elgg_views_add_rss_link');
 
 	elgg_unregister_plugin_hook_handler('prepare', 'menu:site', '_elgg_site_menu_setup');
 	elgg_register_plugin_hook_handler('prepare', 'menu:page', 'nihcp_page_menu_setup');
@@ -57,7 +82,7 @@ function nihcp_theme_init() {
 
 	elgg_extend_view('css/elements/layout', 'nihcp_theme/css/elements/layout');
 
-	elgg_extend_view('page/elements/header_logo', 'nihcp_theme/page/elements/header_logo');
+	elgg_extend_view('css/walled_garden', 'nihcp_theme/css/walled_garden');
 
 	elgg_unextend_view('page/elements/sidebar', 'search/header');
 
@@ -436,4 +461,126 @@ function nihcp_email_revalidation_page_handler($page)
 
 	include "$dir/nihcp_email_revalidation.php";
 	return true;
+}
+
+function nihcp_login_page_handler($page)
+{
+	$dir = elgg_get_plugins_path() . 'nihcp_theme/pages/account';
+
+	include "$dir/login.php";
+	return true;
+}
+
+function nihcp_register_page_handler($page)
+{
+	$dir = elgg_get_plugins_path() . 'nihcp_theme/pages/account';
+
+	include "$dir/register.php";
+	return true;		
+}
+
+function nihcp_forgotpassword_page_handler($page)
+{
+	$dir = elgg_get_plugins_path() . 'nihcp_theme/pages/account';
+
+	include "$dir/forgotten_password.php";
+	return true;
+}
+
+function nihcp_widget_menu_setup_register($hook, $type, $return, $params) {
+
+	$widget = $params['entity'];
+	/* @var \ElggWidget $widget */
+	$show_edit = elgg_extract('show_edit', $params, true);
+
+	$collapse = array(
+		'aria-label' => 'widget-collapse-toggle',
+		'name' => 'collapse',
+		'text' => ' ',
+		'href' => "#elgg-widget-content-$widget->guid",
+		'link_class' => 'elgg-widget-collapse-button',
+		'rel' => 'toggle',
+		'priority' => 1,
+	);
+	$return[] = \ElggMenuItem::factory($collapse);
+
+	if ($widget->canEdit()) {
+		$delete = array(
+			'aria-label' => 'widget-delete',
+			'name' => 'delete',
+			'text' => elgg_view_icon('delete-alt'),
+			'title' => elgg_echo('widget:delete', array($widget->getTitle())),
+			'href' => "action/widgets/delete?widget_guid=$widget->guid",
+			'is_action' => true,
+			'link_class' => 'elgg-widget-delete-button',
+			'id' => "elgg-widget-delete-button-$widget->guid",
+			'data-elgg-widget-type' => $widget->handler,
+			'priority' => 900,
+		);
+		$return[] = \ElggMenuItem::factory($delete);
+
+		if ($show_edit) {
+			$edit = array(
+				'aria-label' => 'widget-settings',
+				'name' => 'settings',
+				'text' => elgg_view_icon('settings-alt'),
+				'title' => elgg_echo('widget:edit'),
+				'href' => "#widget-edit-$widget->guid",
+				'link_class' => "elgg-widget-edit-button",
+				'rel' => 'toggle',
+				'priority' => 800,
+			);
+			$return[] = \ElggMenuItem::factory($edit);
+		}
+	}
+
+	return $return;
+}
+
+function nihcp_entity_menu_setup($hook, $type, $return, $params) {
+	if (elgg_in_context('widgets')) {
+		return $return;
+	}
+	
+	$entity = $params['entity'];
+	/* @var \ElggEntity $entity */
+	$handler = elgg_extract('handler', $params, false);
+
+	// access
+	if (elgg_is_logged_in()) {
+		$access = elgg_view('output/access', array('entity' => $entity));
+		$options = array(
+			'name' => 'access',
+			'text' => $access,
+			'href' => false,
+			'priority' => 100,
+		);
+		$return[] = \ElggMenuItem::factory($options);
+	}
+	
+	if ($entity->canEdit() && $handler) {
+		// edit link
+		$options = array(
+			'name' => 'edit',
+			'text' => elgg_echo('edit'),
+			'title' => elgg_echo('edit:this'),
+			'href' => "$handler/edit/{$entity->getGUID()}",
+			'priority' => 200,
+		);
+		$return[] = \ElggMenuItem::factory($options);
+
+		// delete link
+		$options = array(
+			'aria-label' => 'delete',
+			'name' => 'delete',
+			'text' => elgg_view_icon('delete'),
+			'title' => elgg_echo('delete:this'),
+			'href' => "action/$handler/delete?guid={$entity->getGUID()}",
+			'confirm' => elgg_echo('deleteconfirm'),
+			'priority' => 300,
+		);
+		$return[] = \ElggMenuItem::factory($options);
+	}
+
+	return $return;
 }

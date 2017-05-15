@@ -3,6 +3,61 @@ define(function(require) {
 	var $ = require("jquery");
     var autoNumeric = require("autoNumeric");
 
+    //custom sort functions for the table
+    try {
+        $.tablesorter.addParser({
+            // set a unique id
+            id: 'ccreq-id',
+            is: function (s) {
+                // return false so this parser is not auto detected
+                return false;
+            },
+            format: function (s) {
+                // format your data for normalization
+                return s
+            },
+            // set type, either numeric or text
+            type: 'text'
+        });
+        $.tablesorter.addParser({
+            // set a unique id
+            id: 'action',
+            is: function (s) {
+                // return false so this parser is not auto detected
+                return false;
+            },
+            format: function (s) {
+                // format your data for normalization
+                var retVal = s;
+                if (arguments[2].childNodes.length > 0) {
+                    retVal = arguments[2].firstChild.value;
+                }
+                return retVal;
+            },
+            // set type, either numeric or text
+            type: 'text'
+        });
+        $.tablesorter.addParser({
+            // set a unique id
+            id: 'delegate',
+            is: function (s) {
+                // return false so this parser is not auto detected
+                return false;
+            },
+            format: function (s) {
+                // format your data for normalization
+                var retVal = s;
+                if (arguments[2].childNodes.length > 0) {
+                    retVal = arguments[2].firstChild.value;
+                }
+                return retVal;
+            },
+            // set type, either numeric or text
+            type: 'text'
+        });
+    }catch(e){
+        console.log("tablesorter not included on page");
+    }
 
     // disable commons credit request form submission on enter key
     // still allow new lines in textareas
@@ -175,39 +230,6 @@ define(function(require) {
 						}
 					});
 
-                    $.tablesorter.addParser({
-                        // set a unique id
-                        id: 'ccreq-id',
-                        is: function(s) {
-                            // return false so this parser is not auto detected
-                            return false;
-                        },
-                        format: function(s) {
-                            // format your data for normalization
-                            var len = s.length;
-                            return s.substring(len-5);
-                        },
-                        // set type, either numeric or text
-                        type: 'numeric'
-                    });
-                    $.tablesorter.addParser({
-                        // set a unique id
-                        id: 'action',
-                        is: function(s) {
-                            // return false so this parser is not auto detected
-                            return false;
-                        },
-                        format: function(s) {
-                            // format your data for normalization
-                            var retVal = s;
-                            if(arguments[2].childNodes.length > 0){
-                                retVal = arguments[2].firstChild.value;
-                            }
-                            return retVal;
-                        },
-                        // set type, either numeric or text
-                        type: 'text'
-                    });
 					$('.ccreq-overview-table').tablesorter({
                         headers: {
                             1: {
@@ -215,26 +237,50 @@ define(function(require) {
                             },
                             5:{
                                 sorter: 'action'
+                            },
+                            6:{
+                                sorter: 'delegate'
                             }
                         }
                     });
 				}
 			});
 		});
-        $('#nihcp-ccreq-search-submit').click(function() {
-            var search_term = $("#nihcp-ccreq-search-input").val();
-            $(".crrLoader").show();
-            elgg.get('ajax/view/commons_credit_request/overview/requests_in_cycle', {
-                data: {
-                    search_term: search_term,
-                    full_view: $(this).closest('.elgg-widget-content').length !== 0 ? 'widget' : true
-                },
-                success: function(output) {
-                    $(".crrLoader").hide();
-                    $('#nihcp-ccr-overview-requests-in-cycle').html(output);
-                }
-            });//elgg.get
-        });//search-input change
+		var handleSearchInput = function(e) {
+            if (e.which === 13 || e.type === 'click') {
+                var search_term = $("#nihcp-ccreq-search-input").val().trim();
+                if(search_term == ""){
+                    $('#nihcp-ccr-overview-requests-in-cycle').html("Please enter a search term.");
+                }else {
+                    $(".crrLoader").show();
+                    elgg.get('ajax/view/commons_credit_request/overview/requests_in_cycle', {
+                        data: {
+                            search_term: search_term,
+                            full_view: $(this).closest('.elgg-widget-content').length !== 0 ? 'widget' : true
+                        },
+                        success: function (output) {
+                            $(".crrLoader").hide();
+                            $('#nihcp-ccr-overview-requests-in-cycle').html(output);
+                            $('.ccreq-overview-table').tablesorter({
+                                headers: {
+                                    1: {
+                                        sorter: 'ccreq-id'
+                                    },
+                                    5: {
+                                        sorter: 'action'
+                                    },
+                                    6: {
+                                        sorter: 'delegate'
+                                    }
+                                }
+                            });
+                        }
+                    });//elgg.get
+                }//if whitespace
+            }//if event detect
+        };
+        $('#nihcp-ccreq-search-submit').on('click',handleSearchInput);
+        $('#nihcp-ccreq-search-input').on('keypress',handleSearchInput);
 		$('#nihcp-ccreq-cycle-select').trigger('change');
 	});
 });

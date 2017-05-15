@@ -22,11 +22,13 @@ if(!empty($cycles)) {
 $selected_cycle_guid = $vars['selected_cycle_guid'];
 
 $content .= "<div class=\"nihcp-ccreq-top-bar ptl pbm\">
-				<label class=\"prm\">".elgg_echo('item:object:commonscreditcycle').":</label>".
-					elgg_view('input/select', array('value' => $selected_cycle_guid, 'options_values' => $cycle_options, 'id' => 'nihcp-ccreq-cycle-select', 'class' => 'mts', 'alt' => 'NIHCP CCREQ Cycle Select')).
-                    elgg_view('input/text', array('value' => get_input("search_term"), "placeholder" => elgg_echo("search"), 'id'=> 'nihcp-ccreq-search-input', 'alt' => 'NIHCP CCREQ Search Box')) .
-                    elgg_view('input/submit', array('value' => 'Submit', 'id' => 'nihcp-ccreq-search-submit', 'alt' => 'NIHCP CCREQ Search Submit Button')).
-			"</div>";
+				<label for=\"nihcp-ccreq-cycle-select\" class=\"prm\">".elgg_echo('item:object:commonscreditcycle').":</label>".
+					elgg_view('input/select', array('value' => $selected_cycle_guid, 'options_values' => $cycle_options, 'id' => 'nihcp-ccreq-cycle-select', 'class' => 'mts', 'alt' => 'NIHCP CCREQ Cycle Select'));
+if($full_view) {
+    $content .= elgg_view('input/text', array('value' => get_input("search_term"), "placeholder" => elgg_echo("search"), 'id' => 'nihcp-ccreq-search-input', 'alt' => 'NIHCP CCREQ Search Box'));
+    $content .= elgg_view('input/submit', array('value' => 'Submit', 'id' => 'nihcp-ccreq-search-submit', 'alt' => 'NIHCP CCREQ Search Submit Button'));
+}
+$content .= "</div>";
 
 $content .=  "<div>";
 $content .= elgg_view('graphics/ajax_loader', array(

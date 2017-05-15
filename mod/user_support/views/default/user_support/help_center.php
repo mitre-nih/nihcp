@@ -10,6 +10,7 @@ if (elgg_get_plugin_setting("help_enabled", "user_support") != "no") {
 }
 
 echo elgg_view("input/text", array(
+	"title" => "user-support-help-center-search",
 	"id" => "user-support-help-center-search",
 	"name" => "q",
     "alt" => "Help Center Search",

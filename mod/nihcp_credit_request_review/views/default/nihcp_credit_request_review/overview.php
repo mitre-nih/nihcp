@@ -17,8 +17,17 @@ if(!empty($cycles)) {
 }
 
 $selected_cycle_guid = $vars['selected_cycle_guid'];
+if(!$selected_cycle_guid){
+    $selected_cycle_guid = \Nihcp\Entity\CommonsCreditCycle::getActiveCycleGUID();
+}
 
-$content .= "<div class=\"pbm\"><label class=\"prm\">".elgg_echo('item:object:commonscreditcycle').":</label>".elgg_view('input/select', array('value' => $selected_cycle_guid, 'options_values' => $cycle_options, 'id' => 'nihcp-ccreq-cycle-select'))."</div>";
+$content .= "<div class=\"pbm\">";
+$content .= "<label class=\"prm\">".elgg_echo('item:object:commonscreditcycle').":</label>".elgg_view('input/select', array('value' => $selected_cycle_guid, 'options_values' => $cycle_options, 'id' => 'nihcp-ccreq-cycle-select'));
+if($full_view) {
+    $content .= elgg_view('input/text', array('value' => get_input("search_term"), "placeholder" => elgg_echo("search"), 'id' => 'nihcp-crr-search-input', 'alt' => 'NIHCP CCREQ Search Box'));
+    $content .= elgg_view('input/submit', array('value' => 'Submit', 'id' => 'nihcp-crr-search-submit', 'alt' => 'NIHCP CCREQ Search Submit Button'));
+}
+$content .= "</div>";
 
 $content .=  "<div>";
 $content .= elgg_view('graphics/ajax_loader', array(

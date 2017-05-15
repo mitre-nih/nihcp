@@ -9,6 +9,72 @@ define(function(require) {
         'vMin' : 0,
         'vMax' : 20,
         'mDec': '2'});
+	try{
+		$.tablesorter.addParser({
+			// set a unique id
+			id: 'ccreq-id',
+			is: function(s) {
+				// return false so this parser is not auto detected
+				return false;
+			},
+			format: function(s) {
+				// format your data for normalization
+				return s;
+			},
+			// set type, either numeric or text
+			type: 'text'
+		});
+		$.tablesorter.addParser({
+			// set a unique id
+			id: 'completed',
+			is: function(s) {
+				// return false so this parser is not auto detected
+				return false;
+			},
+			format: function(s) {
+				// format your data for normalization
+				var retVal = "";
+				if(arguments[0] == "N/A"){
+					retVal = "N/A";
+				}else {
+					retVal = arguments[2].firstChild.getAttribute("class");
+				}
+				return retVal;
+			},
+			// set type, either numeric or text
+			type: 'text'
+		});
+        $.tablesorter.addParser({
+            // set a unique id
+            id: 'roi',
+            is: function(s) {
+                // return false so this parser is not auto detected
+                return false;
+            },
+            format: function(s) {
+                // format your data for normalization
+                var retVal = -2;
+                try{
+                	if(s.charCodeAt(0) == 9898){
+						retVal = -1;
+					}else if(s == "N/A") {
+                        retVal = -3;
+                    }else if(s == "No Review"){
+                		retVal = -2;
+                    }else if(!isNaN(parseFloat(s))){
+                		retVal = parseFloat(s);
+					}
+				}catch(e){
+                	console.log("error parsing ROI text");
+				}
+                return retVal;
+            },
+            // set type, either numeric or text
+            type: 'numeric'
+        });
+	}catch(e){
+		console.log("tablesorter not included on page");
+	}
 
 	function registerCRRStatusSelectHandler() {
 		$('.crr-status-select').change(function () {
@@ -89,39 +155,14 @@ define(function(require) {
 					registerCRRApproverButtonHandler();
 					registerCRRStatusSelectHandler();
 
-                    $.tablesorter.addParser({
-                        // set a unique id
-                        id: 'ccreq-id',
-                        is: function(s) {
-                            // return false so this parser is not auto detected
-                            return false;
-                        },
-                        format: function(s) {
-                            // format your data for normalization
-							var len = s.length;
-                            return s.substring(len-5);
-                        },
-                        // set type, either numeric or text
-                        type: 'numeric'
-                    });
-                    $.tablesorter.addParser({
-                        // set a unique id
-                        id: 'completed',
-                        is: function(s) {
-                            // return false so this parser is not auto detected
-                            return false;
-                        },
-                        format: function(s) {
-                            // format your data for normalization
-                            return arguments[2].firstChild.getAttribute("class");
-                        },
-                        // set type, either numeric or text
-                        type: 'text'
-                    });
+
 					$('.crr-overview-table').tablesorter({
                         headers: {
                             1: {
                                 sorter:'ccreq-id'
+                            },
+                            9:{
+                                sorter: 'roi'
                             },
 							12: {
                             	sorter: 'completed'
@@ -131,6 +172,42 @@ define(function(require) {
 				}
 			});
 		});
+		var handleSearchInput = function(e){
+            if (e.which === 13 || e.type === 'click') {
+                var search_term = $("#nihcp-crr-search-input").val().trim();
+                if(search_term == ""){
+                    $('#nihcp-crr-overview-requests').html("Please enter a search term.");
+				}else {
+                    $(".crrLoader").show();
+                    elgg.get('ajax/view/nihcp_credit_request_review/overview/requests', {
+                        data: {
+                            search_term: search_term,
+                            full_view: $(this).closest('.elgg-widget-content').length !== 0 ? 'widget' : true
+                        },
+                        success: function (output) {
+                            $(".crrLoader").hide();
+                            $('#nihcp-crr-overview-requests').html(output);
+                            $('.crr-overview-table').tablesorter({
+                                headers: {
+                                    1: {
+                                        sorter: 'ccreq-id'
+                                    },
+                                    9: {
+                                        sorter: 'roi'
+                                    },
+                                    12: {
+                                        sorter: 'completed'
+                                    }
+                                }
+                            });
+                        }
+                    });//elgg.get
+                }
+            }//if event logic
+		};//handleSearchInput
+
+        $('#nihcp-crr-search-submit').click(handleSearchInput);
+        $('#nihcp-crr-search-input').keypress(handleSearchInput);
 		$('#nihcp-ccreq-cycle-select').trigger('change');
 	});
 

@@ -33,7 +33,7 @@ if ($filter != "all") {
 	}
 }
 
-if ($content = elgg_list_entities_from_metadata($options)) {
+if ($content .= elgg_list_entities_from_metadata($options)) {
 	$content .= "<div class='elgg-widget-more clearfix'>";
 	$content .= elgg_view("output/url", array("text" => elgg_echo("user_support:read_more"), "href" => $more_link, "class" => "float-alt"));
 	$content .= "</div>";

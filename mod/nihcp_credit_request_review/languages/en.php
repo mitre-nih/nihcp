@@ -58,8 +58,15 @@ return [
 	'nihcp_export_email_addr' => 'Export Email Addresses',
 	'nihcp_export_email_addr:widget:description' => 'Widget used to export portal users\' email addresses.',
 
-	'nihcp_report_export' => 'Export Triage Coordinator Report',
-	'nihcp_report_export:widget:description' => 'Widget used to export Triage Coordinator Report.',
+	'nihcp_report_export' => 'Export Reports',
+	'nihcp_report_export:widget:description' => 'Widget used to export various usage reports.',
+	'nihcp_report_export:type' => 'Report Type',
+	'nihcp_report_export:no_data' => 'No CCREQs in the selected cycle.',
+	'nihcp_report_export:no_domain_experts' => 'No Domain Expert assigned in this cycle.',
 
     'nihcp_credit_request_review:crr:table_summary' => 'This table allows you to review the credit requests.',
+    'nihcp_credit_request_review:crr:search_label:search' => 'Showing results for: ',
+    'nihcp_credit_request_review:crr:search_label:cycle' => 'Showing results for selected cycle.',
+
+
 ];

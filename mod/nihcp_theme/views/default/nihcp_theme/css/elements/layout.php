@@ -152,6 +152,11 @@ a {
 	width:95%;
 }
 
+/* have widget order start from the left for keyboard accessibility */
+.elgg-layout-widgets > .elgg-widgets {
+	float: left;
+}
+
 /* get rid of input number spinner */
 input[type='number'] {
 	-moz-appearance:textfield;
@@ -187,13 +192,16 @@ input::-webkit-inner-spin-button {
 	margin-top: 10px;
 }
 .catalog-page {
-	width: 110%;
-	height: 100%;
-	position: absolute;
+	float:left;
+	width: 160%;
+	/*height: 100%;
+	position: absolute;*/
 	left: 0;
 	z-index: 10;
 	margin:0;
 	padding:0;
+	margin-left: -10em;
+	overflow: auto;*/
 }
 
 .catalog-page .elgg-head {
@@ -355,9 +363,10 @@ button.accordion-btn {
 	padding: 18px;
 	width: 100%;
 	text-align: left;
+	/* commenting this out to use browser default
 	border: none;
 	outline: none;
-	transition: 0.4s;
+	*/transition: 0.4s;
 }
 
 button.accordion-btn:after {

@@ -9,7 +9,7 @@ class WidgetManager {
 			//Investigator
 			0 => ['nihcp_catalog', 'nihcp_commons_credit_request', 'nihcp_credit_awards', 'blog'],
 			//NIH Approver
-			1 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log', 'nihcp_credit_allocation', 'blog'],
+			1 => ['nihcp_catalog', 'nihcp_credit_request_review', 'nihcp_portal_usage', 'nihcp_audit_log', 'nihcp_credit_allocation', 'blog', 'nihcp_page_counter'],
 			//Domain Expert
 			2 => ['nihcp_catalog', 'nihcp_credit_request_review', 'blog'],
 			//Triage Coordinator

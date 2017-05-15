@@ -13,6 +13,7 @@ function nihcp_expages_init() {
 
 	// Register public external pages
 	elgg_register_plugin_hook_handler('public_pages', 'walled_garden', 'nihcp_expages_public');
+	
 }
 
 /**

@@ -22,8 +22,8 @@ function nihcp_dashboard_init() {
 
 	elgg_register_action("nihcp_dashboard/reinit_user_widgets", dirname(__FILE__) . "/actions/admin/reinit_user_widgets.php", "admin");
 
-	elgg_extend_view('css/elgg', 'dashboard/css');
-	elgg_extend_view('js/elgg', 'dashboard/js');
+	elgg_extend_view('css/elgg', 'nihcp_dashboard/css');
+	elgg_extend_view('js/elgg', 'nihcp_dashboard/js');
 
 	elgg_register_menu_item('topbar', array(
 		'name' => 'dashboard',

@@ -124,7 +124,7 @@ if($supplementary_materials_upload_file) {
 }
 
 
-if (!empty($request->productivity_gain_explanation)) {
+if (!empty($request->productivity_gain) || !empty($request->productivity_gain_explanation)) {
     echo "<div class='pvs'>";
     echo "<b>" . elgg_echo("nihcp_commons_credit_request:ccreq:productivity_gain") . " </b>";
     echo "<i>"
@@ -142,7 +142,7 @@ if (!empty($request->productivity_gain_explanation)) {
     echo "</div>";
 }
 
-if (!empty($request->unique_resource_access_explanation)) {
+if (!empty($request->unique_resource_access) || !empty($request->unique_resource_access_explanation)) {
     echo "<div class='pvs'>";
     echo "<b>" . elgg_echo("nihcp_commons_credit_request:ccreq:unique_resource_access") . " </b>";
     echo "<i>"
@@ -160,7 +160,7 @@ if (!empty($request->unique_resource_access_explanation)) {
     echo "</div>";
 }
 
-if (!empty($request->past_experience_explanation)) {
+if (!empty($request->past_experience) || !empty($request->past_experience_explanation)) {
     echo "<div class='pvs'>";
     echo "<b>" . elgg_echo("nihcp_commons_credit_request:ccreq:past_experience") . " </b>";
     echo "<i>"

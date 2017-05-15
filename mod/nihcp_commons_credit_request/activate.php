@@ -26,6 +26,7 @@ if (get_subtype_id('object', 'commonscreditrequestdelegation')) {
 }
 
 /* Fix for legacy installations: assign CCREQ IDs to submitted CCREQs */
+/*
 $entities = elgg_get_entities_from_metadata([
 	'type' => 'object',
 	'subtype' => \Nihcp\Entity\CommonsCreditRequest::SUBTYPE,
@@ -40,3 +41,4 @@ foreach($entities as $entity) {
 		elgg_log("Generated CCREQ ID for $result");
 	}
 }
+*/

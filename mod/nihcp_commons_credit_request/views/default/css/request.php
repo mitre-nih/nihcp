@@ -120,4 +120,18 @@ div.WordSection1
 
 .ccreq-overview-table th{
     cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center right;
 }
+
+    .ccreq-overview-table .tablesorter-headerUnSorted{
+        background-image: url(/mod/nihcp_commons_credit_request/vendor/bower-asset/jquery.tablesorter/dist/css/images/black-unsorted.gif);
+    }
+
+    .ccreq-overview-table .tablesorter-headerDesc{
+        background-image: url(/mod/nihcp_commons_credit_request/vendor/bower-asset/jquery.tablesorter/dist/css/images/black-desc.gif);
+    }
+
+    .ccreq-overview-table .tablesorter-headerAsc{
+        background-image: url(/mod/nihcp_commons_credit_request/vendor/bower-asset/jquery.tablesorter/dist/css/images/black-asc.gif);
+    }

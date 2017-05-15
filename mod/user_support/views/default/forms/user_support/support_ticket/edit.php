@@ -31,20 +31,20 @@ if (!empty($entity)) {
 }
 
 $form_body .= "<div>";
-$form_body .= "<label>" . elgg_echo("user_support:question") . "</label>";
-$form_body .= elgg_view("input/plaintext", array("name" => "title", "value" => $title));
+$form_body .= "<label for=\"question_title\">" . elgg_echo("user_support:question") . "</label>";
+$form_body .= elgg_view("input/plaintext", array("id" => "question_title", "name" => "title", "value" => $title));
 $form_body .= "</div>";
 
 
 $form_body .= "<div>";
-$form_body .= "<label>" . elgg_echo("tags") . "</label>";
-$form_body .= elgg_view("input/tags", array("name" => "tags", "value" => $tags));
+$form_body .= "<label for=\"tags\">" . elgg_echo("tags") . "</label>";
+$form_body .= elgg_view("input/tags", array("id" => "tags", "name" => "tags", "value" => $tags));
 $form_body .= "</div>";
 
 if ($help_url) {
 	$form_body .= "<div>";
-	$form_body .= "<label>" . elgg_echo("user_support:url") . "</label>";
-	$form_body .= elgg_view("input/url", array("name" => "help_url", "value" => $help_url));
+	$form_body .= "<label for=\"help_url\">" . elgg_echo("user_support:url") . "</label>";
+	$form_body .= elgg_view("input/url", array("id" => "help_url", "name" => "help_url", "value" => $help_url));
 	$form_body .= "</div>";
 }
 

@@ -9,7 +9,7 @@ $entity = elgg_get_entities_from_metadata([
 	'order_by' => 'time_created desc',
 	'limit' => 1,
 ])[0];
-
+elgg_trigger_event('pagehit','object',$entity);
 $subtype_name = elgg_echo("item:object:$subtype");
 
 if($entity === null) {

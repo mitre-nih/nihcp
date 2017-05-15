@@ -12,20 +12,33 @@ $cycle = get_entity($cycle_guid);
 
 $offset = elgg_extract('offset',$vars,0);
 $limit = elgg_extract('limit',$vars,10);
+$search_term = sanitise_string(elgg_extract('search_term',$vars));
 
-// sort the ccreqs in different ways depending on the role of the user
-if (nihcp_nih_approver_gatekeeper(false) && !elgg_is_admin_logged_in()) {
-    $requests = CommonsCreditRequest::sortForNIHApprover($cycle->getRequests($limit,$offset));
-} else {
-    $toSort = $cycle->getRequests($limit,$offset);
-    $requests = CommonsCreditRequest::sort($toSort);
+//this is a bit ugly, fastest way to implement tho
+if($search_term){
+    $requests = CommonsCreditRequest::searchByTitle($search_term);
+    if (nihcp_nih_approver_gatekeeper(false) && !elgg_is_admin_logged_in()) {
+        $requests = CommonsCreditRequest::sortForNIHApprover($requests);
+    } else {
+        //$toSort = $cycle->getRequests($limit, $offset);
+        $requests = CommonsCreditRequest::sort($requests);
+    }
+}else {
+
+    // sort the ccreqs in different ways depending on the role of the user
+    if (nihcp_nih_approver_gatekeeper(false) && !elgg_is_admin_logged_in()) {
+        $requests = CommonsCreditRequest::sortForNIHApprover($cycle->getRequests());
+    } else {
+        $toSort = $cycle->getRequests();
+        $requests = CommonsCreditRequest::sort($toSort);
+    }
 }
 $isDomainExpert = nihcp_domain_expert_gatekeeper(false) && !elgg_is_admin_logged_in();
 
 if ($isDomainExpert) {
     $assigned_requests = [];
-    foreach( $requests as $cycle_request ) {
-        foreach ( RiskBenefitScore::getRequestsAssignedToDomainExpert(elgg_get_logged_in_user_guid()) as $assigned ) {
+    foreach ($requests as $cycle_request) {
+        foreach (RiskBenefitScore::getRequestsAssignedToDomainExpert(elgg_get_logged_in_user_guid()) as $assigned) {
             if ($cycle_request->guid == $assigned->guid) {
                 $assigned_requests[] = $cycle_request;
             }
@@ -39,6 +52,14 @@ $full_view = elgg_extract('full_view', $vars, true);
 $content = '';
 
 $incomplete_icon = "<div class='crr-overview-incomplete-icon' title=\"Item is incomplete\">&#x26AA;</div>";
+
+$content .= "<div>";
+if($search_term){
+    $content .= elgg_echo('nihcp_credit_request_review:crr:search_label:search') . $search_term;
+}else{
+    $content .= elgg_echo('nihcp_credit_request_review:crr:search_label:cycle');
+}
+$content .= "</div>";
 
 // TCs, DEs, and NAs all have different sets of columns of this table
 if($requests) {
@@ -229,7 +250,7 @@ if($requests) {
                                         <td><a href='" .
                                 $final_recommendation_form_url .
                                 "'>" .
-                                get_entity(\Nihcp\Entity\FinalRecommendation::getFinalRecommendation($request->getGUID()))->final_recommendation .
+                                get_entity(FinalRecommendation::getFinalRecommendation($request->getGUID()))->final_recommendation .
                                 "</a></td>";
                         } else {
                             $row .=

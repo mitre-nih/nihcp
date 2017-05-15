@@ -16,11 +16,15 @@ if($review_mode || CommonsCreditRequest::hasAccess($requests[0]->guid)) {
 
 $show_action = ((count($requests) > 1 ? true : !CommonsCreditAllocation::isAllocated($requests[0]->guid)) && !$review_mode) || elgg_is_admin_logged_in();
 
+// total remaining credits and total spent credits will be displayed before the table,
+// but these values wont be known until after the loop below
 $content = '';
 
 // TCs, DEs, and NAs all have different sets of columns of this table
 
 $num_allocations = 0;
+$total_credits_allocated = 0;
+$total_credits_remaining = 0;
 if($requests) {
 	$content .= "<table class=\"elgg-table cca-overview-table\">";
 	$content .=	"<tr>";
@@ -80,6 +84,7 @@ if($requests) {
 				}
 				$row .= "<td class=\"cca-allocation-status\">$allocation->status</td>";
 				$credit_allocated = $allocation->credit_allocated;
+				$total_credits_allocated += $allocation->credit_allocated;
 				$request_guid = $request->getGUID();
 				$vendor_guid = $vendor->getGUID();
 				$allocation_url = $allocation->status === CommonsCreditAllocation::STAGED_STATUS ?
@@ -88,6 +93,7 @@ if($requests) {
 				$row .= "<td><a class=\"cca-allocate-link\" data-request-guid=$request_guid data-vendor-guid=$vendor_guid href=\"$allocation_url\">$credit_allocated</a></td>";
 
 				$credit_remaining = $allocation->credit_remaining;
+				$total_credits_remaining += $allocation->credit_remaining;
 				$row .= "<td>$credit_remaining</td>";
 				elgg_set_ignore_access($ia);
 				if ($full_view) {
@@ -116,6 +122,18 @@ if($requests) {
 
 	$content .= "</table>";
 }
+
+setlocale(LC_MONETARY, 'en_US.UTF-8');
+$total_credits_spent = money_format('%.2n', $total_credits_allocated - $total_credits_remaining);
+$total_credits_remaining = money_format('%.2n', $total_credits_remaining);
+
+$totals_section = "<div class='pbl'>";
+$totals_section .= "<label>Total Values</label>";
+$totals_section .= "<div>Total Credits Spent: $total_credits_spent</div>";
+$totals_section .= "<div>Total Credits Remaining: $total_credits_remaining</div>";
+$totals_section .= "</div>";
+
+$content = $totals_section . $content;
 
 elgg_set_ignore_access($ia);
 
