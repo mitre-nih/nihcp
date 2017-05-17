@@ -3,6 +3,9 @@ define(function(require) {
     var elgg = require("elgg");
     var $ = require("jquery");
 
+    // stop the fading animation
+    $('.elgg-message').stop(true, false);
+
     $('a').filter(function () {
         return this.hostname && this.hostname !== location.hostname;
     }).attr("target", "_blank");
@@ -71,4 +74,20 @@ define(function(require) {
             $('#not-cycle-specific').remove();
         }
     });
+
+    // click handler for widget collapse button
+    // adds aria-expanded attribute for accessibility
+    $('.elgg-widget-collapse-button').on('keypress click', function(e){
+        if (e.which === 13 || e.type === 'click') {
+            var element = $(this);
+            if (element.hasClass("elgg-widget-collapsed")) { // it was collapsed, and now being expanded
+                element.attr("aria-expanded", "true");
+            } else { // was expanded, and now being collapsed
+                element.attr("aria-expanded", "false");
+            }
+        }
+    });
+
+
+
 });

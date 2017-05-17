@@ -21,7 +21,7 @@
 	function scroll_if_anchor(href) {
 		href = typeof(href) == "string" ? href : $(this).attr("href");
 
-		var fromTop = 90;
+		var fromTop = 89;
 
 		if(href.indexOf("#") == 0) {
 			var $target = $(href);
@@ -36,13 +36,19 @@
 	}
 	scroll_if_anchor(window.location.hash);
 	$("body").on("click", "a", scroll_if_anchor);
+
+	function doScroll() {
+		$("#nihcp_site_header").css("top", $(this).scrollTop()+129);
+	}	
+	$(document).on("scroll", doScroll);
+
 </script>
 
 <div class="nihcp_theme_login">
-	<div class="header">
+	<div class="header" id="nihcp_site_header">
 
 		<div class="logo">
-			<img src="mod/nihcp_theme/graphics/nihcp_logo.png"/>
+			<img alt="nihcp logo" src="mod/nihcp_theme/graphics/nihcp_logo.png"/>
 		</div>
 
 		<div class="left">Commons Credits Pilot Portal</div>
@@ -50,7 +56,7 @@
 		<div class="right">
 			<a href="#features" onclick="$('html', 'body').animate({scrollTop: $('#features').offset().top - 100 }, 'slow');">Features</a>
 			<a href="#faq">FAQ</a>
-			<a id="loginLink" href="login"><button>Login</button></a>
+			<a id="loginLink" href="login">Login</a>
 		</div>
 
 	</div>
@@ -71,7 +77,7 @@
 				applications for additional resources for extending computational
 				research on active NIH grants.
 			</div>
-			<a href="register"><button>Sign Up</button></a>
+			<a id="signUp" href="register">Sign Up</a>
 		</div>
 
 	</div>
@@ -85,19 +91,19 @@
 			Use the Cloud Services Catalog to help you choose which cloud provider 
 			would best fit your study needs.
 		</div>
-		<img src="mod/nihcp_theme/graphics/nih-cloud-service-provider.png"/>
+		<img alt="nih cloud service provider" src="mod/nihcp_theme/graphics/nih-cloud-service-provider.png"/>
 
 		<div class="title2">Fill Out Credit Applications</div>
 		<div>
 			The Commons Credits application has been designed to be easy to fill out.
 		</div>
-		<img src="mod/nihcp_theme/graphics/nih-request-form.png"/>
+		<img alt="nih request form" src="mod/nihcp_theme/graphics/nih-request-form.png"/>
 
 		<div class="title2">Track Your Credit Applications and Balances</div>
 		<div>
 			Stay on top of your project credit balances.
 		</div>
-		<img src="mod/nihcp_theme/graphics/nih-credit-allocation.png"/>
+		<img alt="nih credit allocation" src="mod/nihcp_theme/graphics/nih-credit-allocation.png"/>
 
 	</div>
 

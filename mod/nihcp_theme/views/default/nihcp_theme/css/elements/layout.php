@@ -15,7 +15,6 @@
 }
 
 
-
 .skip-to-content{
     color:white;
     cursor: pointer;
@@ -62,6 +61,10 @@
 	.elgg-page-header h1 {
 		font-size: 2em;
 	}
+}
+
+.elgg-page-header a {
+	display: inline-block;
 }
 
 .elgg-page-header img {
@@ -190,18 +193,12 @@ input::-webkit-inner-spin-button {
 
 .catalog-body {
 	margin-top: 10px;
+	padding-right: 1em;
 }
+
 .catalog-page {
-	float:left;
-	width: 160%;
-	/*height: 100%;
-	position: absolute;*/
-	left: 0;
 	z-index: 10;
-	margin:0;
 	padding:0;
-	margin-left: -10em;
-	overflow: auto;*/
 }
 
 .catalog-page .elgg-head {
@@ -214,14 +211,10 @@ input::-webkit-inner-spin-button {
 	overflow:auto;
 }
 
-.catalog-page > .elgg-sidebar {
-	float:left;
-	width:10%;
-}
-
+/*
 .catalog-body td {
 	white-space:normal!important;
-}
+}*/
 
 /* styles for the tables in Commons Credit Portal */
 

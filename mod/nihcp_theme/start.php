@@ -495,6 +495,7 @@ function nihcp_widget_menu_setup_register($hook, $type, $return, $params) {
 
 	$collapse = array(
 		'aria-label' => 'widget-collapse-toggle',
+		'aria-expanded' => 'true',
 		'name' => 'collapse',
 		'text' => ' ',
 		'href' => "#elgg-widget-content-$widget->guid",

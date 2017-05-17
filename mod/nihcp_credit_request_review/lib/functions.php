@@ -57,7 +57,7 @@ function triage_report_export($cycle_guid) {
                 if (empty($ccreq->datasets) && empty($ccreq->applications_tools) && empty($ccreq->workflows)) {
                     $roi_score = "N/A";
                 } else {
-                    if (!FinalRecommendation::isReviewCompleted($ccreq->getGUID()) && FinalScore::isFinalScoreCompleted($ccreq->getGUID())) {
+                    if (FinalScore::isFinalScoreCompleted($ccreq->getGUID())) {
                         $roi_score = FinalScore::calculateROI($ccreq->guid);
                     } else {
                         $roi_score = "";
@@ -622,7 +622,27 @@ function ccreq_summaries_export($cycle_guid) {
             fput_eol($fh, "\t" . $ccreq->nih_program_officer_name);
             fput_eol($fh, elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_email") . ". " . elgg_echo("nihcp_commons_credit_request:ccreq:nih_program_officer_email:desc"));
             fput_eol($fh, "\t" . $ccreq->nih_program_officer_email);
+
+            if ($ccreq->alt_grant_verification_contact) {
+                fput_eol($fh, elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact"));
+                fput_eol($fh, elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact:desc"));
+                fput_eol($fh, "\t" . $ccreq->alt_grant_verification_contact);
+            }
+
+            if ($ccreq->alt_grant_verification_contact_title) {
+                fput_eol($fh, elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_title"));
+                fput_eol($fh, elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_title:desc"));
+                fput_eol($fh, "\t" . $ccreq->alt_grant_verification_contact_title);
+            }
+
+            if ($ccreq->alt_grant_verification_contact_email) {
+                fput_eol($fh, elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_email"));
+                fput_eol($fh, elgg_echo("nihcp_commons_credit_request:ccreq:alt_grant_verification_contact_email:desc"));
+                fput_eol($fh, "\t" . $ccreq->alt_grant_verification_contact_email);
+            }
+
             fput_eol($fh, elgg_echo("nihcp_commons_credit_request:ccreq:proposed_research") . ". " . elgg_echo("nihcp_commons_credit_request:ccreq:proposed_research:desc"));
+
             fput_eol($fh, "\t" . $ccreq->proposed_research);
 
             if (!empty($ccreq->productivity_gain) || !empty($ccreq->productivity_gain_explanation)) {

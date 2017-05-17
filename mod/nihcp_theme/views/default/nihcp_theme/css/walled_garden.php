@@ -19,7 +19,7 @@ $url = elgg_get_site_url();
 
 .nihcp_theme_login .header {
 	margin-top: -5.5em;
-	position: fixed;
+	position: absolute;
 	background-color: white;
 	width: 100%;
 	height: 5em;
@@ -53,7 +53,7 @@ $url = elgg_get_site_url();
 	margin-right: 1em;
 }
 
-.nihcp_theme_login .header .right #loginLink button {
+.nihcp_theme_login .header .right #loginLink {
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 	padding-left: 2em;
@@ -73,7 +73,7 @@ $url = elgg_get_site_url();
 	height: auto;
 }
 
-.nihcp_theme_login button {
+#loginLink, #signUp {
 	color: white;
 	background-color: #2F5A7A;
 	font-size: large;
@@ -106,11 +106,13 @@ $url = elgg_get_site_url();
 	padding: 0.75em 0.75em 1.75em 0.75em;
 }
 
-.nihcp_theme_login .transbox button {
+#signUp {
+	display: inline-block;
 	width: 100%;
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
-	margin-top: 1.5em;
+	margin-top: 3.5em;
+	text-align: center;
 }
 
 .nihcp_theme_login #features {

@@ -98,7 +98,7 @@ foreach($required_fields as $field) {
      <span class="rationale"><?php echo elgg_echo("nihcp_commons_credit_request:ccreq:grant_id:rationale"); ?></span>
     <br />
     <textarea alt='required field' name='grant_id' id='grant_id' maxlength='<?php echo CommonsCreditRequest::GRANT_LINKAGE_MAX_LENGTH ?>'><?php echo $grant_id;?></textarea>
-    <span name="grant_id_verify" id="grant_id_verify" class="elgg-button elgg-button-submit" value="Verify" tabindex="0" role="button">Verify</span>
+    <button type="button" name="grant_id_verify" id="grant_id_verify" class="elgg-button elgg-button-submit" value="Verify" tabindex="0" role="button">Verify</button>
     <span><?php echo elgg_view('graphics/ajax_loader', array(
             'class' => 'embed-throbber mtl',
             'id' => 'verify_loading',
