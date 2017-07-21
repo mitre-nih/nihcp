@@ -1,0 +1,39 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "7c575c4101299b977dd8f2ae451dfc22",
+    "content-hash": "0ae7c9caad9a5b206582e5d0a01f629a",
+    "packages": [
+        {
+            "name": "bower-asset/browser-update",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zenopopovici/Browser-Update.git",
+                "reference": "0331a3834a0db967a7ea8bcdc8af4ed9a3023358"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zenopopovici/Browser-Update/zipball/0331a3834a0db967a7ea8bcdc8af4ed9a3023358",
+                "reference": "0331a3834a0db967a7ea8bcdc8af4ed9a3023358",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "browser-update.min.js",
+                "bower-asset-ignore": []
+            }
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

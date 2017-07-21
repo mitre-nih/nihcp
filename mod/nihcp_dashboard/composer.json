@@ -1,0 +1,9 @@
+{
+    "name": "nihcp/nihcp_dashboard",
+    "version": "0.0.1",
+	"type": "elgg-plugin",
+	"description": "Extends dashboard for groups.",
+	"require": {
+		"composer/installers": "~1.0"
+	}
+}
