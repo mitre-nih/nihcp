@@ -1,0 +1,58 @@
+<?php
+/*
+Copyright 2017 The MITRE Corporation
+ 
+This software was written for the NIH Commons Credit Portal. General questions 
+can be forwarded to:
+
+opensource@mitre.org
+
+Technology Transfer Office
+The MITRE Corporation
+7515 Colshire Drive
+McLean, VA 22102-7539
+
+Permission is hereby granted, free of charge, to any person obtaining a copy 
+of this software and associated documentation files (the "Software"), to deal 
+in the Software without restriction, including without limitation the rights 
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+copies of the Software, and to permit persons to whom the Software is furnished
+to do so, subject to the following conditions:
+ 
+The above copyright notice and this permission notice shall be included in all 
+copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+ 
+
+use Nihcp\Entity\CommonsCreditRequest;
+
+$search_term = elgg_extract('search_term',$vars);
+if($search_term) {
+    $search_term = sanitise_string($search_term);
+    $requests = CommonsCreditRequest::searchByTitle($search_term);
+}else{
+    $cycle_guid = elgg_extract('cycle_guid', $vars);
+    $session = elgg_get_session();
+    $session->set('ccr_prev_selected_cycle', $cycle_guid);
+    $requests = CommonsCreditRequest::getByUserAndCycle('!' . CommonsCreditRequest::DRAFT_STATUS, 0, $cycle_guid);
+}
+
+$full_view = elgg_extract('full_view', $vars, true);
+
+if($full_view === 'widget') {
+	$full_view = false;
+}
+
+if(!$full_view && !empty($requests)) {
+	$requests = array_slice($requests, 0, 5);
+}
+
+echo elgg_view('commons_credit_request/overview/components/table', ['full_view' => $full_view, 'requests' => $requests]);

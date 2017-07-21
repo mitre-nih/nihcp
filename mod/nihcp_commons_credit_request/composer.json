@@ -1,0 +1,9 @@
+{
+    "name": "nihcp/nihcp_commons_credit_request",
+    "type": "elgg-plugin",
+    "require": {
+        "composer/installers": "~1.0",
+        "bower-asset/autoNumeric":  "1.9.43",
+        "christianbach/tablesorter": "1.0.1"
+    }
+}
