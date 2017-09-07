@@ -72,4 +72,12 @@ CAMH FFRDC, operated by the MITRE Corporation",
     'nihcp_notifications:weekly_digest:title' => 'Last week on...the NIH Commons Credit Portal',
     'nihcp_notifications:weekly_digest:email_subj' => 'NIH Commons Credit Portal Weekly Digest',
 
+	// password expiration
+	'LoginException:BannedUser' => 'You account has been disabled. Your password may have expired. Contact site administrator for assistance.',
+	'nihcp_notifications:password_expiration:email:subject' => 'NIH Commons Credits Portal Password Expiration Notice',
+	'nihcp_notifications:password_expiration:email:message' => 'Your password for your account on the NIH Commons Credits Portal will expire in %d days. Please login to the portal and change your password before then.',
+
+	//pir submission
+	'nihcp_notifications:notify:pir:subject' => 'PIR Submission Notification',
+	'nihcp_notifications:notify:pir:body' => 'PIR has been submitted for Commons Credits Request %s, titled "%s.',
 ];

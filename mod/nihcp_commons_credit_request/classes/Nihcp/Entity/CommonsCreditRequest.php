@@ -204,8 +204,7 @@ class CommonsCreditRequest extends \ElggObject {
 		return $new_request->guid ?: $new_request->save();
     }
 
-	private static function saveUploadFile($file_form_name) {
-
+	public static function saveUploadFile($file_form_name) {
         // check if upload attempted and failed
         if (!empty($_FILES[$file_form_name]['name']) && $_FILES[$file_form_name]['error'] != 0) {
             $error = elgg_get_friendly_upload_error($_FILES[$file_form_name]['error']);
@@ -308,6 +307,7 @@ class CommonsCreditRequest extends \ElggObject {
             // not saving a file but still need to save the entity to push attributes to database
 			$file->save();
         }
+
 
         return $saved ? $file->getGUID() : false;
 

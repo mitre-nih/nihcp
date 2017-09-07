@@ -105,9 +105,24 @@ function nihcp_registration_extra_data($hook, $type, $return, $params) {
 
 }
 
+/**
+ * Set a user's email address
+ * Returns null if no change is required or input is not present in the form
+ * Returns true or false indicating success or failure if change was needed
+ *
+ * Makes sure user has revalidated new email address in order to change their email address setting.
+ *
+ * @return bool|void
+ * @since 1.8.0
+ * @access private
+ */
 function nihcp_set_user_email() {
 	$email = get_input('email');
 	$user_guid = get_input('guid');
+
+	if (!isset($email)) {
+		return;
+	}
 
 	if ($user_guid) {
 		$user = get_user($user_guid);
@@ -146,7 +161,7 @@ function nihcp_set_user_email() {
 			}
 		} else {
 			// no change
-			return null;
+			return;
 		}
 	} else {
 		register_error(elgg_echo('email:save:fail'));

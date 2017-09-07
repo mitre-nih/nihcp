@@ -24,6 +24,8 @@ $report_options['Tracking Sheet'] = 'Tracking Sheet';
 $report_options['Domain Expert List'] = 'Domain Expert List';
 $report_options['How Did You Learn About The Portal'] = 'How Did You Learn About The Portal';
 $report_options['CCREQ Summaries'] = 'CCREQ Summaries';
+$report_options['PIR Summaries (text)'] = 'PIR Summaries (text)';
+$report_options['PIR Summaries (csv)'] = 'PIR Summaries (csv)';
 
 elgg_set_ignore_access($ia);
 

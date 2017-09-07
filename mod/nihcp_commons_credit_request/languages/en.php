@@ -10,7 +10,7 @@ return [
 
 	'item:object:commonscreditrequest' => 'Commons Credit Request',
 
-	'nihcp_commons_credit_request:save:failed' => 'Unabled to save',
+	'nihcp_commons_credit_request:save:failed' => 'Unable to save',
 	'nihcp_commons_credit_request:ccreq:deletefiletooltip' => 'Delete file',
 
 	// NIH Policies

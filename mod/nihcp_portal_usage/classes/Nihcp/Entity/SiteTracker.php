@@ -11,36 +11,108 @@ class SiteTracker{
 
     public function init(){
         elgg_register_event_handler('pagehit','object',array($this,'record_page_visit'));
+        elgg_register_event_handler('pagehit','faq',array($this,'handle_faq'));
+        elgg_register_event_handler('pagehit','help_center',array($this,'handle_help_center'));
+        elgg_register_event_handler('pagehit','user_manual',array($this,'handle_user_manual'));
 
         elgg_register_widget_type('nihcp_page_counter', elgg_echo("nihcp_portal_usage:page_counter"), elgg_echo("nihcp_portal_usage:page_counter:widget:description"));
     }
 
     public function record_page_visit($event, $object_type, $object){
-        $se = elgg_get_site_entity();
-        system_log($se,"page hit!");
-        $object->pageCounter += 1;
+        //$se = elgg_get_site_entity();
+        //system_log($se,"page hit!");
+        $object->annotate("pageHit", 1, ACCESS_LOGGED_IN);
+
+        //$count = $object->getAnnotationsSum("pageHit");
+        //$rslt = $this->get_visit_stats();
         if(!$object->elggURI){
             $object->elggURI = $_REQUEST["__elgg_uri"];
         }
-        //$object->pagecounter += 1?
+    }//record_page_visit
+
+    public function get_visit_stats($limit=10){
+        $options = array(
+            'calculation' => "sum",
+            'limit' => $limit,
+            'annotation_names' => array('pageHit'),
+        );
+        $results = elgg_get_entities_from_annotation_calculation($options);
+        return $results;
+        //$nop = "";
     }
 
-    //custom in the sense that
-    public static function record_custom_visit($title){
+    public function handle_faq($event,$object_type,$object){
+        //if faq object exists, annotate it
         $options = array(
             'type' => 'object',
-            'metadata_name_value_pairs' => array(
-                'title' => $title,
-            ),
+            'limit' => 1,
+            "attribute_name_value_pairs" => [
+                ["name"=>"title","value"=>'FAQ Listing Page'],
+            ],
+
         );
-        $o = elgg_get_entities_from_metadata($options);
-        if(!$o){
-            //$o = \ElggObject::
-            //$o->title = $title;
-            //$o->save();
+        $ia = elgg_set_ignore_access();
+        $obj = elgg_get_entities_from_attributes($options)[0];
+        if($obj){
+            $obj->annotate("pageHit",1,ACCESS_LOGGED_IN);
+        }else{
+            $o = new \ElggObject();
+            $o->title = "FAQ Listing Page";
+            $o->save();
+            $o->elggURI = elgg_get_site_url() . "user_support/faq";
+            $o->annotate("pageHit",1,ACCESS_LOGGED_IN);
         }
-        //$o->pageCounter += 1;
+        elgg_set_ignore_access($ia);
+        //else create one and anotate
     }
 
+    public function handle_help_center($event,$object_type,$object){
+        //if faq object exists, annotate it
+        $options = array(
+            'type' => 'object',
+            'limit' => 1,
+            "attribute_name_value_pairs" => [
+                ["name"=>"title","value"=>'Help Center'],
+            ],
+
+        );
+        $ia = elgg_set_ignore_access();
+        $obj = elgg_get_entities_from_attributes($options)[0];
+        if($obj){
+            $obj->annotate("pageHit",1,ACCESS_LOGGED_IN);
+        }else{
+            $o = new \ElggObject();
+            $o->title = "Help Center";
+            $o->save();
+            $o->elggURI = elgg_get_site_url() . "user_support/help_center";
+            $o->annotate("pageHit",1,ACCESS_LOGGED_IN);
+        }
+        elgg_set_ignore_access($ia);
+
+    }
+
+    public function handle_user_manual($event,$object_type,$object){
+        //if faq object exists, annotate it
+        $options = array(
+            'type' => 'object',
+            'limit' => 1,
+            "attribute_name_value_pairs" => [
+                ["name"=>"title","value"=>'User Manual'],
+            ],
+
+        );
+        $ia = elgg_set_ignore_access();
+        $obj = elgg_get_entities_from_attributes($options)[0];
+        if($obj){
+            $obj->annotate("pageHit",1,ACCESS_LOGGED_IN);
+        }else{
+            $o = new \ElggObject();
+            $o->title = "User Manual";
+            $o->save();
+            $o->elggURI = elgg_get_site_url() . "nihcp_commons_credit_request/investigator-portal-user-manual";
+            $o->annotate("pageHit",1,ACCESS_LOGGED_IN);
+        }
+        elgg_set_ignore_access($ia);
+    }
 
 }

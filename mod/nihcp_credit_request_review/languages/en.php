@@ -61,7 +61,7 @@ return [
 	'nihcp_report_export' => 'Export Reports',
 	'nihcp_report_export:widget:description' => 'Widget used to export various usage reports.',
 	'nihcp_report_export:type' => 'Report Type',
-	'nihcp_report_export:no_data' => 'No CCREQs in the selected cycle.',
+	'nihcp_report_export:no_data' => 'No report data in the selected cycle.',
 	'nihcp_report_export:no_domain_experts' => 'No Domain Expert assigned in this cycle.',
 
     'nihcp_credit_request_review:crr:table_summary' => 'This table allows you to review the credit requests.',

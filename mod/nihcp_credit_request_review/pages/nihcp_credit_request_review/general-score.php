@@ -64,4 +64,4 @@ $params = array(
 $body = elgg_view_layout('one_column', $params);
 
 elgg_set_ignore_access($ia);
-echo elgg_view_page("nihcp_credit_request_review", $body);
+echo elgg_view_page(elgg_echo("nihcp_credit_request_review"), $body);

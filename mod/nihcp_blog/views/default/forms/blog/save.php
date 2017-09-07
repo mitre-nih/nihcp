@@ -111,7 +111,10 @@ $access_input = elgg_view('input/access', array(
     'name' => 'access_id',
     'id' => 'blog_access_id',
     'value' => ACCESS_LOGGED_IN,
-	'hidden' => 'true'
+	'hidden' => 'true',
+	'entity' => $vars['entity'],
+	'entity_type' => 'object',
+	'entity_subtype' => 'blog',
 ));
 // end nihcp_blog edit
 

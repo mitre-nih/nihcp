@@ -93,7 +93,7 @@ define(function(require) {
     });
 
     // form validation for required input fields
-    var input_elts = $('.required-field input,.required-field textarea,.required-field select');
+    var input_elts = $('.required-field');
 
     input_elts.on('input', function() {
         var all_filled = true;

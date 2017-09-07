@@ -14,6 +14,20 @@
 		margin-top: -2.1em;
 	}
 
+	#elgg-walledgarden-login {
+		padding: 0;
+		margin: 0;
+	}
+
+	.elgg-module-walledgarden > .elgg-body {
+		margin: 0;
+		padding: 0;
+	}
+
+	.elgg-module-walledgarden > .elgg-foot {
+		padding: 0;
+	}
+
 </style>
 
 <script>
@@ -61,7 +75,7 @@
 
 	</div>
 
-	<div class="background">
+	<div class="jumbotron">
 
 		<div class=transbox>
 			<div class="transbox_text">

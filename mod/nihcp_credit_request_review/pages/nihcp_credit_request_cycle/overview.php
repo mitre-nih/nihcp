@@ -18,4 +18,4 @@ elgg_set_ignore_access($ia);
 $body = elgg_view_layout('content', $params);
 
 
-echo elgg_view_page("nihcp_commons_credit_request", $body);
+echo elgg_view_page(elgg_echo("nihcp_commons_credit_request"), $body);

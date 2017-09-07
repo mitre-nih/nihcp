@@ -125,66 +125,18 @@ function commons_credit_request_page_handler($page) {
 		// various file resources
 		// the file with the specified filename must be in the elgg data directory under the /docs/ subdirectory.
 		case 'service-request-worksheet':
-            $options = array(
-                'type' => 'object',
-                'subtype' => 'file',
-                'limit' => 1,
-                'attribute_name_value_pairs' => [
-                    ['name' => 'title', 'value' => 'service-request-worksheet'],
-                ],
-            );
-            $worksheet = elgg_get_entities_from_attributes($options)[0];
-            if($worksheet){
-                $worksheet->pageCounter += 1;
-            }else{
-                $n = new ElggFile();
-                $n->title = "service-request-worksheet";
-                $n->save();
-                $n->pageCounter +=1;
-            }
 			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			header('Content-Disposition: attachment; filename="service_request_worksheet.xlsx"');
 			readfile(elgg_get_data_path() . '/docs/service_request_worksheet.xlsx');
 			break;
 		case 'commons-credit-request-overview':
-            $options = array(
-                'type' => 'object',
-                'subtype' => 'file',
-                'limit' => 1,
-                'attribute_name_value_pairs' => [
-                    ['name' => 'title', 'value' => 'nih-ccreq-overview-pdf'],
-                ],
-            );
-            $ccreqOverview = elgg_get_entities_from_attributes($options)[0];
-            if($ccreqOverview){
-                $ccreqOverview->pageCounter += 1;
-            }else{
-                $n = new ElggFile();
-                $n->title = "nih-ccreq-overview-pdf";
-                $n->save();
-                $n->pageCounter +=1;
-            }
 			header('Content-Type: application/pdf');
 			header('Content-Disposition: attachment; filename="NIH Commons Credits Request Overview.pdf"');
 			readfile(elgg_get_data_path() . '/docs/NIH Commons Credits Request Overview.pdf');
 			break;
 		case 'investigator-portal-user-manual':
-            $options = array(
-                'type' => 'object',
-                'subtype' => 'file',
-                'limit' => 1,
-                'attribute_name_value_pairs' => [
-                    ['name' => 'title', 'value' => 'investigator-portal-user-manual'],
-                ],
-            );
-            $manual = elgg_get_entities_from_attributes($options)[0];
-            if($manual){
-                $manual->pageCounter += 1;
-            }else{
-                $n = new ElggFile();
-                $n->title = "investigator-portal-user-manual";
-                $n->save();
-            }
+		    elgg_trigger_event('pagehit','user_manual');
+
 			header('Content-Type: application/pdf');
 			header('Content-Disposition: attachment; filename="Investigator Portal User Manual.pdf"');
 			readfile(elgg_get_data_path() . '/docs/Investigator Portal User Manual.pdf');

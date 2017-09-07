@@ -392,7 +392,6 @@ class CommonsCreditAllocationFile extends \ElggObject {
     // - Numeric credit values
 
     // - Cloud account (ccreqid + vendor) must already exist
-    // - Intitial credit amount must not change
     // - Remaining value must be less than initial value
     // - Check to make sure there are no duplicate allocation accounts
     private function validateData($account_data_array, $line_number) {
@@ -443,14 +442,6 @@ class CommonsCreditAllocationFile extends \ElggObject {
             return false;
         }
 
-        // - Check for Initial Credits == previous Initial Credits
-        $new_initial = $this->unformatMoney($account_data_array[5]);
-        if ($new_initial != $existing_allocation->credit_allocated) {
-            register_error(elgg_echo("nihcp_credit_allocation:validate:initial_changed", [$line_number]));
-            elgg_log(elgg_echo("nihcp_credit_allocation:validate:initial_changed", [$line_number]), Logger::ERROR);
-
-            return false;
-        }
 
         // - Check for Remaining value must be less than initial value
         if ($remaining_credits > $initial_credits) {

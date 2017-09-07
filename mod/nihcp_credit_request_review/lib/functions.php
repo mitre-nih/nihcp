@@ -9,6 +9,8 @@ use Nihcp\Entity\GeneralScore;
 use Nihcp\Entity\RiskBenefitScore;
 use Nihcp\Entity\Feedback;
 use Nihcp\Entity\AlignmentCommonsCreditsObjectives;
+use Nihcp\Entity\PostImplementationReport;
+use Nihcp\Entity\DigitalObjectReport;
 
 function triage_report_export($cycle_guid) {
 
@@ -889,6 +891,259 @@ function ccreq_summaries_export($cycle_guid) {
     $fo->close();
     forward(str_replace('view', 'download', $fo->getURL()));
 
+}
+
+function pir_summaries_text_export($cycle_guid) {
+    $ia = elgg_set_ignore_access();
+
+    if (empty($cycle_guid)) {
+        $ccreqs = CommonsCreditRequest::getAll();
+        $cycle_view = "All_Cycles";
+        $cycle = 1;
+    } else {
+        $ccreqs = CommonsCreditRequest::getByCycle($cycle_guid);
+        $cycle = get_entity($cycle_guid);
+        $cycle_view = "Cycle" . $cycle->start . "-" . $cycle->finish;
+    }
+
+    if (empty($ccreqs) || empty($cycle)) {
+        register_error(elgg_echo('nihcp_report_export:no_data'));
+        return false;
+    }
+
+    $ccreqs = CommonsCreditRequest::sort($ccreqs);
+
+    $date = date('Ymd');
+
+    $fo = new ElggFile();
+
+    $title = "PIRSummariesText-" . $cycle_view . "_-_$date";
+    $fo->setFilename("$title.txt");
+    $fo->originalfilename = $fo->getFilename();
+    $fo->title = $title;
+    $fo->setMimeType("text/plain");
+
+    $fo->save();
+
+    $fh = $fo->open('write');
+
+    $fh = $fo->open('append');
+
+    $count = 0;
+    foreach ($ccreqs as $ccreq) {
+        $pir = get_entity(PostImplementationReport::getPirGuidFromCcreqGuid($ccreq->guid));
+        if (!empty($pir)) {
+            $count++;
+            fput_eol($fh, "Project Name: $ccreq->project_title");
+            fput_eol($fh, "CCREQ ID: " . $ccreq->getRequestId());
+            if ($pir->status === 'Submitted') {
+                fput_eol($fh, "Submitted Date: " . date(CommonsCreditRequest::DATE_FORMAT, $pir->submitted_date));
+            } else { // still draft
+                fput_eol($fh, "Submitted Date: N/A (draft status)");
+            }
+            fput_eol($fh, "\r\n");
+
+            fput_eol($fh, elgg_echo("nihcp_pir:do_reuse"));
+            fput_eol($fh, "\t" . $pir->do_reuse);
+            fput_eol($fh, elgg_echo("nihcp_pir:overall_issues"));
+            fput_eol($fh, "\t" . $pir->overall_issues);
+            fput_eol($fh, "\r\n");
+
+            $dors = DigitalObjectReport::getDigitalObjectReportsFromPirGuid($pir->guid);
+            $dor_form_fields = PostImplementationReport::getPirDigitalObjectReportFormFields();
+
+            if (empty($dors)) {
+                fput_eol($fh, "No shared digital objects.\r\n");
+            } else {
+                foreach ($dors as $dor) {
+                    fput_eol($fh, "Digital Object (or Object set)");
+                    foreach ($dor_form_fields as $form_field) {
+                        $field_name = $form_field->name;
+
+                        $value = $dor->$field_name;
+                        switch ($form_field->input_type) {
+                            case 'select':
+                                // find the text value of the option selected
+                                $value = $form_field->input_vars[$value];
+                                break;
+                            case 'file':
+                                $file = get_entity($dor->file_guid);
+                                if (!empty($file)) {
+                                    $value = elgg_get_site_url() . "nihcp_post_implementation_report/attachment/$dor->guid?file_guid=$file->guid";
+
+                                } else {
+                                    $value = "No attached file.";
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+
+                        fput_eol($fh, elgg_echo("nihcp_pir:do_form:" . $field_name));
+                        fput_eol($fh, "\t" . $value);
+
+                    }
+                    fput_eol($fh, "\r\n");
+                }
+            }
+
+            fput_eol($fh, "\r\n");
+            fput_eol($fh, "\r\n");
+            fput_eol($fh, "===============================================");
+            fput_eol($fh, "\r\n");
+        }
+    }
+
+    elgg_set_ignore_access($ia);
+
+    if ($count === 0) {
+        register_error(elgg_echo('nihcp_report_export:no_data'));
+        return false;
+    }
+
+    $fo->close();
+    forward(str_replace('view', 'download', $fo->getURL()));
+}
+
+
+function pir_summaries_csv_export($cycle_guid) {
+    $ia = elgg_set_ignore_access();
+
+    if (empty($cycle_guid)) {
+        $ccreqs = CommonsCreditRequest::getAll();
+        $cycle_view = "All_Cycles";
+        $cycle = 1;
+    } else {
+        $ccreqs = CommonsCreditRequest::getByCycle($cycle_guid);
+        $cycle = get_entity($cycle_guid);
+        $cycle_view = "Cycle" . $cycle->start . "-" . $cycle->finish;
+    }
+
+    if (empty($ccreqs) || empty($cycle)) {
+        register_error(elgg_echo('nihcp_report_export:no_data'));
+        return false;
+    }
+
+    $ccreqs = CommonsCreditRequest::sort($ccreqs);
+
+    $pir_rows = array();
+
+    $dor_form_fields = PostImplementationReport::getPirDigitalObjectReportFormFields();
+
+    foreach ($ccreqs as $ccreq) {
+        $pir = get_entity(PostImplementationReport::getPirGuidFromCcreqGuid($ccreq->guid));
+        if (!empty($pir)) {
+            $dors = DigitalObjectReport::getDigitalObjectReportsFromPirGuid($pir->guid);
+
+
+            if (empty($dors)) { // add an line in the csv indicating that there were no digital objects to share for this PIR
+                $dor_row = array();
+                $dor_row[] = $ccreq->project_title;
+                $dor_row[] = $ccreq->getRequestId();
+                if ($pir->status === 'Submitted') {
+                    $dor_row[] = date(CommonsCreditRequest::DATE_FORMAT, $pir->submitted_date);
+                    $dor_row[] = 'true';
+                } else { // still draft
+                    $dor_row[] = 'n/a (draft status)';
+                    $dor_row[] = 'n/a';
+                }
+
+                foreach ($dor_form_fields as $form_field) {
+                    $dor_row[] = 'n/a';
+                }
+                $dor_row[] = $pir->do_reuse;
+                $dor_row[] = $pir->overall_issues;
+
+                $pir_rows[] = $dor_row;
+            } else { // add a row for each digital object report for this PIR
+                foreach ($dors as $dor) {
+                    $dor_row = array();
+                    $dor_row[] = $ccreq->project_title;
+                    $dor_row[] = $ccreq->getRequestId();
+                    if ($pir->status === 'Submitted') {
+                        $dor_row[] = date(CommonsCreditRequest::DATE_FORMAT, $pir->submitted_date);
+                        $dor_row[] = 'false';
+                    } else { // still draft
+                        $dor_row[] = 'n/a (draft status)';
+                        $dor_row[] = 'n/a';
+                    }
+
+                    
+                    foreach ($dor_form_fields as $form_field) {
+                        $field_name = $form_field->name;
+
+                        $value = $dor->$field_name;
+                        switch ($form_field->input_type) {
+                            case 'select':
+                                // find the text value of the option selected
+                                $value = $form_field->input_vars[$value];
+                                break;
+                            case 'file':
+                                $file = get_entity($dor->file_guid);
+                                if (!empty($file)) {
+                                    $value = elgg_get_site_url() . "nihcp_post_implementation_report/attachment/$dor->guid?file_guid=$file->guid";
+
+                                } else {
+                                    $value = "No attached file.";
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+
+                        $dor_row[] = $value;
+                    }
+
+                    $dor_row[] = $pir->do_reuse;
+                    $dor_row[] = $pir->overall_issues;
+
+                    $pir_rows[] = $dor_row;
+                }
+            }
+        }
+    }
+
+    elgg_set_ignore_access($ia);
+
+    if (empty($pir_rows)) {
+        register_error(elgg_echo('nihcp_report_export:no_data'));
+        return false;
+    }
+
+    $date = date('Ymd');
+
+    $fo = new ElggFile();
+
+    $title = "PIRSummariesCSV-" . $cycle_view . "_-_$date";
+    $fo->setFilename("$title.csv");
+    $fo->originalfilename = $fo->getFilename();
+    $fo->title = $title;
+    $fo->setMimeType("text/csv");
+
+    $fo->save();
+
+    $fh = $fo->open('write');
+    $newline = "\n";
+
+    $header_fields = ['Project Name', 'CCREQ ID', 'Submitted Date', 'No Digital Objects to Share'];
+
+    foreach ($dor_form_fields as $form_field) {
+        $header_fields[] = elgg_echo("nihcp_pir:do_form:" . $form_field->name);
+    }
+
+    $header_fields[] = elgg_echo("nihcp_pir:do_reuse");
+    $header_fields[] = elgg_echo("nihcp_pir:overall_issues");
+
+    fputcsv_eol($fh, $header_fields, $newline);
+
+    $fh = $fo->open('append');
+    foreach ($pir_rows as $row) {
+        fputcsv_eol($fh, $row, $newline);
+    }
+
+    $fo->close();
+
+    forward(str_replace('view', 'download', $fo->getURL()));
 }
 
 function fputcsv_eol($fp, $array, $eol)

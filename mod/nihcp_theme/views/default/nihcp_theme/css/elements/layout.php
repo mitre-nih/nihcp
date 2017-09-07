@@ -305,6 +305,24 @@ input {
 	white-space: nowrap;
 }
 
+#pir-overview-table th{
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: center right;
+}
+
+#pir-overview-table .tablesorter-headerUnSorted{
+	background-image: url(/mod/nihcp_commons_credit_request/vendor/bower-asset/jquery.tablesorter/dist/css/images/black-unsorted.gif);
+}
+
+#pir-overview-table .tablesorter-headerDesc{
+	background-image: url(/mod/nihcp_commons_credit_request/vendor/bower-asset/jquery.tablesorter/dist/css/images/black-desc.gif);
+}
+
+#pir-overview-table .tablesorter-headerAsc{
+	background-image: url(/mod/nihcp_commons_credit_request/vendor/bower-asset/jquery.tablesorter/dist/css/images/black-asc.gif);
+}
+
 /* Tooltip container */
 .tooltip {
 	position: relative;

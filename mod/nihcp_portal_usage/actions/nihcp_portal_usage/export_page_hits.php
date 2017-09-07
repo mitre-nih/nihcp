@@ -31,26 +31,27 @@ fputcsv_eol($fh, ['url', 'hits'], $newline);
 $fh = $fo->open('append');
 
 $options = array(
-    'type' => 'object',
-    'limit' => 0,
-    'metadata_name_value_pairs' => [
-        ['name' => 'pageCounter', 'value' => '0', 'operand' => '>'],
-    ],
-    'order_by_metadata' => array(
-        'name' => 'pageCounter','direction' => 'DESC', 'as' => 'integer',
-    ),
+    'calculation' => "sum",
+    'limit' => $limit,
+    'annotation_names' => array('pageHit'),
 );
+$results = elgg_get_entities_from_annotation_calculation($options);
 
-$results = elgg_get_entities_from_metadata($options);
 
 foreach($results as $result) {
     $s = $result->getSubtype();
     $u = $result->getURL();
 
-    if(in_array($s,array('services','catalog','equivalence','glossary'))){
-        $u = $result->elggURI;
+    if(in_array($s,array('services','catalog','equivalency','glossary'))){
+
+        $u = elgg_get_site_url() . $result->elggURI;
     }
-    fputcsv_eol($fh, array($u,$result->pageCounter), $newline);
+    if($result->title == "investigator-portal-user-manual"){
+        $t = $result->title;
+        $u = elgg_get_site_url() . "nihcp_commons_credit_request/investigator-portal-user-manual";
+    }
+    $sum = $result->getAnnotationsSum("pageHit");
+    fputcsv_eol($fh, array($u,$sum), $newline);
 }
 
 $fo->close();

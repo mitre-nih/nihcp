@@ -29,6 +29,11 @@ switch ($report_type) {
 	case 'CCREQ Summaries':
 		ccreq_summaries_export($cycle_guid);
 		break;
+	case 'PIR Summaries (text)':
+		pir_summaries_text_export($cycle_guid);
+		break;
+	case 'PIR Summaries (csv)':
+		pir_summaries_csv_export($cycle_guid);
 	default:
 		break;
 }

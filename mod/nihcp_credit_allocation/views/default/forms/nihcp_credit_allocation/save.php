@@ -37,7 +37,13 @@ foreach ($entity::getFields() as $field => $field_vars) {
             echo elgg_view($field_vars['type'], $field_vars);
             break;
         default:
-            echo "<div>{$field_vars['label']}<br>" . elgg_view($field_vars['type'], $field_vars) . '</div>';
+            //doing a convoluted copy/unset because having a duplicate 'type' in the field_vars makes input/file blow up
+            //not sure if that's a bugg (elgg bug) or not yet.  tmp fix. oh yeah should mark this #TODO
+            //this is the same fix as the catalog/save
+            $attrs = $field_vars;
+            unset($attrs['type']);
+            //echo "<div>{$field_vars['label']}<br>" . elgg_view($field_vars['type'], $field_vars) . '</div>';
+            echo "<div>{$field_vars['label']}<br>" . elgg_view($field_vars['type'], $attrs) . '</div>';
     }
 }
 

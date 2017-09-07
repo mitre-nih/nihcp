@@ -33,6 +33,6 @@ pseudo_atomic_set_ignore_access(function () {
 
 	$body = elgg_view_layout('one_column', $params);
 
-	echo elgg_view_page("nihcp_credit_request_review", $body, 'default');
+	echo elgg_view_page(elgg_echo("nihcp_credit_request_review"), $body, 'default');
 
 });

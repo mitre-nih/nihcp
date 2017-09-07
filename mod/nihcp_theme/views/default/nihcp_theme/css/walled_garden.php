@@ -87,6 +87,14 @@ $url = elgg_get_site_url();
 	margin-top: 5.5em;
 }
 
+.nihcp_theme_login .jumbotron {
+	background: url(<?php echo $url; ?>mod/nihcp_theme/graphics/dollar.jpg);
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin-top: 5.5em;
+}
+
 .nihcp_theme_login .transbox {
 	/*background-color: #000221;
 	opacity: 0.75;*/
@@ -149,7 +157,6 @@ $url = elgg_get_site_url();
 }
 
 .nihcp_theme_login #faq {
-	border: 1px solid black;
 	padding-bottom: 4em;
 	border-bottom: none;
 }
@@ -180,7 +187,6 @@ $url = elgg_get_site_url();
 	background-color: #E4E3DA;
 	padding-top: 1.5em;
 	padding-bottom: 1em;
-	border: 1px solid black;
 	border-top: none;
 }
 
