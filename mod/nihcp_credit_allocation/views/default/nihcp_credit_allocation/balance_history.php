@@ -25,7 +25,7 @@ $content .= "</tr>";
 // record the changes of credit balance between updates for display in the table
 $credit_changes = array();
 for ($i = count($entities)-2; $i >= 0; $i--) {
-    $credit_changes[$i] = $entities[$i]->credit_remaining - $entities[$i+1]->credit_remaining;
+    $credit_changes[$i] = bcsub($entities[$i]->credit_remaining, $entities[$i+1]->credit_remaining, 2);
 }
 
 $counter = 0;

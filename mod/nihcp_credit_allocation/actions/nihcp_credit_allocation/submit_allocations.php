@@ -22,7 +22,7 @@ if($request_guid) {
 			return 'error';
 		}
 		$_allocated = $allocation->credit_allocated ? $allocation->credit_allocated : 0;
-		$unallocated -= $_allocated;
+		$unallocated = bcsub($unallocated, $_allocated, 2);
 	}
 
 

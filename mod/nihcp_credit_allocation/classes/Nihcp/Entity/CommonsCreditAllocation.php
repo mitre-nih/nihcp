@@ -61,9 +61,9 @@ class CommonsCreditAllocation extends \ElggObject {
 		$allocations = CommonsCreditAllocation::getAllocations($request->guid);
 		foreach($allocations as $allocation) {
 			$_allocated = $allocation->credit_allocated && $allocation->getGUID() !== $this->getGUID() ? $allocation->credit_allocated : 0;
-			$unallocated -= $_allocated;
+			$unallocated = bcsub($unallocated, $_allocated, 2);
 		}
-		$unallocated -= $new_amount;
+		$unallocated = bcsub($unallocated, $new_amount, 2);
 		return $unallocated >= 0;
 	}
 
@@ -193,7 +193,7 @@ class CommonsCreditAllocation extends \ElggObject {
 		$allocations = self::getAllocations($request->guid);
 		foreach($allocations as $_allocation) {
 			$_allocated = $_allocation->credit_allocated ? $_allocation->credit_allocated : 0;
-			$unallocated -= $_allocated;
+			$unallocated = bcsub($unallocated, $_allocated, 2);
 		}
 
 		return $unallocated;

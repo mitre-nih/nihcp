@@ -124,7 +124,7 @@ if($requests) {
 }
 
 setlocale(LC_MONETARY, 'en_US.UTF-8');
-$total_credits_spent = money_format('%.2n', $total_credits_allocated - $total_credits_remaining);
+$total_credits_spent = money_format('%.2n', bcsub($total_credits_allocated, $total_credits_remaining, 2));
 $total_credits_remaining = money_format('%.2n', $total_credits_remaining);
 
 $totals_section = "<div class='pbl'>";
