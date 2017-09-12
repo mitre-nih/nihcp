@@ -63,7 +63,7 @@ function nihcp_password_expiration_reminder($event, $type, $user) {
 	$days_left = $passwordExpiration->get_days_left_before_password_expiration($user);
 
 	if ($days_left <= PasswordExpiration::PASSWORD_EXPIRATION_DAYS_NOTICE_1) {
-		system_message("You have $days_left before your password expires. Please change your password before then.");
+		system_message("You have $days_left days before your password expires. Please change your password before then.");
 	}
 }
 
