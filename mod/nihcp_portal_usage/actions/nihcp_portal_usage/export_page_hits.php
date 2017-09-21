@@ -46,9 +46,15 @@ foreach($results as $result) {
 
         $u = elgg_get_site_url() . $result->elggURI;
     }
-    if($result->title == "investigator-portal-user-manual"){
+    if($result->title == "User Manual"){
         $t = $result->title;
         $u = elgg_get_site_url() . "nihcp_commons_credit_request/investigator-portal-user-manual";
+    }else if($result->title == "FAQ Listing Page"){
+        $t = $result->title;
+        $u = $result->elggURI;
+    }else if($result->title == "Help Center") {
+        $t = $result->title;
+        $u = $result->elggURI;
     }
     $sum = $result->getAnnotationsSum("pageHit");
     fputcsv_eol($fh, array($u,$sum), $newline);

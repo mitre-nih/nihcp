@@ -16,7 +16,8 @@ include elgg_get_plugins_path() . '/nihcp_theme/views/default/nihcp_theme/page/e
 	<label for="password"><?php echo elgg_echo('password'); ?></label>
 	<?php echo elgg_view('input/password', array(
 		'id' => 'password', 
-		'name' => 'password')); 
+		'name' => 'password',
+		'autocomplete' => 'off'));
 	?>
 </div>
 

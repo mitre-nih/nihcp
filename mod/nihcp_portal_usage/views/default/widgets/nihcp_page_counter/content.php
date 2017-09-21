@@ -35,7 +35,7 @@ foreach ($results as $result) {
         $t = $result->title;
         $u = $result->getURL();
     }
-    if($result->title == "investigator-portal-user-manual"){
+    if($result->title == "User Manual"){
         $t = $result->title;
         $u = elgg_get_site_url() . "nihcp_commons_credit_request/investigator-portal-user-manual";
     }else if($result->title == "FAQ Listing Page"){

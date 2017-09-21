@@ -39,7 +39,7 @@ if (nihcp_triage_coordinator_gatekeeper(false) || nihcp_nih_approver_gatekeeper(
         $content .= "</div>";
 
         $content .= "<table id=\"pir-overview-table\" class =\"elgg-table\" summary=\"List of PIRs for selected cycle.\">";
-        $content .= "<thead><tr><th scope='col'><b>Project Name</b></th><th scope='col'><b>CCREQ ID</b></th><th scope='col'><b>Investigator</b></th><th scope='col'><b>Credits</b></th><th scope='col'><b>Report</b></th></tr></thead>";
+        $content .= "<thead><tr><th scope='col'><b>Project Name</b></th><th scope='col'><b>CCREQ ID</b></th><th scope='col'><b>Investigator</b></th><th scope='col'><b>Report</b></th></tr></thead>";
         $content .= "<tbody>";
 
         foreach ($ccreqs as $ccreq) {
@@ -53,10 +53,11 @@ if (nihcp_triage_coordinator_gatekeeper(false) || nihcp_nih_approver_gatekeeper(
                 $report_link = "<button class=\"pir-edit-button\" onclick='location.href=\"$pir_link\"'>View</button>";
             }
 
-            $content .=  "<tr><td>$ccreq->project_title</td>"
+            $content .=  "<tr><td><a href=\""
+                . elgg_get_site_url()
+                . "nihcp_commons_credit_request/request/$ccreq->guid\">$ccreq->project_title</a></td>"
                 . "<td>" . $ccreq->getRequestId() . "</td>"
                 . "<td>" . $ccreq->getOwnerEntity()->getDisplayName() . "</td>"
-                . "<td>" . $ccreq->getExpectedCostTotal() . "</td>"
                 . "<td>$report_link</td></tr>";
         }
 
@@ -71,7 +72,7 @@ if (nihcp_triage_coordinator_gatekeeper(false) || nihcp_nih_approver_gatekeeper(
 
         $content .= "<table class =\"elgg-table\" summary=\"List of PIRs for selected cycle.\">";
 
-        $content .= "<thead><tr><th>Project Name</th><th>CCREQ ID</th><th>Credits</th><th>Status</th></tr></thead>";
+        $content .= "<thead><tr><th>Project Name</th><th>CCREQ ID</th><th>Status</th></tr></thead>";
         $content .= "<tbody>";
 
         foreach ($ccreqs as $ccreq) {
@@ -88,9 +89,10 @@ if (nihcp_triage_coordinator_gatekeeper(false) || nihcp_nih_approver_gatekeeper(
                 $status_action = "<a href='$pir_link'>Submitted</a>";
             }
 
-            $content .= "<tr><td>$ccreq->project_title</td>"
+            $content .= "<tr><td><a href=\""
+                . elgg_get_site_url()
+                . "nihcp_commons_credit_request/request/$ccreq->guid\">$ccreq->project_title</a></td>"
                 . "<td>" . $ccreq->getRequestId() . "</td>"
-                . "<td>" . $ccreq->getExpectedCostTotal() . "</td>"
                 . "<td>$status_action</td></tr>";
         }
 

@@ -20,6 +20,7 @@ class PostImplementationReport extends \ElggObject {
     public static function getPirDigitalObjectReportFormFields() {
         return [
             "title" => new PirFormField("title", "textarea", 200),
+            "digital_object" => new PirFormField("digital_object", "select", 0, ["Single", "Set"]),
             "class" => new PirFormField("class", "select", 0, ["Data", "Application/Tool", "Workflow"]),
             "description" => new PirFormField("description", "textarea", 1000),
             "indexing_system" => new PirFormField("indexing_system", "select", 0, ["bioCADDIE", "Other"]),
@@ -37,7 +38,6 @@ class PostImplementationReport extends \ElggObject {
             "do_retention_plan" => new PirFormField("do_retention_plan", "textarea", 200),
             "related_publications" => new PirFormField("related_publications", "textarea", 200, [], "use N/A only if bioCADDIE"),
             "known_community_issues" => new PirFormField("known_community_issues", "textarea", 200, [], "use N/A if necessary"),
-            "construction_issues" => new PirFormField("construction_issues", "textarea", 200, [], "use N/A if necessary"),
 
         ];
     }
