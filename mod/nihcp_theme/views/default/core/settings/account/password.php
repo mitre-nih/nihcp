@@ -19,7 +19,8 @@ if ($user) {
 			': </label>';
 		$admin .= elgg_view('input/password', array(
 			'id' => 'current_password',
-			'name' => 'current_password'));
+			'name' => 'current_password',
+            'autocomplete' => 'off'));
 		$admin = "<p>$admin</p>";
 	}
 
@@ -28,14 +29,16 @@ if ($user) {
 		': </label>';
 	$password .= elgg_view('input/password', array(
 		'id' => 'password',
-		'name' => 'password'));
+		'name' => 'password',
+        'autocomplete' => 'off'));
 	$password = "<p>$password</p>";
 
 	$password2 = '<label for="passwordagain">' 
 		. elgg_echo('user:password2:label') . ': </label>';
 	$password2 .= elgg_view('input/password', array(
 		'id' => 'passwordagain', 
-		'name' => 'password2'));
+		'name' => 'password2',
+        'autocomplete' => 'off'));
 	$password2 = "<p>$password2</p>";
 
 	$content = $admin . $password . $password2;
