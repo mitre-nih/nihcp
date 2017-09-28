@@ -2,6 +2,7 @@
 
 $entity = elgg_extract("entity", $vars);
 $full_view = elgg_extract("full_view", $vars);
+
 // entity menu
 $entity_menu = "";
 if (!elgg_in_context("widgets")) {

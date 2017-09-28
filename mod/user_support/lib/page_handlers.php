@@ -43,6 +43,7 @@ function user_support_page_handler($page) {
 					include(dirname(dirname(__FILE__)) . "/pages/faq/add.php");
 					break;
 				default:
+				    elgg_trigger_event('pagehit','faq');
 					if (!empty($page[1]) && is_numeric($page[1])) {
 						set_input("guid", $page[1]);
 						include(dirname(dirname(__FILE__)) . "/pages/faq/view.php");
@@ -111,7 +112,7 @@ function user_support_page_handler($page) {
 			break;
 		case "help_center":
 			$result = true;
-			
+            elgg_trigger_event('pagehit','help_center');
 			include(dirname(dirname(__FILE__)) . "/pages/help_center.php");
 			break;
 		case "search":
