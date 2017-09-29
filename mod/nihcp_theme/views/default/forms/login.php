@@ -1,25 +1,9 @@
 <?php
-//include elgg_get_root_path() . '/views/default/forms/login.php';
-include elgg_get_plugins_path() . '/nihcp_theme/views/default/nihcp_theme/page/elements/browser_warning.php';
-?>
-
-<div>
-	<label for="loginusername"><?php echo elgg_echo('loginusername'); ?></label>
-	<?php echo elgg_view('input/text', array(
-		'id' => 'loginusername',
-		'name' => 'username',
-		'autofocus' => true,
-		));
-	?>
-</div>
-<div>
-	<label for="password"><?php echo elgg_echo('password'); ?></label>
-	<?php echo elgg_view('input/password', array(
-		'id' => 'password', 
-		'name' => 'password',
-		'autocomplete' => 'off'));
-	?>
-</div>
+/*
+Copyright 2017 The MITRE Corporation
+ 
+This software was written for the NIH Commons Credit Portal. General questions 
+can be forwarded to:
 
 <?php echo elgg_view('login/extend', $vars); ?>
 

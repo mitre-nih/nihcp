@@ -7,8 +7,10 @@
 	<category>nihcp</category>
 
 	<version>1.0</version>
-	<description>This is a description of my plugin and its features.</description>
-	<website>http://www.elgg.org/</website>
+	<description>Provides allocation of credit functionality for the NIH Commons Credit Portal.</description>
+	<website>https://www.mitre.org/</website>
+	<copyright>(C) The MITRE Corporation 2017. All Rights Reserved</copyright>
+	<license>See LICENSE.txt</license>
 	<requires>
 		<type>elgg_release</type>
 		<version>1.8</version>

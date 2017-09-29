@@ -6,8 +6,9 @@
 	<category>nihcp</category>
 	<author>William Kim</author>
 	<description>Enables submissions of Post Implementation Reports</description>
-	<copyright>Copyright (c) 2015 The MITRE Corporation. All Rights Reserved.</copyright>
-	<license>See LICENSE.txt</license>
+	<copyright>Copyright (c) 2017 The MITRE Corporation. All Rights Reserved.</copyright>
+    <website>http://www.mitre.org/</website>
+    <license>See LICENSE.txt</license>
 	<requires>
 		<type>elgg_release</type>
 		<version>1.9</version>

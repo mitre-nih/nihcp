@@ -1,4 +1,4 @@
-Plugin Skeleton
+NIHCP Audit Log
 =========================
 This directory includes a plugin skeleton to be used as the starting point when
 creating a new plugin. Just create a new directory in /mod/ and copy the files

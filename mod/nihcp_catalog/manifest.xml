@@ -7,8 +7,8 @@
     <category>mitre</category>
     <category>nihcp</category>
     <description>Displays NIHCP service catalog</description>
-    <website></website>
-    <copyright>Copyright (c) 2015 The MITRE Corporation. All Rights Reserved.</copyright>
+    <website>https://www.mitre.org/</website>
+    <copyright>(C) The MITRE Corporation 2017. All Rights Reserved</copyright>
     <license>See LICENSE.txt</license>
     <requires>
         <type>elgg_release</type>
